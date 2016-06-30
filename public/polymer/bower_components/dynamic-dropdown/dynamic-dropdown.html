@@ -1,0 +1,90 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-menu/paper-menu.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<dom-module id="dynamic-dropdown">
+<template>
+    <paper-dropdown-menu disabled={{disabled}} label="[[label]]" selected-item="{{selectedItem}}" >
+   <paper-menu class="dropdown-content"  id= "list">
+    <template is="dom-repeat" items="[[menuItems]]">
+              <paper-item>[[_getarrayItemName(item)]] <input class="valueSelected" type="hidden" value="[[_getItemValue(item)]]" /></paper-item>
+     </template>
+    </paper-menu>
+</paper-dropdown-menu>
+ </template>
+  
+  </dom-module>
+  
+  <script>
+    
+    // TODO fix to reflect selection in fancy list view
+    var tcont ='<td><paper-material>lklk</paper-material>';
+    var dem =new Array();
+    Polymer({
+
+    is: 'dynamic-dropdown',
+
+    properties: {
+      label:String,
+      menuItems:{type:Array, value:[]},
+      nameValue:{type:JSON},
+      selectedItem:{type:Object,observer:'_ich'},selectedValue:Object,
+      selectedName:{type:String, observer:'_selval'},
+      disabled :{type:Boolean, value:false},
+      selectedIndex:{type:Number, observer:'_chInd'}
+    },
+    _getarrayItemName:function(itm)
+    {
+     
+      var nvs= JSON.parse(this.nameValue);
+      return itm[nvs.name];
+    },
+    _getItemValue:function(item)
+    {
+      var nvs= JSON.stringify(item);
+      return nvs;
+    }
+    ,_ich:function()
+    {
+     
+      if(this.selectedItem !== null)
+        this.selectedValue = JSON.parse(this.selectedItem.querySelector('.valueSelected').value);
+      
+    },
+    _selval:function()
+    {
+      
+      var itms = this.$.list.items;
+      this.$.list.selected = null;
+      
+      var a=[];
+      //console.log(itms);
+      
+      for(var it in itms)
+      {
+        
+         var val =itms[it].querySelector('.valueSelected').value;
+         val=JSON.parse(val);
+         var nv =JSON.parse(this.nameValue).value;
+         // this.$.list.selected = -1;
+       // this.$.list.selectPrevious();
+        if(val[nv] !== undefined)
+        {
+         
+        if(val[nv] == this.selectedName)
+        {
+         
+         this.$.list.selected = it;
+        }
+      }
+      }
+     
+     
+    },
+    _chInd:function()
+    {
+      console.log(this.selectedIndex);
+       this.$.list.selected = this.selectedIndex;
+    }
+    });
+    </script>

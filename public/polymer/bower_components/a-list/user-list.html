@@ -1,0 +1,142 @@
+  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+ <link rel="import" href="../polymer/polymer.html">
+  <link rel="import" href="../iron-ajax/iron-ajax.html">
+  <link rel="import" href="../iron-list/iron-list.html">
+
+<dom-module id="user-list">
+ 
+	<template>
+    <style>
+    :host {
+        @apply(--layout-fit);
+        @apply(--layout-vertical);
+        @apply(--paper-font-common-base);
+        font-family: sans-serif;
+      }
+
+      
+       
+         iron-list {
+       
+        padding-top: 1px;
+        padding-bottom: 16px;
+        --iron-list-items-container: {
+          max-width: 1024px;
+          margin: auto;
+          
+        };
+      }
+       
+      .item {
+        
+        padding: 20px;
+        background-color: white;
+        border: 1px solid #ddd;
+        cursor: pointer;
+        margin-bottom: 10px;
+       
+        
+        
+      }
+      .helper{vertical-align: middle; height: 100%; display: inline-block !important;}
+      .avatar img{display: inline-block !important; vertical-align: middle; width: 42px;}
+      
+      .avatar {
+      height: 50px;
+      width: 50px;
+      border-radius: 25px;
+      box-sizing: border-box;
+      z-index: 1000;
+      overflow: hidden;
+      background-color: #DDD;
+      position: relative; 
+    }
+      .item:focus,
+      .item.selected:focus {
+        outline: 0;
+        background-color: #ddd;
+      }
+      .item.selected .star {
+        color: var(--paper-blue-600);
+      }
+      .item.selected:not(:focus) {
+        background-color: var(--google-grey-100);
+      }
+    
+      
+
+   </style>
+	<iron-ajax  url="[[dataUrl]]"" last-response="{{data}}" auto params="[[jsonData]]" debounce-duration="300" ></iron-ajax>
+   <iron-list id="itemsList" items="[[data]]" as ="listdata"  selection-enabled multi-selection selected-items="{{selectedItems}}">
+            <template>
+              
+              <div>
+               <input name="_id" value="[[item._id]]" type="hidden" />
+              <div class$="[[_computedClass(selected)]]">
+                <div class="avatar">
+                 <div class="helper"></div>
+               <img src$="[[_getImage(listdata.image)]]" />
+              </div>
+              <div style="display:inline-block; position:relative;">
+               <span>[[listdata.alias]]</span>
+               <p>[[listdata.username]]</p>
+              </div>
+              </div>
+              </div>
+            </template>
+
+     </iron-list>
+     
+  </template>
+	
+</dom-module>
+<script>
+   HTMLImports.whenReady(function() {
+		   Polymer({
+        is: 'user-list',
+        properties: {
+          selectedItems: {
+            type: Object
+          },
+          dataUrl:{type:String, observer:'action'},
+  
+         jsonData:{type: String}
+		},
+     _computedClass: function(isSelected) { alert('ll');
+          var classes = 'item';
+          if (isSelected) {
+            classes += ' selected';
+          }
+          return classes;
+        },
+        _itchanged:function(){console.log(this.selectedItems);},
+ 
+          _arrayItem:function(array, iname)
+         {
+          
+           return array[iname];
+         }, _getImage:function(img){
+           if(img!==undefined && img.imagedata!=undefined)
+           {
+            
+             return 'data:'+img.type+';base64,'+img.imagedata;
+           }
+            else
+             return "";
+             },
+             action:function()
+             {
+              
+             },
+             created:function()
+             {
+              
+             }
+       
+       
+       
+       
+		});
+	  });
+  
+  </script>

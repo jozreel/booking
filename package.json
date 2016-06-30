@@ -1,0 +1,33 @@
+{
+  "name": "booking",
+  "version": "1.0.0",
+  "description": "service booking app for hasssle free booking",
+  "main": "app.js",
+  "dependencies": {
+    "aliasify": "^1.8.0",
+    "grid": "^1.4.0",
+    "mongodb": "^2.0.46",
+    "paypal-rest-sdk": "^1.6.4",
+    "nodemailer": "^2.4.1",
+    "step": "^0.0.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jozreel/booking.git"
+  },
+  "keywords": [
+    "booking",
+    "service",
+    "social"
+  ],
+  "author": "Jozreel Laurent",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jozreel/booking/issues"
+  },
+  "homepage": "https://github.com/jozreel/booking#readme"
+}

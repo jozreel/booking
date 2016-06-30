@@ -1,0 +1,771 @@
+
+2016-05-17T03:25:33.572Z
+obj is not defined
+
+2016-05-17T03:25:33.572Z
+ReferenceError: obj is not defined
+    at user.register (/home/jozreel/Development/www/booking/application/controller/user.js:7:21)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-17T20:33:34.424Z
+Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
+
+2016-05-17T20:33:34.424Z
+Error: Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
+    at new ObjectID (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/node_modules/bson/lib/bson/objectid.js:38:11)
+    at mongodriver.createObjectId (/home/jozreel/Development/www/booking/library/mongodriver.js:244:13)
+    at user.register.user.activate.activateid [as activate] (/home/jozreel/Development/www/booking/application/controller/user.js:50:15)
+    at simple_js.reqContent (/home/jozreel/Development/www/booking/node_modules/simplejs.js:360:19)
+    at Server.app (/home/jozreel/Development/www/booking/node_modules/simplejs.js:140:12)
+    at emitTwo (events.js:100:13)
+    at Server.emit (events.js:185:7)
+    at HTTPParser.parserOnIncoming [as onIncoming] (_http_server.js:537:12)
+    at HTTPParser.parserOnHeadersComplete (_http_common.js:103:23)
+
+2016-05-17T22:26:36.793Z
+Cannot find module '../application/controller/countries.json'
+
+2016-05-17T22:26:36.793Z
+Error: Cannot find module '../application/controller/countries.json'
+    at Function.Module._resolveFilename (module.js:339:15)
+    at Function.require.resolve (internal/module.js:23:19)
+    at Server.app (/home/jozreel/Development/www/booking/node_modules/simplejs.js:182:22)
+    at emitTwo (events.js:100:13)
+    at Server.emit (events.js:185:7)
+    at HTTPParser.parserOnIncoming [as onIncoming] (_http_server.js:537:12)
+    at HTTPParser.parserOnHeadersComplete (_http_common.js:103:23)
+
+2016-05-17T22:26:53.620Z
+Cannot find module '../application/controller/countries.json'
+
+2016-05-17T22:26:53.620Z
+Error: Cannot find module '../application/controller/countries.json'
+    at Function.Module._resolveFilename (module.js:339:15)
+    at Function.require.resolve (internal/module.js:23:19)
+    at Server.app (/home/jozreel/Development/www/booking/node_modules/simplejs.js:182:22)
+    at emitTwo (events.js:100:13)
+    at Server.emit (events.js:185:7)
+    at HTTPParser.parserOnIncoming [as onIncoming] (_http_server.js:537:12)
+    at HTTPParser.parserOnHeadersComplete (_http_common.js:103:23)
+
+2016-05-20T05:03:28.503Z
+server 10.0.3.159:27017 sockets closed
+
+2016-05-20T05:03:28.503Z
+MongoError: server 10.0.3.159:27017 sockets closed
+    at null.<anonymous> (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:325:47)
+    at g (events.js:273:16)
+    at emitTwo (events.js:100:13)
+    at emit (events.js:185:7)
+    at null.<anonymous> (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/lib/connection/pool.js:101:12)
+    at g (events.js:273:16)
+    at emitTwo (events.js:100:13)
+    at emit (events.js:185:7)
+    at Socket.<anonymous> (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/lib/connection/connection.js:142:12)
+    at Socket.g (events.js:273:16)
+
+2016-05-20T11:08:48.184Z
+Cannot read property 'createObjectId' of undefined
+
+2016-05-20T11:08:48.184Z
+TypeError: Cannot read property 'createObjectId' of undefined
+    at user.register.user.activate.user.findbyid.user.updateuser (/home/jozreel/Development/www/booking/application/controller/user.js:87:27)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-20T11:10:34.883Z
+Cannot read property '_id' of undefined
+
+2016-05-20T11:10:34.883Z
+TypeError: Cannot read property '_id' of undefined
+    at user.register.user.activate.user.findbyid.user.updateuser (/home/jozreel/Development/www/booking/application/controller/user.js:87:57)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-20T11:28:39.346Z
+this.findAndUpdateById is not a function
+
+2016-05-20T11:28:39.346Z
+TypeError: this.findAndUpdateById is not a function
+    at user.addUser.user.saveUser (/home/jozreel/Development/www/booking/application/model/user.js:14:10)
+    at user.register.user.activate.user.findbyid.user.updateuser (/home/jozreel/Development/www/booking/application/controller/user.js:91:13)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-21T16:41:55.227Z
+Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
+
+2016-05-21T16:41:55.227Z
+Error: Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
+    at new ObjectID (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/node_modules/bson/lib/bson/objectid.js:38:11)
+    at mongodriver.createObjectId (/home/jozreel/Development/www/booking/library/mongodriver.js:244:13)
+    at user.register.user.activate.activateid [as activate] (/home/jozreel/Development/www/booking/application/controller/user.js:50:15)
+    at simple_js.reqContent (/home/jozreel/Development/www/booking/node_modules/simplejs.js:360:19)
+    at Server.app (/home/jozreel/Development/www/booking/node_modules/simplejs.js:140:12)
+    at emitTwo (events.js:100:13)
+    at Server.emit (events.js:185:7)
+    at HTTPParser.parserOnIncoming [as onIncoming] (_http_server.js:537:12)
+    at HTTPParser.parserOnHeadersComplete (_http_common.js:103:23)
+
+2016-05-21T16:43:59.171Z
+Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
+
+2016-05-21T16:43:59.171Z
+Error: Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
+    at new ObjectID (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/node_modules/bson/lib/bson/objectid.js:38:11)
+    at mongodriver.createObjectId (/home/jozreel/Development/www/booking/library/mongodriver.js:244:13)
+    at user.register.user.activate.activateid [as activate] (/home/jozreel/Development/www/booking/application/controller/user.js:50:15)
+    at simple_js.reqContent (/home/jozreel/Development/www/booking/node_modules/simplejs.js:360:19)
+    at Server.app (/home/jozreel/Development/www/booking/node_modules/simplejs.js:140:12)
+    at emitTwo (events.js:100:13)
+    at Server.emit (events.js:185:7)
+    at HTTPParser.parserOnIncoming [as onIncoming] (_http_server.js:537:12)
+    at HTTPParser.parserOnHeadersComplete (_http_common.js:103:23)
+
+2016-05-21T16:46:33.965Z
+Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
+
+2016-05-21T16:46:33.965Z
+Error: Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
+    at new ObjectID (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/node_modules/bson/lib/bson/objectid.js:38:11)
+    at mongodriver.createObjectId (/home/jozreel/Development/www/booking/library/mongodriver.js:244:13)
+    at user.register.user.activate.activateid [as activate] (/home/jozreel/Development/www/booking/application/controller/user.js:50:15)
+    at simple_js.reqContent (/home/jozreel/Development/www/booking/node_modules/simplejs.js:360:19)
+    at Server.app (/home/jozreel/Development/www/booking/node_modules/simplejs.js:140:12)
+    at emitTwo (events.js:100:13)
+    at Server.emit (events.js:185:7)
+    at HTTPParser.parserOnIncoming [as onIncoming] (_http_server.js:537:12)
+    at HTTPParser.parserOnHeadersComplete (_http_common.js:103:23)
+
+2016-05-21T20:27:10.206Z
+Cannot read property 'type' of undefined
+
+2016-05-21T20:27:10.206Z
+TypeError: Cannot read property 'type' of undefined
+    at user.register.user.activate.user.findbyid.user.updateuser.user.saveprofileimage (/home/jozreel/Development/www/booking/application/controller/user.js:98:31)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-21T20:28:24.985Z
+Cannot read property 'type' of undefined
+
+2016-05-21T20:28:24.985Z
+TypeError: Cannot read property 'type' of undefined
+    at user.register.user.activate.user.findbyid.user.updateuser.user.saveprofileimage (/home/jozreel/Development/www/booking/application/controller/user.js:98:31)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-21T20:29:23.581Z
+Cannot read property 'type' of undefined
+
+2016-05-21T20:29:23.581Z
+TypeError: Cannot read property 'type' of undefined
+    at user.register.user.activate.user.findbyid.user.updateuser.user.saveprofileimage (/home/jozreel/Development/www/booking/application/controller/user.js:98:31)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-21T21:22:21.990Z
+tmp is not defined
+
+2016-05-21T21:22:21.990Z
+ReferenceError: tmp is not defined
+    at user.register.user.activate.user.findbyid.user.updateuser.user.saveprofileimage.user.savemobile (/home/jozreel/Development/www/booking/application/controller/user.js:117:6)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-21T21:23:32.128Z
+tmp is not defined
+
+2016-05-21T21:23:32.128Z
+ReferenceError: tmp is not defined
+    at user.register.user.activate.user.findbyid.user.updateuser.user.saveprofileimage.user.savemobile (/home/jozreel/Development/www/booking/application/controller/user.js:117:6)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-21T21:24:50.086Z
+usermod.pushToArray is not a function
+
+2016-05-21T21:24:50.086Z
+TypeError: usermod.pushToArray is not a function
+    at user.register.user.activate.user.findbyid.user.updateuser.user.saveprofileimage.user.savemobile (/home/jozreel/Development/www/booking/application/controller/user.js:119:14)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T02:05:38.836Z
+Cannot read property 'search' of undefined
+
+2016-05-22T02:05:38.836Z
+TypeError: Cannot read property 'search' of undefined
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:285:34)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T02:07:31.472Z
+Cannot read property 'search' of undefined
+
+2016-05-22T02:07:31.472Z
+TypeError: Cannot read property 'search' of undefined
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:285:34)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T02:07:31.565Z
+Cannot read property 'search' of undefined
+
+2016-05-22T02:07:31.565Z
+TypeError: Cannot read property 'search' of undefined
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:285:34)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T02:07:31.733Z
+Cannot read property 'search' of undefined
+
+2016-05-22T02:07:31.733Z
+TypeError: Cannot read property 'search' of undefined
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:285:34)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T02:07:31.749Z
+Cannot read property 'search' of undefined
+
+2016-05-22T02:07:31.749Z
+TypeError: Cannot read property 'search' of undefined
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:285:34)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T02:07:31.863Z
+Cannot read property 'search' of undefined
+
+2016-05-22T02:07:31.863Z
+TypeError: Cannot read property 'search' of undefined
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:285:34)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T02:07:35.585Z
+Cannot read property 'search' of undefined
+
+2016-05-22T02:07:35.585Z
+TypeError: Cannot read property 'search' of undefined
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:285:34)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T02:07:35.608Z
+Cannot read property 'search' of undefined
+
+2016-05-22T02:07:35.608Z
+TypeError: Cannot read property 'search' of undefined
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:285:34)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T02:07:35.608Z
+Cannot read property 'search' of undefined
+
+2016-05-22T02:07:35.608Z
+TypeError: Cannot read property 'search' of undefined
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:285:34)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T02:07:35.609Z
+Cannot read property 'search' of undefined
+
+2016-05-22T02:07:35.609Z
+TypeError: Cannot read property 'search' of undefined
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:285:34)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T02:07:36.402Z
+Cannot read property 'search' of undefined
+
+2016-05-22T02:07:36.402Z
+TypeError: Cannot read property 'search' of undefined
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:285:34)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T02:07:36.433Z
+Cannot read property 'search' of undefined
+
+2016-05-22T02:07:36.433Z
+TypeError: Cannot read property 'search' of undefined
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:285:34)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T02:10:48.857Z
+Cannot read property 'search' of undefined
+
+2016-05-22T02:10:48.857Z
+TypeError: Cannot read property 'search' of undefined
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:285:63)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T02:10:48.984Z
+Cannot read property 'search' of undefined
+
+2016-05-22T02:10:48.984Z
+TypeError: Cannot read property 'search' of undefined
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:285:63)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T02:10:49.002Z
+Cannot read property 'search' of undefined
+
+2016-05-22T02:10:49.002Z
+TypeError: Cannot read property 'search' of undefined
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:285:63)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T02:10:49.136Z
+Cannot read property 'search' of undefined
+
+2016-05-22T02:10:49.136Z
+TypeError: Cannot read property 'search' of undefined
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:285:63)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-22T03:57:31.914Z
+Cannot find module '../application/model/town'
+
+2016-05-22T03:57:31.914Z
+Error: Cannot find module '../application/model/town'
+    at Function.Module._resolveFilename (module.js:339:15)
+    at Function.Module._load (module.js:290:25)
+    at Module.require (module.js:367:17)
+    at require (internal/module.js:16:19)
+    at ajsloadable.model (/home/jozreel/Development/www/booking/library/ajsload.js:331:12)
+    at simplecontroler.loadmodel (/home/jozreel/Development/www/booking/library/simplecontroler.js:63:20)
+    at user.register.user.registerbusiness (/home/jozreel/Development/www/booking/application/controller/user.js:58:23)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+
+2016-05-23T06:30:35.948Z
+Cannot read property 'replace' of undefined
+
+2016-05-23T06:30:35.948Z
+TypeError: Cannot read property 'replace' of undefined
+    at towns.findByRegex.towns.addone.callback [as addone] (/home/jozreel/Development/www/booking/application/model/towns.js:18:22)
+    at user.register.user.registerbusiness (/home/jozreel/Development/www/booking/application/controller/user.js:59:12)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-23T06:32:26.073Z
+Cannot read property 'replace' of undefined
+
+2016-05-23T06:32:26.073Z
+TypeError: Cannot read property 'replace' of undefined
+    at towns.findByRegex.towns.addone.callback [as addone] (/home/jozreel/Development/www/booking/application/model/towns.js:18:22)
+    at user.register.user.registerbusiness (/home/jozreel/Development/www/booking/application/controller/user.js:59:12)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-05-27T22:12:00.020Z
+server 10.0.3.159:27017 sockets closed
+
+2016-05-27T22:12:00.020Z
+MongoError: server 10.0.3.159:27017 sockets closed
+    at null.<anonymous> (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:325:47)
+    at g (events.js:273:16)
+    at emitTwo (events.js:100:13)
+    at emit (events.js:185:7)
+    at null.<anonymous> (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/lib/connection/pool.js:101:12)
+    at g (events.js:273:16)
+    at emitTwo (events.js:100:13)
+    at emit (events.js:185:7)
+    at Socket.<anonymous> (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/lib/connection/connection.js:142:12)
+    at Socket.g (events.js:273:16)
+
+2016-06-01T16:27:52.607Z
+Cannot find module '../application/model/town'
+
+2016-06-01T16:27:52.607Z
+Error: Cannot find module '../application/model/town'
+    at Function.Module._resolveFilename (module.js:339:15)
+    at Function.Module._load (module.js:290:25)
+    at Module.require (module.js:367:17)
+    at require (internal/module.js:16:19)
+    at ajsloadable.model (/home/jozreel/Development/www/booking/library/ajsload.js:331:12)
+    at simplecontroler.loadmodel (/home/jozreel/Development/www/booking/library/simplecontroler.js:63:20)
+    at user.register.user.registerbusiness.user.activate.user.findbyid.user.updateuser.addone [as updateuser] (/home/jozreel/Development/www/booking/application/controller/user.js:175:25)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+
+2016-06-01T16:29:10.056Z
+addone is not defined
+
+2016-06-01T16:29:10.056Z
+ReferenceError: addone is not defined
+    at user.register.user.registerbusiness.user.activate.user.findbyid.user.updateuser.addone [as updateuser] (/home/jozreel/Development/www/booking/application/controller/user.js:178:9)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-06-01T16:30:29.427Z
+addone is not defined
+
+2016-06-01T16:30:29.427Z
+ReferenceError: addone is not defined
+    at user.register.user.registerbusiness.user.activate.user.findbyid.user.updateuser.addone [as updateuser] (/home/jozreel/Development/www/booking/application/controller/user.js:179:9)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-06-03T21:41:26.847Z
+The positional operator did not find the match needed from the query. Unexpanded update: opendays.$
+
+2016-06-03T21:41:26.847Z
+MongoError: The positional operator did not find the match needed from the query. Unexpanded update: opendays.$
+    at Function.MongoError.create (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/lib/error.js:31:11)
+    at toError (/home/jozreel/Development/www/booking/node_modules/mongodb/lib/utils.js:114:22)
+    at /home/jozreel/Development/www/booking/node_modules/mongodb/lib/collection.js:972:67
+    at /home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:765:13
+    at Callbacks.emit (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:95:3)
+    at null.messageHandler (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:243:23)
+    at Socket.<anonymous> (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/lib/connection/connection.js:262:22)
+    at emitOne (events.js:90:13)
+    at Socket.emit (events.js:182:7)
+    at readableAddChunk (_stream_readable.js:153:18)
+
+2016-06-03T21:46:04.465Z
+The update path 'opendays.$.' contains an empty field name, which is not allowed.
+
+2016-06-03T21:46:04.465Z
+MongoError: The update path 'opendays.$.' contains an empty field name, which is not allowed.
+    at Function.MongoError.create (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/lib/error.js:31:11)
+    at toError (/home/jozreel/Development/www/booking/node_modules/mongodb/lib/utils.js:114:22)
+    at /home/jozreel/Development/www/booking/node_modules/mongodb/lib/collection.js:972:67
+    at /home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:765:13
+    at Callbacks.emit (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:95:3)
+    at null.messageHandler (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/lib/topologies/server.js:243:23)
+    at Socket.<anonymous> (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/lib/connection/connection.js:262:22)
+    at emitOne (events.js:90:13)
+    at Socket.emit (events.js:182:7)
+    at readableAddChunk (_stream_readable.js:153:18)
+
+2016-06-04T17:46:12.017Z
+Cannot read property 'apply' of undefined
+
+2016-06-04T17:46:12.017Z
+TypeError: Cannot read property 'apply' of undefined
+    at simple_js.reqContent (/home/jozreel/Development/www/booking/node_modules/simplejs.js:360:18)
+    at Server.app (/home/jozreel/Development/www/booking/node_modules/simplejs.js:193:12)
+    at emitTwo (events.js:100:13)
+    at Server.emit (events.js:185:7)
+    at HTTPParser.parserOnIncoming [as onIncoming] (_http_server.js:537:12)
+    at HTTPParser.parserOnHeadersComplete (_http_common.js:103:23)
+
+2016-06-04T17:46:37.054Z
+Cannot read property 'apply' of undefined
+
+2016-06-04T17:46:37.054Z
+TypeError: Cannot read property 'apply' of undefined
+    at simple_js.reqContent (/home/jozreel/Development/www/booking/node_modules/simplejs.js:360:18)
+    at Server.app (/home/jozreel/Development/www/booking/node_modules/simplejs.js:193:12)
+    at emitTwo (events.js:100:13)
+    at Server.emit (events.js:185:7)
+    at HTTPParser.parserOnIncoming [as onIncoming] (_http_server.js:537:12)
+    at HTTPParser.parserOnHeadersComplete (_http_common.js:103:23)
+
+2016-06-04T20:52:19.266Z
+thiss is not defined
+
+2016-06-04T20:52:19.266Z
+ReferenceError: thiss is not defined
+    at user.register.user.registerbusiness.user.activate.user.findbyid.user.updateuser.town.addone.user.saveprofileimage.user.savemobile.user.savelocationdetails.user.saveadorphoto.user.getimagefromgrid.user.saveopeninghours.usermod.findOne.user.savespecialhours (/home/jozreel/Development/www/booking/application/controller/user.js:312:15)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-06-04T20:53:46.109Z
+thiss is not defined
+
+2016-06-04T20:53:46.109Z
+ReferenceError: thiss is not defined
+    at user.register.user.registerbusiness.user.activate.user.findbyid.user.updateuser.town.addone.user.saveprofileimage.user.savemobile.user.savelocationdetails.user.saveadorphoto.user.getimagefromgrid.user.saveopeninghours.usermod.findOne.user.savespecialhours (/home/jozreel/Development/www/booking/application/controller/user.js:312:15)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-06-04T21:14:14.750Z
+this.insertcounters is not a function
+
+2016-06-04T21:14:14.750Z
+TypeError: this.insertcounters is not a function
+    at user.register.user.registerbusiness.user.activate.user.findbyid.user.updateuser.town.addone.user.saveprofileimage.user.savemobile.user.savelocationdetails.user.saveadorphoto.user.getimagefromgrid.user.saveopeninghours.usermod.findOne.user.savespecialhours.usermod.generateNextSequence [as savespecialhours] (/home/jozreel/Development/www/booking/application/controller/user.js:313:9)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-06-05T13:48:18.975Z
+Cannot find module '../application/model/[object Object]'
+
+2016-06-05T13:48:18.975Z
+Error: Cannot find module '../application/model/[object Object]'
+    at Function.Module._resolveFilename (module.js:339:15)
+    at Function.Module._load (module.js:290:25)
+    at Module.require (module.js:367:17)
+    at require (internal/module.js:16:19)
+    at ajsloadable.model (/home/jozreel/Development/www/booking/library/ajsload.js:331:12)
+    at simplecontroler.loadmodel (/home/jozreel/Development/www/booking/library/simplecontroler.js:63:20)
+    at user.register.user.registerbusiness.user.activate.user.findbyid.user.updateuser.town.addone.user.saveprofileimage.user.savemobile.user.savelocationdetails.user.saveadorphoto.user.getimagefromgrid.user.saveopeninghours.usermod.findOne.user.savespecialhours.usermod.generateNextSequence.user.removeopendaysexception (/home/jozreel/Development/www/booking/application/controller/user.js:337:24)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+
+2016-06-05T13:49:45.657Z
+usermode is not defined
+
+2016-06-05T13:49:45.657Z
+ReferenceError: usermode is not defined
+    at user.register.user.registerbusiness.user.activate.user.findbyid.user.updateuser.town.addone.user.saveprofileimage.user.savemobile.user.savelocationdetails.user.saveadorphoto.user.getimagefromgrid.user.saveopeninghours.usermod.findOne.user.savespecialhours.usermod.generateNextSequence.user.removeopendaysexception (/home/jozreel/Development/www/booking/application/controller/user.js:341:5)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-06-05T18:58:45.785Z
+Cannot read property 'type' of undefined
+
+2016-06-05T18:58:45.785Z
+TypeError: Cannot read property 'type' of undefined
+    at user.register.user.registerbusiness.user.activate.user.findbyid.user.updateuser.town.addone.user.saveprofileimage.usermod.savetogrid [as saveprofileimage] (/home/jozreel/Development/www/booking/application/controller/user.js:205:31)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-06-05T18:58:48.520Z
+Cannot read property 'type' of undefined
+
+2016-06-05T18:58:48.520Z
+TypeError: Cannot read property 'type' of undefined
+    at user.register.user.registerbusiness.user.activate.user.findbyid.user.updateuser.town.addone.user.saveprofileimage.usermod.savetogrid [as saveprofileimage] (/home/jozreel/Development/www/booking/application/controller/user.js:205:31)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-06-05T19:01:21.221Z
+Cannot read property 'type' of undefined
+
+2016-06-05T19:01:21.221Z
+TypeError: Cannot read property 'type' of undefined
+    at user.register.user.registerbusiness.user.activate.user.findbyid.user.updateuser.town.addone.user.saveprofileimage.usermod.savetogrid [as saveprofileimage] (/home/jozreel/Development/www/booking/application/controller/user.js:205:31)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-06-05T19:32:00.981Z
+Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
+
+2016-06-05T19:32:00.981Z
+Error: Argument passed in must be a single String of 12 bytes or a string of 24 hex characters
+    at new ObjectID (/home/jozreel/Development/www/booking/node_modules/mongodb/node_modules/mongodb-core/node_modules/bson/lib/bson/objectid.js:38:11)
+    at mongodriver.createObjectId (/home/jozreel/Development/www/booking/library/mongodriver.js:244:13)
+    at user.register.user.registerbusiness.user.activate.user.findbyid.usermod.findOne [as findbyid] (/home/jozreel/Development/www/booking/application/controller/user.js:144:21)
+    at simple_js.reqContent (/home/jozreel/Development/www/booking/node_modules/simplejs.js:360:19)
+    at Server.app (/home/jozreel/Development/www/booking/node_modules/simplejs.js:140:12)
+    at emitTwo (events.js:100:13)
+    at Server.emit (events.js:185:7)
+    at HTTPParser.parserOnIncoming [as onIncoming] (_http_server.js:537:12)
+    at HTTPParser.parserOnHeadersComplete (_http_common.js:103:23)
+
+2016-06-06T17:14:33.548Z
+usermod is not defined
+
+2016-06-06T17:14:33.548Z
+ReferenceError: usermod is not defined
+    at user.register.user.registerbusiness.user.activate.user.findbyid.user.updateuser.town.addone.user.saveprofileimage.user.savemobile.user.savelocationdetails.user.saveadorphoto.usermod.savetogrid.user.getimagefromgrid.user.saveopeninghours.usermod.findOne.user.savespecialhours.usermod.generateNextSequence.usermod.findOne.user.removeopendaysexception.user.findwithname.user.removemobile.usermod.removefromarray [as removemobile] (/home/jozreel/Development/www/booking/application/controller/user.js:407:15)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-06-06T18:06:53.611Z
+servicemod.addService is not a function
+
+2016-06-06T18:06:53.611Z
+TypeError: servicemod.addService is not a function
+    at user.register.user.registerbusiness.user.activate.user.findbyid.user.updateuser.servicemod.addService.town.addone [as updateuser] (/home/jozreel/Development/www/booking/application/controller/user.js:177:20)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-06-06T20:53:44.105Z
+Cannot read property 'apply' of undefined
+
+2016-06-06T20:53:44.105Z
+TypeError: Cannot read property 'apply' of undefined
+    at simple_js.reqContent (/home/jozreel/Development/www/booking/node_modules/simplejs.js:360:18)
+    at Server.app (/home/jozreel/Development/www/booking/node_modules/simplejs.js:193:12)
+    at emitTwo (events.js:100:13)
+    at Server.emit (events.js:185:7)
+    at HTTPParser.parserOnIncoming [as onIncoming] (_http_server.js:537:12)
+    at HTTPParser.parserOnHeadersComplete (_http_common.js:103:23)
+
+2016-06-08T20:23:32.777Z
+Cannot read property 'replace' of undefined
+
+2016-06-08T20:23:32.777Z
+TypeError: Cannot read property 'replace' of undefined
+    at businesstype.addnew.callback.findOne [as addnew] (/home/jozreel/Development/www/booking/application/model/businesstype.js:6:26)
+    at user.register.user.registerbusiness.user.activate.user.findbyid.user.updateuser.businessmod.addnew.town.addone [as updateuser] (/home/jozreel/Development/www/booking/application/controller/user.js:180:21)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)
+
+2016-06-08T20:25:31.240Z
+Cannot read property 'replace' of undefined
+
+2016-06-08T20:25:31.240Z
+TypeError: Cannot read property 'replace' of undefined
+    at businesstype.addnew.callback.findOne [as addnew] (/home/jozreel/Development/www/booking/application/model/businesstype.js:6:26)
+    at user.register.user.registerbusiness.user.activate.user.findbyid.user.updateuser.businessmod.addnew.town.addone [as updateuser] (/home/jozreel/Development/www/booking/application/controller/user.js:180:21)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/booking/node_modules/simplejs.js:329:18)
+    at emitNone (events.js:80:13)
+    at IncomingMessage.emit (events.js:179:7)
+    at endReadableNT (_stream_readable.js:913:12)
+    at _combinedTickCallback (internal/process/next_tick.js:74:11)
+    at process._tickCallback (internal/process/next_tick.js:98:9)

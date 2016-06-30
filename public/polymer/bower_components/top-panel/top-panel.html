@@ -1,0 +1,111 @@
+ <link rel="import" href="../polymer/polymer.html">
+<dom-module id="top-panel">
+  <style>
+    .imgcnt{max-width: 100%; max-height: 100%;}
+    .imgcnt img{max-width: 100%; max-height: 100%;}
+  </style>
+  <template>
+    <div id="content"></div>
+     <paper-toolbar style="background:#ffecb3; color: #000;">
+    <paper-icon-button icon="view-stream" on-click="wview"></paper-icon-button>
+     <paper-icon-button icon="list" on-click="aview"></paper-icon-button>
+     <paper-icon-button icon="select-all" on-click="setselectioinmode" id="select"></paper-icon-button>
+     
+     
+      <div class="flex"><div class="bottom title">Inventory of items in stock</div></div>
+         <paper-input class="input-hidden" id="search" on-keypress="search"></paper-input>
+        <paper-icon-item>
+       
+      <paper-icon-button icon="search" on-click="displaySearch"></paper-icon-button>
+      </paper-icon-item>
+      
+      
+ </paper-toolbar>
+  </template>
+</dom-module>
+
+<script>
+   Polymer({
+      is: 'top-panel',
+      properties: {
+        searchurl:String,
+        displayobjects:Array,
+        pagesd:Object
+      },
+   search:function(e)
+   {
+       e = e || window.event;
+        if (e.keyCode == 13)
+        {
+          console.log(this.displayobjects);
+           //var ele = document.getElementById('search');
+           var val = encodeURI(this.$.search.value);
+          // document.querySelector('#listcontent').dataurl = "/inventory/search";
+           var lst = document.getElementById('listcontent');
+           var tbl =document.getElementById('tbl');
+           
+           for(var objs in this.displayobjects)
+           {
+             this.displayobjects[objs].dataurl =  this.searchurl+val;
+          // tbl.dataurl =  "/inventory/search/"+val;
+           }
+           
+          
+         //  return false;
+        }
+       // return true;
+   },
+  displaySearch:function()
+   {
+     var search = document.getElementById("search");
+     search.style.display = "inline-block";
+   },
+ wview:function(event)
+ {
+ 
+   
+   
+    this.pagesd.selected = 0;
+   
+ },
+ 
+ goback:function(event) {
+   this.pagesd.selected = 0;
+ }, 
+ aview:function(event)
+ {
+ 
+    this.pagesd.selected =1;
+ },
+   setselectioinmode:function(event)
+   {
+      // var lst = document.getElementById('listcontent');
+       //var tbl =document.getElementById('tbl');
+        
+        //var sel = document.getElementById('select');
+        if(this.$.select.icon =='select-all')
+        {
+          //alert('all');
+           this.$.select.icon='check-box';
+           for(var objs in this.displayobjects)
+           {
+           this.displayobjects[objs].multiselect = true;   
+           //tbl.multiselect =true; 
+           }
+        }
+         else
+         {
+            // alert('one');
+             this.$.select.icon='select-all';
+             for(var objs in this.displayobjects)
+              {
+              this.displayobjects[objs].multiselect = false;   
+           //tbl.multiselect =true; 
+              }
+         }
+      
+   }
+ 
+   });
+    </script>
+ 

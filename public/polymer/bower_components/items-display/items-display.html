@@ -1,0 +1,227 @@
+ <link rel="import" href="../polymer/polymer.html">
+  <link rel="import" href="../iron-ajax/iron-ajax.html">
+  <link rel="import" href="../iron-list/iron-list.html">
+  <link rel="import" href="/polymer/bower_components/paper-styles/color.html">
+     <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+       <link rel="import" href="/polymer/bower_components/neon-animation/neon-animated-pages.html">
+    <link rel="import" href="/polymer/bower_components/neon-animation/neon-animations.html">
+<dom-module id="items-display">
+  <style is="custom-style">
+    :host {
+        @apply(--layout-fit);
+        @apply(--layout-vertical);
+        @apply(--paper-font-common-base);
+        font-family: sans-serif;
+      }
+      
+       .trow{
+          display: ttable-row;
+          @apply(--layout-horizontal );
+       
+       }
+       .trow span{width:100%;}
+       .trow>div:last-of-type{padding-right: 0px; border-right: none;}
+       .trow div{padding:5px 10px 5px 10px; border-right: 1px groove gray; display: table-cell; width: 300px; }
+         iron-list {
+       
+        padding-top: 1px;
+        padding-bottom: 16px;
+        
+        --iron-list-items-container: {
+          max-width: 1024px;
+          margin: auto;
+          
+          
+          
+        };
+      }
+       
+      .item {
+        
+        padding: 20px;
+        background-color: white;
+        border: 1px solid #ddd;
+        cursor: pointer;
+        margin-bottom: 10px;
+        
+      }
+     
+      .item:focus,
+      .item.selected:focus {
+        outline: 0;
+        background-color: #ddd;
+      }
+      .item.selected .star {
+        color: var(--paper-blue-600);
+      }
+      .item.selected:not(:focus) {
+        background-color: var(--google-grey-100);
+      }
+      
+      .avatar {
+      height: 80px;
+     
+      width: 80px;
+      border-radius: 40px;
+      box-sizing: border-box;
+      background-color: #DDD;
+      overflow: hidden;
+    }
+    .helper{height: 100%; display: inline-block !important; vertical-align: middle;}
+     .avatar img{width: 80px; height: 80px; vertical-align: middle; display: inline-block;}
+   
+   </style>
+   <template>
+   <iron-ajax  url="[[dataUrl]]"" last-response="{{data}}" auto id="caj" params="[[jsonData]]" ></iron-ajax>     
+ <neon-animated-pages id="pages" class="flex"  selected="0" entry-animation="fade-in-animation" exit-animation="fade-out-animation">
+ <neon-animatable>
+      <iron-list id="listitems" items="[[data]]" as ="parentitem" multi-selection="{{multiSelect}}"  selection-enabled selected-item="{{selectedItem}}" selected-items="{{selectedItems}}">
+            <template>
+              <div>
+              <div class$="[[_computedClass(selected)]]">
+			        <div class="avatar">
+               <!-- <div class="helper"></div> -->
+               <img src$="[[_getImage(parentitem.image)]]">
+              </div> 
+              <template is="dom-repeat" items="[[headers]]">
+                <div style=" padding:3px; border-bottom: 1px dashed #ccc; ">
+                <span><p style="padding-right:20px; margin: 0; font-size:16pt; min-width:100px; display:inline-block;">[[item]]</p></span>
+                <span>[[_arrayItem(parentitem,item)]]</span>
+                </div>
+              </template>
+             
+              </div>
+              </div>
+            </template>
+
+     </iron-list>
+ </neon-animatable>
+ <!--<neon-animatable >
+    <div style=" max-width: 1024px;margin:0px 30px 0px 30px; padding:22px 0px 20px 20px; background:gray;">    
+       <div class="trow">
+        <template is="dom-repeat" items="[[headers]]" as="th">
+          <div>[[th]]</div>
+        </template>
+       </div>
+    </div>
+   <div>
+      <iron-list id="tableitems"  multi-selection  selection-enabled  selected-items="{{selectedItems}}">
+            <template>
+             
+              <div>
+              <div class$="[[_computedClass(selected)]]">
+                <div class="trow">
+              <template is="dom-repeat" items="[[headers]]" as="headeritem">
+               
+                <div><span>[[_arrayItem(item,headeritem)]]</span></div>
+              </template>
+                </div>
+             
+              </div>
+              </div>
+            </template>
+
+     </iron-list> 
+   </div>
+ </neon-animatable> -->
+ </neon-animated-pages>
+  </template>
+	
+</dom-module>
+<script>
+   	  HTMLImports.whenReady(function() {
+		   Polymer({
+        is: 'items-display',
+        properties:{
+          selectedItems:{type:Object},
+           listHeaders:{type:Object,notify:true, observer:'_convToArr'},
+           dataUrl:{type:String,observer:'_action'}, 
+          selectedPage:{type:Number, observer:'_changePage'},
+          jsonData:{type: String},
+          multiSelect:{type:Boolean, value:false, observer:'_chngSelect'},
+          selectedItem:{type:Object}
+          
+        },
+        
+         
+     _computedClass: function(isSelected) {
+          var classes = 'item';
+          if (isSelected) {
+            classes += ' selected';
+          }
+          return classes;
+        },
+        _itchanged:function(){console.log(this.selectedItems);},
+         _getImage:function(img){
+           if(img!==undefined && img.imagedata!=undefined)
+           {
+            
+             return 'data:'+img.type+';base64,'+img.imagedata;
+           }
+            else
+             return "";
+             },
+         _arrayItem:function(array, iname)
+         {
+          
+           return array[iname];
+         },
+         _convToArr:function()
+         {
+           var app =[];
+           for(var hd in this.listHeaders)
+           {
+             app.push(this.listHeaders[hd]);
+            
+           }
+           this.headers = app;
+         },
+         _action:function()
+         {
+          // console.log(this.$.caj.url);
+         },
+         _changePage:function()
+         {
+           
+           if(this.selectedPage === 1)
+            {
+            //  
+               var obj = this.selectedItems;
+              
+              this.$.tableitems.items = this.data;
+              if(obj.length >0)
+              {
+                
+              for(ob in obj)
+              {
+       
+                this.$.tableitems.selectItem(obj[ob]);
+              }
+              }
+             
+            
+              
+               
+              
+            }
+            else
+            {
+             
+              //this.selectedItems = this.$.tableitems.selectedItems;
+            }
+          
+           
+            this.$.pages.selected =this.selectedPage;
+         },
+         _chngSelect:function()
+         {
+           console.log(this.multiSelect,'kjkj');
+         }
+        
+       });
+       });  
+  
+   
+   
+  
+  </script>

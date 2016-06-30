@@ -1,0 +1,457 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../polymer/polymer.html">
+    <link rel="import" href="../iron-icons/iron-icons.html">
+  <link rel="import" href="../paper-material/paper-material.html">
+  <link rel="import" href="../paper-header-panel/paper-header-panel.html">
+    <link rel="import" href="../paper-toolbar/paper-toolbar.html">
+      <link rel="import" href="../paper-icon-button/paper-icon-button.html">
+        <link rel="import" href="../paper-ripple/paper-ripple.html">
+  <!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <seed-element></seed-element>
+
+@demo
+-->
+
+<dom-module id="paper-table-simple">
+
+  <style>
+    :host {
+      display: block;
+      box-sizing: border-box;
+    }
+     .scontent{height: 655px;  overflow-y: scroll; overflow-x: scroll;}
+    .author img {
+      float: left;
+      margin-right: 5px;
+      max-height: 100px;
+      max-width: 100px;
+    }
+    .tabledata{float: left; width: 100%;}
+    .tabledata td{height: 100%; z-index: 100;  position: relative; min-height: 100px; margin: 0;padding: 0; border: 1px solid #ccc; width: auto}
+   .tabledata th{height: 60px; margin: 0;padding: 0; border: none;}
+   tabledata tr{position: relative; height: 100%;}
+    table tbody{height: 100%; width: 100%;}
+
+.tabledata paper-material{height: 100%; line-height: 30px; padding:0;}
+  </style>
+
+  <template>
+     <iron-ajax url="{{dataurl}}" on-response="handleresponse" id="ajaxhndtbl"> </iron-ajax>
+    <div>
+      <paper-material elevation="1";> 
+       <paper-scroll-header-panel class="flex"> 
+       <div id="tb"></div>
+       </paper-scroll-header-panel>
+             
+       <div class="scontent">
+        
+          <table id="tdata" class="tabledata">
+          <thead id="thehead"></thead>
+            <tbody id="bdy">
+               <div class="sp" style="display:block; margin:0 auto; width:80px;" ><img src="fb.gif" />
+         <p>loading...</p>
+         </div>
+        <template is="dom-repeat" items="{{_toArraySimple(products)}}" as ="product" >
+        
+       <tr class="trw">
+         
+         <input name ="itemid" type ="hidden" value="[[product._id]]"></input>
+          <input name="count" type ="hidden" value="{{index}}"></input>
+           <template is="dom-repeat" items="{{_toArr(product,index)}}" as ="prod">
+              <td><p id="[[prod.nameindex]]" style="padding:0px 0px 0px 5px; margin:0; width:100%; min-height:60px;" on-click="_selected">{{prod.value}}</p>
+              </td>
+            </template>
+            
+       </tr>
+        </template>
+        
+      </tbody>
+        
+        
+       </table>
+         </div>
+       
+      </paper-material>
+      
+    </div>
+  </template>
+  
+  </dom-module>
+  
+  <script>
+    
+    // TODO fix to reflect selection in fancy list view
+    var tcont ='<td><paper-material>lklk</paper-material>';
+    var dem =new Array();
+    Polymer({
+
+    is: 'paper-table-simple',
+
+    properties: {
+           fancy: Boolean,
+           products:{
+             type: Object,
+             value:{},
+             observer:'headchanged'
+             
+           
+           },
+           toolbar:{type:Boolean, value:false},
+           dataurl:{type:String, observer:'dataurlchanged'},
+            collection:{type: Object,  observer: 'colChanged'},
+            headers:{type:Array, observer:'headchanged'},
+            rowselect:Object,
+            multiselect:{type:Boolean, value:false},
+            selected:{type:Array, value:[]}
+           },
+           
+           ready: function() {
+           
+             //console.log(this.$.temp.innerHTML);
+            //console.log(this.products);
+            if(this.toolbar)
+            {
+              this.$.tb.innerHTML='<paper-toolbar><paper-icon-button icon="arrow-back"></paper-icon-button><paper-icon-button icon="arrow-forward"></paper-icon-button>'+
+             '<div class="flex"> {{title}}</div><paper-icon-item><paper-icon-button icon="search"></paper-icon-button></paper-icon-item><paper-icon-button icon="more-vert"></paper-icon-button>'+
+             '</paper-toolbar>';
+            }
+            
+           var js = this.products ;
+           this.createHead(js[0]);
+          
+           this.products=js;
+          
+          // this.createHead(this.products[0]);
+           //this.createRow(this.products[0]);
+          
+           
+      },
+      created: function()
+      {
+         
+        
+      },
+      headchanged:function()
+      {
+       Polymer.dom(this.$.thehead).innerHTML='';
+        for(var y in this.headers)
+               {
+                 
+                
+                 var th = document.createElement('th');
+                 th.innerHTML='';
+                
+                   th.innerHTML ='<paper-material>'+this.headers[y].desc+'</paper-material>';
+                   
+                 
+                 Polymer.dom(this.$.thehead).appendChild(th);
+                
+               }
+      },
+      
+      createHead:function(arr)
+      {
+       Polymer.dom(this.$.thehead).innerHTML='';
+        for(var y in arr)
+               {
+                 
+                
+                 var th = document.createElement('th');
+                 th.innerHTML='';
+                
+                   th.innerHTML ='<paper-material>'+y+'</paper-material>';
+                   
+                 
+                 Polymer.dom(this.$.thehead).appendChild(th);
+                
+               }
+      },
+   _createRows:function(arr)
+      {
+       //var rw =this.$.tdata.querySelector('.trw');
+       //console.log(rw);
+      //this.$.tdata.removeChild(rw);
+       Polymer.dom(this.$.bdy).innerHTML='';
+        ///console.log(arr);
+        for(var y in arr)
+               {
+               // console.log(arr[y]);
+                 var trow = document.createElement('tr');
+                 //for(var x in arr[y])
+                for (var i in this.headers)
+                 {
+                    var val ='N/A';
+                  // alert(this.headers[i].name);
+                   var td = document.createElement('td');
+                   if(arr[y][this.headers[i].name] != undefined)
+                    {
+                      
+                      
+                        
+                         if(this.headers[i].name==='image')
+                         {
+                           //alert('image');
+                           val = 'image';
+                         }
+                         else
+                         {
+                           val=   decodeURI(arr[y][this.headers[i].name]);
+                         }
+                         
+                          //console.log(val);
+                       
+                        // td.innerHTML ='<paper-material>'+arr[y][x]+'</paper-material>';               
+                         // console.log(val);
+                       }
+                       
+                       //else val ='';
+                       
+                        td.innerHTML='<p id="'+this.headers[i].nameindex+'" style="padding:0px 0px 0px 5px; margin:0; width:100%; min-height:60px;" on-click="_selected">'+val+'</p>';
+                         var pr = document.createElement('p');
+                         pr.innerHTML='<input name="itemid" type ="hidden" value="'+decodeURI(arr[y]._id)+'"></input>';
+                         pr.innerHTML='<input name="count" type ="hidden" value="'+y+'"></input>';
+                        // trow.appendChild(tr);
+                         trow.appendChild(td);
+                        
+                      }
+                 //console.log(trow);
+                  Polymer.dom(this.$.tdata).appendChild(trow);
+               }
+      },
+      _toArr: function(obj,index) {
+      //  console.log(obj);
+        var arr = Array();
+          if(obj !==null)
+          {
+            
+          //console.log(this.headers);
+          for (var i in this.headers)
+          {
+            if(obj[this.headers[i].name] != undefined)
+            {
+            // console.log(obj[this.headers[i].name]);
+            //console.log({name: key, value: obj[key]})
+            if(this.headers[i].name ==='image')
+               arr.push({name: this.headers[i].name, nameindex: this.headers[i].name+'_'+index, value: 'IMAGE'});
+             else
+               arr.push({name: this.headers[i].name, nameindex: this.headers[i].name+'_'+index, value: decodeURI(obj[this.headers[i].name])});
+            }
+            else
+              arr.push({name: this.headers[i].name+'_'+index, value:''});
+          }
+            //console.log(key);
+          //  return array;//{name: key, value: obj[key]};
+         
+       // console.log(arr);
+         
+        
+         //console.log(arr);
+          }
+          
+          return arr;
+        },
+      _toArray: function(obj,key) {
+          var array = Array();
+          if(obj !==null)
+          {
+           
+          var arr= Object.keys(obj).map(function(key) {
+            //console.log({name: key, value: obj[key]})
+            if(key ==='image')
+               return{name: key, value: 'IMAGE'};
+               return{name: key, value: decodeURI(obj[key])};
+            //console.log(key);
+          //  return array;//{name: key, value: obj[key]};
+          });
+       // console.log(arr);
+         
+         arr = arr.splice(1);
+         //console.log(arr);
+          }
+          return arr;
+        },
+         _toArraySimple: function(obj) {
+          // alert(index);
+          if(obj !==null)
+          {
+          var arr= Object.keys(obj).map(function(key) {
+            //console.log({name: key, value: obj[key]})
+            //array.push({name: key, value: obj[key]});
+          
+            return obj[key];//{name: key, value: obj[key]};
+          });
+      //  console.log(arr);
+          return arr;
+          }
+        },
+        _makeHead:function() {
+          if(this.products !== null)
+           this.createHead(this.products[0]);
+        },
+     handleresponse:function(e)
+    {    
+       if(e.detail === this.$.ajaxhndtbl.lastRequest)
+       {
+        Polymer.dom(this.root).querySelector('.sp').style.display='none';
+       var strings = e.detail.response;
+      
+       if(strings !=null)
+       {
+          //this.createHead(strings[0]);
+          this.headchanged();
+          
+          this.products=strings;
+          console.log(navigator.userAgent);
+          if((navigator.userAgent.indexOf("MSIE") !=-1) || (navigator.userAgent.match(/Trident/) !=null)||(navigator.userAgent.match(/Edge/) !== null)|| (navigator.userAgent.match(/Firefox/) !=null))
+          {
+            //alert('koko');
+            this._createRows(strings);
+          }
+         
+       }
+          
+       }
+       
+    },
+   dataurlchanged:function ()
+    {
+      
+       this.$.ajaxhndtbl.url=this.dataurl;
+       this.$.ajaxhndtbl.generateRequest();
+      // Polymer.dom(this.$.ajaxhnd).generateRequest();
+   //while(Polymer.dom(this.root).querySelector('iron-ajax').loading===true)
+      //console.log(Polymer.dom(this.root).querySelector('iron-ajax').loading);
+   //console.log(Polymer.dom(this.root).querySelector('iron-ajax').loading);
+    //{
+      //Polymer.dom(this.root).querySelector('.sp').style.display='block';
+   // }
+     //Polymer.dom(this.root).querySelector('.sp').style.display='hidden';
+    
+               
+    },
+    colChanged:function()
+    {
+       
+       strings = this.collection;
+       this.products=strings;
+       //console.log(this.products);
+    },
+    _selected:function(e) {
+      //console.log(e.target.parentNode);
+     // alert('hoo');
+     
+      e.target.parentNode.parentNode.style.backgroundColor = '#FFFFFF';
+     
+     if( this.rowselect !==undefined && this.multiselect == false)
+     {
+        this.rowselect.style.backgroundColor = '#ffffff';
+      // alert('papa');
+     }
+      e.target.parentNode.parentNode.style.backgroundColor = '#FAFAFA';
+      
+     if(this.multiselect==true)
+     {
+        var ind = this.selected.indexOf(e.target.parentNode.parentNode.querySelector('input[name="itemid"]').value);
+       if(ind != -1)
+       {
+        // alert(ind);
+         delete this.selected[ind];
+         e.target.parentNode.parentNode.style.backgroundColor = '#ffffff';
+       }
+       else
+         this.selected.push(e.target.parentNode.parentNode.querySelector('input[name="itemid"]').value);
+       
+      
+     }
+    
+       this.rowselect = e.target.parentNode.parentNode;
+      this._callpopulate(this.rowselect);
+    },
+    _callpopulate:function(parent)
+    {
+      var childNodes = parent.childNodes;
+      
+      //console.log(childNodes);
+      
+      var obj={};
+      for(var item in childNodes)
+      {
+        //console.log(childNodes[item].tagName);
+        if(childNodes[item].tagName==='INPUT' &&  childNodes[item].name ==='itemid')
+           
+           obj[childNodes[item].name] = childNodes[item].value;
+       if(childNodes[item].tagName==='TD')
+       {
+         console.log(childNodes[item].querySelector('p').id);
+          obj[childNodes[item].querySelector('p').id.substring(0,childNodes[item].querySelector('p').id.indexOf('_'))]= childNodes[item].querySelector('p').textContent
+       }
+      }
+    
+      //var datacont = document.getElementById('data');
+      //var datacont = document.getElementById('s');
+      //var childrens = datacont.childNodes;
+      //console.log(parent);
+     /* 
+     var input = parent.querySelector('input[name="count"]');
+     var cnt = input.value;
+     console.log(parent.querySelector('#image'+cnt).textContent);
+    if(parent.querySelector('#name'+cnt) !=null)
+      obj.name = parent.querySelector('#name'+cnt).textContent;
+     if(parent.querySelector('#desc'+cnt))
+      obj.desc = parent.querySelector('#desc'+cnt).textContent;
+     if(parent.querySelector('#image'+cnt).textContent !==undefined && parent.querySelector('#image'+cnt).textContent !=='')   obj.image ='IMAGE';
+      if(parent.querySelector('#manu'+cnt)!=null)
+        obj.manu = parent.querySelector('#manu'+cnt).textContent;
+      if(parent.querySelector('#cat'+cnt) !=null)
+         obj.cat =parent.querySelector('#cat'+cnt).textContent;
+       if(parent.querySelector('#sku'+cnt)!=null)
+         obj.sku = parent.querySelector('#sku'+cnt).textContent;
+       if(parent.querySelector('#model'+cnt) !=null)
+          obj.model = parent.querySelector('#model'+cnt).textContent;
+       if(parent.querySelector('#serial'+cnt)!=null)
+          obj.serial = parent.querySelector('#serial'+cnt).textContent;
+       if(parent.querySelector('#uprice'+cnt) !=null)
+          obj.uprice =parent.querySelector('#uprice'+cnt).textContent;
+       if(parent.querySelector('#serial'+cnt) !=null)
+         obj.unit = parent.querySelector('#unit'+cnt).textContent;
+          
+           obj._id = parent.querySelector('input[name="itemid"]').value;
+           
+          obj. = parent.querySelector('input[name="itemid"]').value;
+         if(this.multiselect)
+          this.selected.push(obj._id);
+       */
+      
+     // console.log(obj);
+      /*   obj.name = name;
+              obj._id = id;
+              obj.desc = desc;
+              obj.image = strings[itm].image; */
+              //console.log(this.selected);
+      populate(obj);
+    }
+      /**
+       * `fancy` indicates that the element should don a monocle and tophat,
+       * while checking its pocket watch.
+       */
+      
+    });
+    
+  function shout()
+  {
+    
+  }    
+    
+  </script>

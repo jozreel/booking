@@ -1,0 +1,62 @@
+<link rel="import" href="../polymer/polymer.html">
+
+       <link rel="import" href="/polymer/bower_components/neon-animation/neon-animated-pages.html">
+    <link rel="import" href="/polymer/bower_components/neon-animation/neon-animations.html">
+<dom-module id="animated-slide">
+ <style is="custom-style">
+</style>
+  <template>
+ <neon-animated-pages  style="width:100%; height:100%;" class="flex"  id="animatedpages" selected="0" entry-animation="slide-from-right-animation" exit-animation="slide-left-animation">
+  <template is="dom-repeat" id="rcnt" items="{{itemsarr}}">
+ <neon-animatable id="page[[item]]">
+            
+         </neon-animatable>
+   </template>
+             
+
+ </neon-animated-pages>
+  </template>
+  
+  <script>
+  Polymer({
+
+    is: 'animated-slide',
+
+    properties: {
+      pages:{type:Number, value:0, observer:'_makearr'},
+      selected:{type:Number, observer:'_select'}
+      //itemsarr:{type:Array, value:[]}
+    },
+    ready:function(){
+   
+     this.itemsarr= [];
+     var i=0;
+     var temp =[];
+     while(i<this.pages)
+      {
+       temp.push(i);
+        i++;
+      }
+       this.itemsarr = temp;
+    
+    },
+    _makearr:function()
+    {
+     
+     var i=0;
+      var temp =[];
+     while(i<this.pages)
+      {
+       temp.push(i);
+        i++;
+      }
+     this.itemsarr = temp;
+    },
+    _select:function(num)
+    {
+      this.$.animatedpages.selected = num;
+    }
+  });
+    </script>
+  </dom-module>
+          

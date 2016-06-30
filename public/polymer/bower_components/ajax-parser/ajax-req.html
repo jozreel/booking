@@ -1,0 +1,58 @@
+
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<dom-module id="ajax-req">
+<template>
+     <iron-ajax url="{{dataurl}}" on-response="_handleResp" id="ajaxrq" auto debounce-duration="300"> </iron-ajax>
+ </template>
+  
+  </dom-module>
+  
+  <script>
+    
+    // TODO fix to reflect selection in fancy list view
+
+    var dem =new Array();
+    Polymer({
+
+    is: 'ajax-req',
+
+    properties: {
+          
+           dataurl:{type:String, observer:'dataurlchanged'},
+           respfunc:{type:Function}
+          
+           },
+           dataurlchanged:function ()
+          {
+           
+           this.$.ajaxrq.url=this.dataurl;
+          // this.$.ajaxrq.generateRequest();
+      // Polymer.dom(this.$.ajaxhnd).generateRequest();
+   //while(Polymer.dom(this.root).querySelector('iron-ajax').loading===true)
+      //console.log(Polymer.dom(this.root).querySelector('iron-ajax').loading);
+   //console.log(Polymer.dom(this.root).querySelector('iron-ajax').loading);
+    //{
+      //Polymer.dom(this.root).querySelector('.sp').style.display='block';
+   // }
+     //Polymer.dom(this.root).querySelector('.sp').style.display='hidden';
+    
+               
+    },
+     _handleResp:function(e)
+    { 
+     
+      if(e.detail === this.$.ajaxrq.lastRequest)
+       {
+         console.log(this.respfunc);
+        
+      var stringf = e.detail.response;
+      if(this.respfunc !== undefined)
+        this.respfunc(stringf);
+      //console.log('in');
+       }
+     
+    }
+    });
+
+</script>
+           

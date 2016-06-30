@@ -1,0 +1,235 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../polymer/polymer.html">
+<dom-module id="fancy-listview">
+  <style>
+    .imgcnt{max-width: 100%; max-height: 100%;}
+    .imgcnt img{max-width: 100%; max-height: 100%;}
+  </style>
+  <template>
+    <div id="content"></div>
+      <iron-ajax url="{{dataurl}}" on-response="handleresponse" auto="true" id="ajaxhnd"> </iron-ajax>
+  </template>
+</dom-module>
+
+<script>
+   
+    var strings = [
+    ];
+   
+    var obj ={};
+    function loopText(str)
+    {
+     // console.log(str);
+     
+      var html = '';
+     if(str !== undefined)
+     {
+     if(str.length > 0)
+     {
+       var i=0;
+       for (var itm in strings) {
+         var img ="";
+         var desc = "N/A";
+         var name ="N/A";
+         var sku="N/A";
+         var model="N/A";
+         var id="N/A";
+         var cat ="N/A";
+         var manu = "N/A";
+          var serial = "N/A";
+         var uprice = "N/A";
+         var unit ="N/A";
+         // if(strings[itm].image !==null && strings[itm].image !== undefined)
+             img =   getImage(strings[itm].image);
+           if(strings[itm].name !== null && strings[itm].name !== undefined) 
+             name =  decodeURI(strings[itm].name);
+          if(strings[itm].desc !== null && strings[itm].desc !== undefined) 
+             desc=  decodeURI(strings[itm].desc);
+            if(strings[itm]._id !== null && strings[itm]._id !== undefined) 
+             id =  decodeURI(strings[itm]._id);
+              if(strings[itm].sku!== null && strings[itm].sku !== undefined) 
+                sku=  decodeURI(strings[itm].sku);
+              if(strings[itm].model!== null && strings[itm].model !== undefined) 
+                model=  decodeURI(strings[itm].model);
+              if(strings[itm].cat!== null && strings[itm].cat !== undefined) 
+                cat=  decodeURI(strings[itm].cat);
+               if(strings[itm].manu!== null && strings[itm].manu !== undefined) 
+                manu=  decodeURI(strings[itm].manu);
+                 if(strings[itm].serial!== null && strings[itm].serial !== undefined) 
+                    serial=  decodeURI(strings[itm].serial);
+                  if(strings[itm].uprice!== null && strings[itm].uprice !== undefined) 
+                    uprice=  decodeURI(strings[itm].uprice);
+                    if(strings[itm].unit!== null && strings[itm].unit !== undefined) 
+                    unit=  decodeURI(strings[itm].unit);
+               
+          html +=
+            '<div id="data"><paper-material id="subdata" style="padding: 16px; margin: 16px;  background-color: #fff; color: #555;"><input type="hidden" value="item_'+i+'" name="nameholder" /> <input type="hidden" value="'+id+'" name="_id" class="id" />'+
+            '<div class="image" style="display: inline-block; position: relative; height:56px; width: 100px; background: #ddd; line-height: 64px; font-size: 30px; color: #666; text-align: center;">'+img+'</div>' +
+            '<div style="font-size: 22px; padding: 8px 0 16px; color: #888;" class="name"><a href="#" onclick="callpopulate(event)" class="subc">' +name + '</a></div>' +
+            '<div style="font-size: 16px; padding-bottom: 8px;" class="subc">' + desc + '</div>' +
+            '<div class="categ"><b>Category: </b><span style="font-size: 12px;" class="subc"> '+cat + '</span></div>' +
+            '<div class="manu"><b>Manufacturer:</b><span style="font-size: 12px;" class="subc">  ' + manu + '</span></div>'+
+            '<div class="sku"><b> SKU: </b><span style="font-size: 12px;" class="subc">' + sku + '</span></div>'+
+            '<div class="model"><b>Model: </b><span style="font-size: 12px;" class="subc"> ' + model + '</span></div>'+
+            '<div class="serial"><b>Serial: </b><span style="font-size: 12px;" class="subc"> ' + serial + '</span></div>'+
+             '<div class="unit" ><b>Unit:</b><span style="font-size: 12px;" class="subc">  ' + unit + '</span></div>'+
+            '<div class="uprice"><b>Price</b>:<span style="font-size: 12px;" class="subc"> <b> ' + uprice + '</b></span></div>'+
+            
+            '</paper-material></div>';
+            i++;
+        } 
+     }
+     }
+        return html;
+    }
+   // var prevc;
+    var selected=[];
+    var multiselect=false;
+    function callpopulate(event)
+    {
+      var ptbl = document.querySelector('paper-table-simple');
+      //alert(ptbl.multiselect);
+      //var datacont = document.getElementById('data');
+      //var datacont = document.getElementById('s');
+      //var childrens = datacont.childNodes;
+     //alert(ptbl.prevc);
+     if(ptbl.prevc !==undefined && ptbl.multiselect == false)
+     {
+      // alert('go');
+        ptbl.prevc.style.backgroundColor='#ffffff';
+      // alert('papa');
+     }
+       
+      var datacont = (event.target.parentNode).parentNode;
+      datacont.style.backgroundColor='#FAFAFA';
+     if(ptbl.multiselect==true)
+     {
+       var ind = ptbl.selected.indexOf(event.target.parentNode.parentNode.querySelector('input[name="_id"]').value);
+       
+       if(ind != -1)
+       {
+         //alert(ind);
+         delete ptbl.selected[ind];
+         event.target.parentNode.parentNode.style.backgroundColor = '#ffffff';
+       }
+       else
+         ptbl.selected.push(event.target.parentNode.parentNode.querySelector('input[name="_id"]').value);
+       
+      
+     }
+      
+      ptbl.prevc=datacont;
+      var childNodes = datacont.childNodes;
+      
+       for(var item in childNodes)
+      {
+        //console.log(childNodes[item].tagName);
+        if(childNodes[item].tagName==='INPUT' &&  childNodes[item].name ==='itemid')
+           
+           obj[childNodes[item].name] = childNodes[item].value;
+      
+        // console.log(childNodes[item].que rySelector('p').id);
+        if(childNodes[item].tagName==='DIV' && childNodes[item].className !== undefined)
+        {
+          //obj[childNodes[item].className]= childNodes[item].querySelector('span').textContent;
+        if(childNodes[item].querySelector('.subc') !==null && childNodes[item].querySelector('.subc').tagName !=='IMG')
+            obj[childNodes[item].className]= childNodes[item].querySelector('.subc').textContent;
+            
+        if(childNodes[item].querySelector('.subc') !==null && childNodes[item].querySelector('.subc').tagName ==='IMG')
+             obj[childNodes[item].className]= 'IMAGE';
+        }
+        
+      }
+    /* obj.name = datacont.querySelector('.name').textContent;
+     obj.desc = datacont.querySelector('.desc').textContent;
+     if(datacont.querySelector('img').src !==undefined ||datacont.querySelector('img').src !==null)   obj.image ='IMAGE';
+       obj.manu = datacont.querySelector('.manuf').textContent;
+       obj.cat = datacont.querySelector('.categ').textContent;
+         obj.sku = datacont.querySelector('.sku1').textContent;
+      obj.model = datacont.querySelector('.md').textContent;
+       obj.serial = datacont.querySelector('.serial').textContent;
+         obj.uprice = datacont.querySelector('.uprice').textContent;
+          obj.unit = datacont.querySelector('.unit').textContent;
+           obj._id = datacont.querySelector('input[name="_id"]').value;
+    
+       
+     
+       */
+      
+       console.log(obj);
+      /*   obj.name = name;
+              obj._id = id;
+              obj.desc = desc;
+              obj.image = strings[itm].image; */
+      populate(obj);
+    }
+    function getImage(imgdta)
+    {var img = "";
+     
+      if(imgdta !== undefined)
+      {
+        
+        img = '<a href="#"><img class="subc" src ="'+ decodeURI(imgdta.imagedata)+'" alt="'+imgdta.alt+'"  style="width: 100%; height: 100%; line-height: 64px; font-size: 30px;" /></a><paper-ripple></paper-ripple>';
+      }
+      else {
+        
+         img='<a href="#"><img src ="data:image/png;base64,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" alt="NO IMAGE"  style="width: 100%; height: 100%; line-height: 64px; font-size: 30px;" /></a><paper-ripple></paper-ripple>';
+      }
+      return img;
+    }
+
+    Polymer({
+      is: 'fancy-listview',
+      properties: {
+        size: {
+          type: Number,
+          value: 0,
+          observer: 'sizeChanged'
+        },
+        collection:{type: Object,  observer: 'sizeChanged'},
+        dataurl:{type:String, value:'localhost', observer: 'dataurlchanged', notify: true},
+        multiselect:{type:Boolean, value:false},
+        selected:{type:Array, value:[]},
+        prevc:Object
+       
+      },
+
+      sizeChanged: function() {
+        
+       strings = this.collection;
+       
+        var html = '<padding: 16px; margin: 16px; border-radius: 5px; background-color: #fff; color: #555;">';
+        html +=loopText(strings);
+        html+= '</div>';
+        this.$.content.innerHTML = html;
+      },
+    handleresponse:function(e)
+    {   
+       strings = e.detail.response;
+       // console.log(strings);
+        var html = '<padding: 16px; margin: 16px; border-radius: 5px; background-color: #fff; color: #555;">';
+        html +=loopText(strings);
+        html+= '</div>';
+        this.$.content.innerHTML = html;
+      
+     // console.log();
+    },
+    dataurlchanged:function()
+    {
+     
+      this.$.ajaxhnd.url=this.dataurl;
+      this.$.ajaxhnd.generateRequest();
+    },
+    ready:function() {
+     
+    }
+    });
+</script>

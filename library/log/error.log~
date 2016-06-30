@@ -1,0 +1,65 @@
+
+2016-04-06T18:22:19.249Z
+Cannot read property 'index' of null
+
+2016-04-06T18:22:19.249Z
+TypeError: Cannot read property 'index' of null
+    at simple_js.parse_multipart (/home/jozreel/Development/www/proj/node_modules/simplejs.js:380:24)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/proj/node_modules/simplejs.js:293:28)
+    at emitNone (events.js:67:13)
+    at IncomingMessage.emit (events.js:166:7)
+    at endReadableNT (_stream_readable.js:905:12)
+    at nextTickCallbackWith2Args (node.js:474:9)
+    at process._tickCallback (node.js:388:17)
+
+2016-04-06T18:43:50.958Z
+main.push is not a function
+
+2016-04-06T18:43:50.958Z
+TypeError: main.push is not a function
+    at simple_js.parse_multipart (/home/jozreel/Development/www/proj/node_modules/simplejs.js:417:11)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/proj/node_modules/simplejs.js:293:28)
+    at emitNone (events.js:67:13)
+    at IncomingMessage.emit (events.js:166:7)
+    at endReadableNT (_stream_readable.js:905:12)
+    at nextTickCallbackWith2Args (node.js:474:9)
+    at process._tickCallback (node.js:388:17)
+
+2016-04-06T18:44:35.988Z
+name is not defined
+
+2016-04-06T18:44:35.988Z
+ReferenceError: name is not defined
+    at simple_js.parse_multipart (/home/jozreel/Development/www/proj/node_modules/simplejs.js:417:22)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/proj/node_modules/simplejs.js:293:28)
+    at emitNone (events.js:67:13)
+    at IncomingMessage.emit (events.js:166:7)
+    at endReadableNT (_stream_readable.js:905:12)
+    at nextTickCallbackWith2Args (node.js:474:9)
+    at process._tickCallback (node.js:388:17)
+
+2016-04-06T18:44:36.078Z
+name is not defined
+
+2016-04-06T18:44:36.078Z
+ReferenceError: name is not defined
+    at simple_js.parse_multipart (/home/jozreel/Development/www/proj/node_modules/simplejs.js:417:22)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/proj/node_modules/simplejs.js:293:28)
+    at emitNone (events.js:67:13)
+    at IncomingMessage.emit (events.js:166:7)
+    at endReadableNT (_stream_readable.js:905:12)
+    at nextTickCallbackWith2Args (node.js:474:9)
+    at process._tickCallback (node.js:388:17)
+
+2016-04-06T18:44:59.069Z
+Cannot set property 'name' of undefined
+
+2016-04-06T18:44:59.069Z
+TypeError: Cannot set property 'name' of undefined
+    at simple_js.parse_multipart (/home/jozreel/Development/www/proj/node_modules/simplejs.js:417:29)
+    at IncomingMessage.<anonymous> (/home/jozreel/Development/www/proj/node_modules/simplejs.js:293:28)
+    at emitNone (events.js:67:13)
+    at IncomingMessage.emit (events.js:166:7)
+    at endReadableNT (_stream_readable.js:905:12)
+    at nextTickCallbackWith2Args (node.js:474:9)
+    at process._tickCallback (node.js:388:17)

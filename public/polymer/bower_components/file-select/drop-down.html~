@@ -1,0 +1,147 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../polymer/polymer.html">
+   <link rel="import" href="../iron-icons/iron-icons.html">
+     <link rel="import" href="../paper-button/paper-button.html">
+       <link rel="import" href="../paper-icon-button/paper-icon-button.html">
+       <link rel="import" href="../paper-material/paper-material.html">
+     <link rel="import" href="../x-select/x-select.html">
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <seed-element></seed-element>
+
+@demo
+-->
+<dom-module id="drop-down">
+  <style>
+    
+    :host {
+      display: block;
+      box-sizing: border-box;
+    }
+    #icon{height:0px; padding-top:0px;}
+  
+ 
+    .author img {
+      float: left;
+      margin-right: 5px;
+      max-height: 100px;
+      max-width: 100px;
+     
+    }
+  .dd{padding:0; margin:0; width:100%;}
+
+ 
+    iron-image {
+      padding: 1em;
+      background-color: #fff;
+      box-shadow: 0px 2px 6px #ccc;
+      border-radius: 3px;
+    }
+     .dd{max-width:100%;}
+    .dd ul{min-width:150px; list-style:none; margin:44px 0px 2px 0px; padding:0; width:100%;}
+    .dd ul li{min-width:150px; margin: 5px 0px 0px 0px; height:38px;}
+    #titlebutton{text-transform: none; padding:0; margin:0px 0px 0px 0px; width:100%; color:white;  background: #2196F3; text-align:left; margin:0; z-index:100;}
+       .itembuttons{width:100%; background:#2196F3; text-align:left; color:white; margin:0px 0px 0px 0px; text-transform: none;}
+  </style>
+<template>
+  
+      <x-select class="dd" id="sel">
+      
+        <paper-button id="titlebutton" raised class="dropdown-trigger">
+          <paper-icon-button id ="icon" icon = "arrow-drop-down-circle" >
+         </paper-icon-button>
+         <span>{{newtitle}}</span>
+        </paper-button>
+      <paper-material class="dropdown-content" id="ddwn" on-mouseover='overaction'  style="width: 100%; margin-top: 0px;"  on-mouseleave='leaveaction' >  
+        <ul>
+         
+          <template is="dom-repeat" items="[[dinfo]]" as ="dataitem" id="tem2">
+            <li id="bla">
+                 <paper-button  flat class="itembuttons" on-tap="_tapaction">
+                <a href="javascript:void(0)" style="color:white; text-decoration:none;">[[dataitem]]</a>
+                </paper-button>
+            </li>
+                         
+
+
+
+          </template>
+        
+        </ul>
+        </paper-material>
+     
+       
+      </x-select>
+   
+ 
+</template>
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'drop-down',
+
+    properties: {
+                  newtitle:{type:String,
+                             value:'The Title'},
+                  dinfo:{
+                          type:Array,
+                          value:['one bad dog','two gentle cats','three messed up wolves']
+                      },
+            
+
+      /**
+       * `fancy` indicates that the element should don a monocle and tophat,
+       * while checking its pocket watch.
+       */
+    },
+    leaveaction:function()
+     {this.$.sel.close();},
+    overaction:function()
+     {this.$.ddwn.style.display="block";},
+    // Element Lifecycle
+
+    ready: function() {
+     console.log(document.getElementById('bla'));
+    },
+
+    attached: function() {
+      // `attached` fires once the element and its parents have been inserted
+      // into a document.
+      //
+      // This is a good place to perform any work related to your element's
+      // visual state or active behavior (measuring sizes, beginning animations,
+      // loading resources, etc).
+    },
+
+    detached: function() {
+      // The analog to `attached`, `detached` fires when the element has been
+      // removed from a document.
+      //
+      // Use this to clean up anything you did in `attached`.
+    },
+    _tapaction:function(event)
+    {
+     
+      console.log(this.$.sel);
+       this.newtitle=event.target.innerText.trim();
+       this.$.sel.close();
+    }
+
+
+  });
+
+</script>

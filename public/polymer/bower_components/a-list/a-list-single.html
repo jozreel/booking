@@ -1,0 +1,95 @@
+ <link rel="import" href="../polymer/polymer.html">
+  <link rel="import" href="../iron-ajax/iron-ajax.html">
+   <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+  <link rel="import" href="../iron-list/iron-list.html">
+ <dom-module id="a-list-single">
+   <style is="custom-style">
+       :host {
+        @apply(--layout-fit);
+        @apply(--layout-vertical);
+        @apply(--paper-font-common-base);
+        font-family: sans-serif;
+      }
+
+      
+       
+         iron-list {
+       
+        padding-top: 1px;
+        padding-bottom: 16px;
+        --iron-list-items-container: {
+          max-width: 1024px;
+          margin: auto;
+          border-bottom: 1px solid #ddd;
+        };
+      }
+       
+      .listitem {
+        
+        padding: 20px;
+        background-color: white;
+        border: 1px solid #ddd;
+        cursor: pointer;
+        margin-bottom: 10px;
+        
+      }
+      .listitem:focus,
+      .listitem.selected:focus {
+        outline: 0;
+        background-color: #ddd;
+      }
+      .listitem.selected .star {
+        color: var(--paper-blue-600);
+      }
+      .listitem.selected:not(:focus) {
+        background-color: var(--google-grey-100);
+      }
+    
+
+    </style>
+  <template>
+    <iron-ajax  url="[[dataUrl]]" last-response="{{data}}" auto></iron-ajax>
+ 
+     <iron-list id="itemsList" items="[[data]]"  selection-enabled  selected-item="{{selectedItem}}">
+            <template>
+              
+              <div class$="[[_computedClass(selected)]]">
+              <div>
+                <span>[[item.name]]</span>
+              </div>
+              <div>
+                <span>[[item.shortText]]</span>
+              </div>
+              </div>
+               
+            </template>
+
+     </iron-list>
+     
+  </template>
+  </dom-module>
+  <script>
+	  HTMLImports.whenReady(function() {
+		   Polymer({
+        is: 'a-list-single',
+        properties: {
+          selectedItem: {
+            type: Object
+          },
+          dataUrl:{type:String},
+         
+		},
+     _computedClass: function(isSelected) {
+          var classes = 'listitem';
+          if (isSelected) {
+            classes += ' selected';
+          }
+          return classes;
+        },
+        _itchanged:function(){console.log(this.selectedItems);},
+       
+       
+		});
+	  });
+	  </script>
+	  

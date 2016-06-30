@@ -1,0 +1,16 @@
+{
+    "remotePath": "./Development/booking",
+    "host": "104.236.204.177",
+    "username": "jozreel",
+    "password": "inf200316",
+    "port": 21,
+    "protocol": "ftp",
+    "uploadOnSave": true,
+    "passive": false,
+    "debug": false,
+    "privateKeyPath": null,
+    "ignore": [
+        "\\.vscode",
+        "\\.git"
+    ]
+}

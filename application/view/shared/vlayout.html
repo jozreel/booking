@@ -1,0 +1,53 @@
+<html>
+<head>
+<meta charset="utf-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+   
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+ <title>{{title}}</title>
+<!-- <script data-main="/js/main" src="/js/require.js"></script> -->
+  <script src="/bower_components/react/react.js"></script>
+  <script src="/bower_components/react/react-dom.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <link rel="shortcut icon"" href="/image/favicon.ico" type="image/x-icon">
+   <link rel="stylesheet" href="/style/style.css">
+   <link rel="import"  href="/style/custom.html"> 
+    <script src="/polymer/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+   <link rel="import" href="/polymer/bower_components/paper-spinner/paper-spinner-lite.html">
+      <link rel="import" href="/polymer/bower_components/neon-animation/neon-animations.html">
+      <link rel="import" href="/polymer/bower_components/paper-toast/paper-toast.html">
+     <link rel="import" href="/polymer/bower_components/paper-dialog/paper-dialog.html">
+</head>
+  <body>
+    
+   <div class="maincontent" id="maincontent">
+      <div id="spinner" class="pspinner"><paper-spinner-lite active alt="loading" class="ls"></paper-spinner-lite></div>
+       <div class="header">
+           <div class="headerc">
+           <div class="logo"><!--<img width="48" src="/image/logo.png" />--> <p>freesched</p><i> (beta)</i></div>
+           </div>
+       </div>
+       <div  class="content">
+    
+     $generateContent();
+      <paper-dialog style="z-index:9999;" id="messageDialog"   entry-animation="scale-up-animation"
+              exit-animation="fade-out-animation"><p></p></paper-dialog>
+     <paper-toast id="toast"></paper-toast>
+      
+       </div>
+     <div class="footer">
+         
+         <div>Terms of privacy</div>
+          <div>&copy; kwapoDev <span id="cyear"></span></div>
+          <div>Contact Us</div>
+     </div>
+   </div>
+  
+  <script src="/js/site.js"></script>
+ </body>
+ </html>
+ 

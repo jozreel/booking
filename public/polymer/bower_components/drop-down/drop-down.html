@@ -1,0 +1,282 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../polymer/polymer.html">
+   <link rel="import" href="../iron-icons/iron-icons.html">
+     <link rel="import" href="../iron-dropdown/iron-dropdown.html">
+     <link rel="import" href="../paper-button/paper-button.html">
+       <link rel="import" href="../paper-icon-button/paper-icon-button.html">
+       <link rel="import" href="../paper-material/paper-material.html">
+       <link rel="import" href="../paper-ripple/paper-ripple.html">
+   
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <seed-element></seed-element>
+
+@demo
+-->
+<dom-module id="drop-down">
+  <style is="custom-style">
+    
+    :host {
+      display: block;
+      box-sizing: border-box;
+      border-bottom: 8px;
+      margin-bottom: 8px;
+    }
+    #icon{height:0px; padding-top:0px;}
+  
+ 
+    .author img {
+      float: left;
+      margin-right: 5px;
+      max-height: 100px;
+      max-width: 100px;
+     
+    }
+  .dd{padding:0; margin:0; width:100%; position: relative;}
+  
+  #sel{z-index:1000; margin-top: 40px; padding-top: 0px;}
+    
+    iron-image {
+      padding: 1em;
+      background-color: #fff;
+      box-shadow: 0px 2px 6px #ccc;
+      border-radius: 3px;
+    }
+    
+    .dd ul{min-width:150px; list-style:none; margin:0 0 2px 0px; padding:0; min-width: 460px; height:100%; overflow: hidden; position: relative; }
+    .dd ul li{min-width:150px; margin: 0px 0px 5px 0px; height:40px; display: block;}
+    #titlebutton{text-transform: none; padding:10 0; margin:0px 0px 0px 0px; width:100%; height:40px; text-align:left; margin:0; z-index:100;}
+       .itembuttons{width:100%; text-align:left; margin:0px 0px 0px 0px; text-transform: none; max-width:100%; height:38px; padding:2px 6px 2px 6px;}
+       .spn{text-decoration: none; background: transparent; width:100%; height: 100%; }
+  </style>
+<template>
+  
+  <div class="dd">
+    
+     <paper-button id="titlebutton"  style$="[[computedstyle]]" raised class="dropdown-trigger" on-click='openl' disabled="[[disabled]]" >
+     <span>
+     <iron-icon  icon = "menu" >
+     </iron-icon>
+    </span>
+         <span>{{title}}</span>
+        </paper-button>
+      <iron-dropdown id="sel" disabled={{disabled}} open-animation-config="[[openAnimationConfig]]"
+      close-animation-config="[[closeAnimationConfig]]">
+      
+        
+      <paper-material class="dropdown-content" id="ddwn" on-mouseover='overaction'  on-mouseleave='leaveaction' >
+      
+        <ul>
+         
+          <template is="dom-repeat" items="{{dinfo}}" as ="dataitem" id="tem2">
+            
+            <li id="bla">
+              
+                 <paper-material  class="itembuttons" id="btnlnk" style$="[[computedstyle]]" on-tap="_tapaction"  class="{{dataitem.value}}">
+                <p style$="[[computedcolor]]"  class="spn">{{dataitem.text}}</p>
+                 
+                </paper-material>    
+                 <input name="{{dataitem.value}}"  value="{{dataitem.value}}" type="hidden"></input>
+                    
+
+             </li>        
+            
+
+
+          </template>
+        
+        </ul>
+        </paper-material>
+     
+       
+      </iron-dropdown>
+   </div>
+ 
+</template>
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'drop-down',
+
+    properties: {
+                  title:{type:String,
+                             value:'The Title'},
+                  dinfo:{
+                          type:Array,
+                          value:[],
+                          observer:'dinfochanged'
+                      },
+                      disabled:Boolean,
+                      value:{type:String,value:''},
+                      color:{type:String},
+                      background:{type:String},
+                      computestyle:String,
+                       computedcolor:String,
+                       name:{type:String, value:''},
+                       selectedindex:{type:String, value:'-1', observer:'_schanged'},
+                       selectedtext:{type:String, observer:'_txtchanged'},
+                        selectedvalue:{type:String, observer:'_valchanged'},
+                       openAnimationConfig: {
+          type: Array,
+          value: function() {
+            return [{
+              name: 'fade-in-animation',
+              timing: {
+                delay: 150,
+                duration: 50
+              }
+            }, {
+              name: 'expand-animation',
+              timing: {
+                delay: 150,
+                duration: 200
+              }
+            }];
+          }
+        },
+
+       closeAnimationConfig: {
+          type: Array,
+          value: function() {
+            return [{
+              name: 'fade-out-animation',
+              timing: {
+                duration: 200
+              }
+            }];
+          }
+        }
+      
+
+      /**
+       * `fancy` indicates that the element should don a monocle and tophat,
+       * while checking its pocket watch.
+       */
+    },
+    leaveaction:function()
+     {
+      this.$.sel.close();
+     },
+    overaction:function()
+     {this.$.ddwn.style.display="block";},
+    // Element Lifecycle
+
+    ready: function() {
+      this.defaulttitle = this.title;
+       this.computedcolor= '';
+      this.computedstyle = "";
+      this.computedstyle = 'color:'+this.color+'; background:'+this.background+';';
+       this.computedcolor= 'color:'+this.color+';';
+     //console.log(document.getElementById('bla'));
+    },
+
+    attached: function() {
+      // `attached` fires once the element and its parents have been inserted
+      // into a document.
+      //
+      // This is a good place to perform any work related to your element's
+      // visual state or active behavior (measuring sizes, beginning animations,
+      // loading resources, etc).
+    },
+   
+    _schanged:function()
+    {
+      if( -1 !== parseInt(this.selectedindex)&& parseInt(this.selectedindex) < this.dinfo.length){
+        
+       this.title= this.dinfo[parseInt(this.selectedindex)].text;
+       
+       this.value=this.dinfo[parseInt(this.selectedindex)].value
+    }
+    
+       //console.log(this.valthis.$.sel.close();
+    },
+    _txtchanged:function()
+    {
+      for(var ind in this.dinfo)
+      {
+        if(this.dinfo[ind].text ===this.selectedtext)
+        {
+          this.title= this.dinfo[ind].text;
+       
+           this.value=this.dinfo[ind].value
+        }
+      }
+    },
+     _valchanged:function()
+    {
+      for(var ind in this.dinfo)
+      {
+       // alert(ind);
+        if(this.dinfo[ind].value ===this.selectedvalue)
+        {
+          this.title= this.dinfo[ind].text;
+       
+           this.value=this.dinfo[ind].value
+        }
+      }
+    },
+    detached: function() {
+      // The analog to `attached`, `detached` fires when the element has been
+      // removed from a document.
+      //
+      // Use this to clean up anything you did in `attached`.
+    },
+    _tapaction:function(event)
+    {
+     //alert('jo');
+       //console.log(this.$.sel);
+       this.title=event.target.textContent.trim();
+       
+       this.value=event.target.parentNode.parentNode.querySelector('input').value;
+       //console.log(this.value);
+       this.$.sel.close();
+    },
+    reset:function(){this.title=this.defaulttitle;},
+    _colorchanged:function()
+    {
+      //this.$.titlebutton.style.color=this.color;
+    //  this.computedcolor="color:"+this.color;
+      
+      //console.log(Polymer.dom(parent).querySelector('#lnk'));
+      //Polymer.dom(this.root).querySelector('.lnk')
+      // this.$.btnlnk.style.color=this.color;
+    },
+    _bgchanged:function()
+    {
+     // this.$.titlebutton.style.backgroundColor=this.background;
+      //this.computedbg="backgroundColor:"+this.background;
+     // console.log(this.$.lnk.style.backgroundColor);
+      // this.$.btnlnk.style.backgroundColor=this.background;
+    },
+    dinfochanged:function()
+    {
+      this._schanged();
+      this._valchanged();
+      this._txtchanged();
+     // console.log(this.dinfo);
+    },
+    openl:function() {
+      this.$.sel.open();
+    }
+    
+      
+ 
+
+
+  });
+
+</script>

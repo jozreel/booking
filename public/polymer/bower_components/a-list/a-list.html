@@ -1,0 +1,117 @@
+ <link rel="import" href="../polymer/polymer.html">
+  <link rel="import" href="../iron-ajax/iron-ajax.html">
+  <link rel="import" href="../iron-list/iron-list.html">
+   <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+ <dom-module id="a-list">
+   <style is="custom-style">
+       :host {
+        @apply(--layout-fit);
+        @apply(--layout-vertical);
+        @apply(--paper-font-common-base);
+        font-family: sans-serif;
+      }
+
+      
+       
+         iron-list {
+       
+        padding-top: 1px;
+        padding-bottom: 16px;
+        --iron-list-items-container: {
+          max-width: 1024px;
+          margin: auto;
+         
+        };
+      }
+       
+      .listitem {
+        
+        padding: 20px;
+        background-color: white;
+        border: 1px solid #ddd;
+        cursor: pointer;
+        margin-bottom: 10px;
+        
+        
+      }
+      .listitem:focus,
+      .listitem.selected:focus {
+        outline: 0;
+        background-color: #ddd;
+      }
+      .listitem.selected .star {
+        color: var(--paper-blue-600);
+      }
+      .listitem.selected:not(:focus) {
+        background-color: var(--google-grey-100);
+      }
+    
+
+    </style>
+  <template>
+    <iron-ajax  url="[[dataUrl]]" last-response="{{data}}" auto  params="[[jsonData]]"></iron-ajax>
+ 
+     <iron-list id="itemsList" items="[[data]]" as ="listdata"  selection-enabled multi-selection selected-items="{{selectedItems}}">
+            <template>
+              
+              <div>
+               <input name="_id" value="[[item._id]]" type="hidden" />
+              <div class$="[[_computedClass(selected)]]">
+               <template is="dom-repeat" items="[[headers]]">
+              <div><span style="font-size: larger;">[[item]] : </span><span>[[_arrayItem(listdata,item)]]</span></div>
+              
+               </template>
+              </div>
+              </div>
+            </template>
+
+     </iron-list>
+     
+  </template>
+  </dom-module>
+  <script>
+	  HTMLImports.whenReady(function() {
+		   Polymer({
+        is: 'a-list',
+        properties: {
+          selectedItems: {
+            type: Object
+          },
+          dataUrl:{type:String},
+          listHeaders:{type:Object,notify:true, observer:'_convToArr'},
+          jsonData:String
+         
+		},
+     _computedClass: function(isSelected) {
+          var classes = 'listitem';
+          if (isSelected) {
+            classes += ' selected';
+          }
+          return classes;
+        },
+        _itchanged:function(){console.log(this.selectedItems);},
+         _convToArr:function()
+         {
+           
+           var app =[];
+           for(var hd in this.listHeaders)
+           {
+             app.push(this.listHeaders[hd]);
+            
+           }
+           console.log(app);
+           this.headers = app;
+         },
+          _arrayItem:function(array, iname)
+         {
+          
+           return array[iname];
+         }
+       
+       
+       
+       
+		});
+	  });
+	  </script>
+	  

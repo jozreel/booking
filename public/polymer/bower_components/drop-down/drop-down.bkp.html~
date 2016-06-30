@@ -1,0 +1,192 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../polymer/polymer.html">
+   <link rel="import" href="../iron-icons/iron-icons.html">
+     <link rel="import" href="../paper-button/paper-button.html">
+       <link rel="import" href="../paper-icon-button/paper-icon-button.html">
+       <link rel="import" href="../paper-material/paper-material.html">
+            <link rel="import" href="../paper-icon-button/paper-icon-button.html">
+       <link rel="import" href="../paper-ripple/paper-ripple.html">
+     <link rel="import" href="../x-select/x-select.html">
+     <link rel="import" href="../iron-list/iron-list.html">
+ 
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <seed-element></seed-element>
+
+@demo
+-->
+<dom-module id="drop-down">
+  <style is="custom-style">
+    
+    :host {
+      display: block;
+      box-sizing: border-box;
+      border-bottom: 8px;
+    }
+    #icon{height:0px; padding-top:0px;}
+  
+ 
+    .author img {
+      float: left;
+      margin-right: 5px;
+      max-height: 100px;
+      max-width: 100px;
+     
+    }
+  .dd{padding:0; margin:0; width:100%;}
+  
+ 
+    iron-image {
+      padding: 1em;
+      background-color: #fff;
+      box-shadow: 0px 2px 6px #ccc;
+      border-radius: 3px;
+    }
+     .dd{max-width:100%;}
+    .dd ul{min-width:150px; list-style:none; margin:44px 0px 2px 0px; padding:0; width:100%; height:100%; }
+    .dd ul li{min-width:150px; margin: 5px 0px 0px 0px; height:40px;}
+    #titlebutton{text-transform: none; padding:0; margin:0px 0px 0px 0px; width:100%; text-align:left; margin:0; z-index:100;}
+       .itembuttons{width:100%; text-align:left; margin:0px 0px 0px 0px; text-transform: none; max-width:100%; height:38px; padding:2px 6px 2px 6px;}
+       .spn{text-decoration: none; background: transparent; width:100%; height: 100%; }
+  </style>
+<template>
+      <x-select class="dd" id="sel" disabled={{disabled}}>
+      
+        <paper-button id="titlebutton"  style$="[[computedstyle]]" raised class="dropdown-trigger" >
+          <paper-icon-button id ="icon"  icon = "arrow-drop-down-circle" >
+         </paper-icon-button>
+         <span>{{title}}</span>
+        </paper-button>
+      <paper-material class="dropdown-content" id="ddwn" on-mouseover='overaction' style="width: 100% !important; margin-top: 0px; height:auto; padding:bottom:40px;"  on-mouseleave='leaveaction' >
+      <paper-ripple> </paper-ripple>  
+        <ul>
+         
+          <template is="dom-repeat" items="[[dinfo]]" as ="dataitem" id="tem2">
+            
+            <li id="bla">
+                 <paper-material  class="itembuttons" id="btnlnk" style$="[[computedstyle]]" on-tap="_tapaction"  class="{{dataitem.value}}">
+                <p style$="[[computedcolor]]"  class="spn">{{dataitem.text}}</p>
+                 
+                </paper-material>    
+                 <input name="{{dataitem.value}}"  value="{{dataitem.value}}" type="hidden"></input>
+            </li>        
+            
+
+
+          </template>
+        
+        </ul>
+        </paper-material>
+     
+       
+      </x-select>
+   
+ 
+</template>
+</dom-module>
+
+<script>
+
+  Polymer({
+
+    is: 'drop-down',
+
+    properties: {
+                  title:{type:String,
+                             value:'The Title'},
+                  dinfo:{
+                          type:Array,
+                          value:[{text:'one bad dog',value:'A'},{text:'two gentle cats', value:'B'},{text:'three messed up wolves',value:'C'}],
+                          observer:'dinfochanged'
+                      },
+                      disabled:Boolean,
+                      value:String,
+                      color:{type:String},
+                      background:{type:String},
+                      computestyle:String,
+                       computedcolor:String
+
+      /**
+       * `fancy` indicates that the element should don a monocle and tophat,
+       * while checking its pocket watch.
+       */
+    },
+    leaveaction:function()
+     {this.$.sel.close();},
+    overaction:function()
+     {this.$.ddwn.style.display="block";},
+    // Element Lifecycle
+
+    ready: function() {
+      this.defaulttitle = this.title;
+       this.computedcolor= '';
+      this.computedstyle = "";
+      this.computedstyle = 'color:'+this.color+'; background:'+this.background+';';
+       this.computedcolor= 'color:'+this.color+';';
+     //console.log(document.getElementById('bla'));
+    },
+
+    attached: function() {
+      // `attached` fires once the element and its parents have been inserted
+      // into a document.
+      //
+      // This is a good place to perform any work related to your element's
+      // visual state or active behavior (measuring sizes, beginning animations,
+      // loading resources, etc).
+    },
+
+    detached: function() {
+      // The analog to `attached`, `detached` fires when the element has been
+      // removed from a document.
+      //
+      // Use this to clean up anything you did in `attached`.
+    },
+    _tapaction:function(event)
+    {
+     //alert('jo');
+       //console.log(this.$.sel);
+       this.title=event.target.textContent.trim();
+       
+       this.value=event.target.parentNode.parentNode.querySelector('input').value;
+       console.log(this.value);
+       this.$.sel.close();
+    },
+    reset:function(){this.title=this.defaulttitle;},
+    _colorchanged:function()
+    {
+      //this.$.titlebutton.style.color=this.color;
+    //  this.computedcolor="color:"+this.color;
+      
+      //console.log(Polymer.dom(parent).querySelector('#lnk'));
+      //Polymer.dom(this.root).querySelector('.lnk')
+      // this.$.btnlnk.style.color=this.color;
+    },
+    _bgchanged:function()
+    {
+     // this.$.titlebutton.style.backgroundColor=this.background;
+      //this.computedbg="backgroundColor:"+this.background;
+     // console.log(this.$.lnk.style.backgroundColor);
+      // this.$.btnlnk.style.backgroundColor=this.background;
+    },
+    dinfochanged:function()
+    {
+     // console.log(this.dinfo);
+    },
+    
+ 
+
+
+  });
+
+</script>
