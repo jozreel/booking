@@ -161,7 +161,7 @@ var BusinessDisplay = React.createClass({
     },
     handleBook(e)
     {
-        if(this.state.selectedService !== '')
+        if(this.state.selectedService !== '') 
         {
            var endbk = parseInt(this.state.minstart)+ parseInt(this.state.selectedDuration);
           
