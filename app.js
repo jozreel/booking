@@ -6,8 +6,8 @@ var server = simple.apply('session', {town:'roseau', ocu:'gcc'})
 	.apply('redirect')
 	.apply('secure');
 	
-    server.listen('104.236.204.177', 1337)
-	server.securelisten('104.236.204.177', 4433);
+    server.listen('localhost', 1337)
+	server.securelisten('localhost', 4433);
 	//server.createWebSock('localhost',1338);
 	
 	

@@ -238,6 +238,7 @@ ajsloadable.prototype.zoutput = function(resp,ui,fname)
 							 'Content-Encoding': 'deflate'
 							  },{'Content-Type':'text/html'});
 							  resp.end(buffer);
+                              
 						 }
 						 catch(err)
 						 {

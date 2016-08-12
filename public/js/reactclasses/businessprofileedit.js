@@ -34,9 +34,10 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
          console.log(this.myTextInput,'pp');
         this.serverRequest = $.get(this.props.data.source, function(success)
         {
-          
+         // if(success.opendays = [])
+           //  success.opendays= days;
           this.setState(success);
-          console.log(this.state);
+          
             
             
         }.bind(this));
@@ -637,6 +638,32 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
            
        });
    },
+   handleDaysAhead:function(e)
+   {
+       var mp=this;
+       e.preventDefault();
+       $.ajax({
+           url:'/user/updateuser',
+           data:{_id:this.state._id,daysahead:this.state.daysahead},
+           method:'POST',
+           beforeSend:function()
+           {
+             startSpinner();    
+           },
+           success:function(res)
+           {    stopSpinner();
+              
+               if(res.success !== false)
+               {
+                   mp.setState(res);
+                   showToast('You changes have been saved');
+                 //  alert('bang');
+               }
+            
+           }
+           
+       });
+   },
    handleJobChange:function(e)
    {
        var mp = this;
@@ -809,6 +836,11 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
              <form onSubmit={this.handleBreakSubmit}>
              <p> <label>Time in minutes between clients</label></p>
              <input style={{width:'100px', marginRight:'20px'}} type="number" value={this.state.workbreak} name="workbreak" onChange={this.handleInputChange} />
+             <button>Save</button>
+             </form>
+             <form onSubmit={this.handleDaysAhead}>
+             <p> <label>Number of days for schedule</label></p>
+             <input style={{width:'100px', marginRight:'20px'}} type="number" value={this.state.daysahead} name="daysahead" onChange={this.handleInputChange} />
              <button>Save</button>
              </form>
              <paper-material elevation="1" style={{overflow:'auto', margin:'2px', padding:'5px'}}>

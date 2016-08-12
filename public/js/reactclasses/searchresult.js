@@ -16,7 +16,8 @@ var SearchResult=React.createClass({
            beforeSend:function(){startSpinner();},
            success:function(res)
            {
-               mp.setState({searchres:res})
+               if(res.length)
+                mp.setState({searchres:res})
               
                stopSpinner();
            }

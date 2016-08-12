@@ -1,27 +1,50 @@
 var BusinessDisplay = React.createClass({
     getInitialState:function()
     {
-        return{availabletimes:[], services:[],images:[], primiumuser:true, selectedService:''}
+        var now = new Date();
+        var day = now.getDate();
+        var month = now.getMonth()+1;
+        var year = now.getFullYear();
+        if(day <10 ) day = '0'+day;
+        if(month < 10) month = '0'+month;
+        var today = year+'-'+month+'-'+day;
+        return{availabletimes:[], services:[],images:[], primiumuser:true, selectedService:'', lookupdate:today,opentimes:[]}
     },
     componentDidMount:function()
     {
-        var bp = this;
+       
+         this.findAvailableTimes();
+      
+    },
+    findAvailableTimes:function()
+    {
+      
+         var bp = this;
+           console.log(bp.state.lookupdate);
          var id = document.getElementById('businessid').value;
-      $.ajax({
+        $.ajax({
           beforeSend:function()
           {
               startSpinner();
           },
-          url:"/user/getavailabletimes/"+id,
+          url:"/user/getavailabletimes/"+id+"/"+bp.state.lookupdate,
           success:function(res)
           {
-              var openTime = res.opentime;
-               console.log(res);  
-           
-                bp.setState({availabletimes:res.availabletimes,services:res.services,closetime:res.closetime, opentime:res.opentime,profilethumb:res.profilethumb, businessname:res.businessname});
-            
+              
+              if(res.success !==  false)
+              {
+            //  var openTime = res.opentime;
+              
+                console.log(res);
+                bp.setState({_id:id,availabletimes:res.availabletimes,services:res.services,dayisspecial:res.dayisspecial,dooropener:res.dooropener, doorcloser:res.doorcloser, opentimes:res.opentimes,profilethumb:res.profilethumb, businessname:res.businessname});
+              }
+              else{
+                  showToast(res.message);
+              }
               bp.getMediaInfo(id);
               bp.hiddendiv.style.opacity='1';
+              
+              
               stopSpinner();
               
           },
@@ -35,11 +58,12 @@ var BusinessDisplay = React.createClass({
           url:"/user/getimageandads/"+id,
           success:function(res)
           {
-              var openTime = res.opentime;
+             // var openTime = res.opentime;
                console.log(res);  
            
                 bp.setState({images:res.images});
                 document.getElementById('businesscont').style.opacity='1';
+                
               
           },
           dataType:'json'
@@ -48,18 +72,50 @@ var BusinessDisplay = React.createClass({
     handleSlotClick:function(e)
     {
       e.stopPropagation();
-       var left = e.clientX-$('#atime').offset().left;
-        var top =  60;
+    var starttimeinpt = e.target.querySelector('input[name="starthour"]');
+     var ssst =e.target.querySelector('input[name="slotstart"]').value;
+      if(!this.state.dayisspecial)
+      {
+        this.state.opentime = this.state.opentimes[0].open;
+        this.state.closetime = this.state.opentimes[0].close;
+      }
+      else
+      {
+          var slh= '01/01/2016 '+starttimeinpt.value;
+         for(var sd =0; sd< this.state.opentimes.length; sd++) 
+         {
+             console.log(this.state.opentimes[sd].open, this.state.opentimes[sd].close, starttimeinpt.value)
+             var oh = '01/01/2016 '+this.state.opentimes[sd].open;
+             var ch = '01/01/2016 '+this.state.opentimes[sd].close;
+             
+             console.log(Date.parse(slh), Date.parse(oh),Date.parse(ch),'ppkoko');
+           if(Date.parse(slh) >= Date.parse(oh) && Date.parse(slh) < Date.parse(ch) )
+           {
+              this.state.opentime = this.state.opentimes[sd].open;
+              this.state.closetime = this.state.opentimes[sd].close;
+           }
+         }
+      }
       
-        var pm =e.target.parentNode.querySelector('paper-material');
+      console.log(this.state.opentime, 'aot');
+       var left = e.clientX-$('#atime').offset().left;
+       var tl = document.querySelector('#atime');
+        var top =  80;
+        var slotleft = e.target.parentNode.offsetLeft;
+       // var leftmin = left - slotleft;
+       var olftdiff = parseInt(left)-parseInt(slotleft);
+        var pm = tl.querySelector('paper-material');
        
-        var starttimeinpt = e.target.parentNode.querySelector('input[name="starthour"]');
-          
+        
+        this.setState({selectedslotendtime:e.target.querySelector('input[name="slotend"]').value});
+         this.setState({selectedslotstarttime:ssst});
+         var leftmin = olftdiff;
+        
         if(starttimeinpt)
         {
           var  starttime = starttimeinpt.value;
-        
-        var form  = e.target.parentNode.querySelector('form');
+          this.setState({clickedSlotStartHour:starttime});
+        var form  = e.target.querySelector('form');
         if(form)
           form.reset();
         if(pm)
@@ -67,19 +123,20 @@ var BusinessDisplay = React.createClass({
            // pm.classList.remove('notShown');
             pm.style.height='0px';
            
-           console.log(pm);
+           
             
             pm.style.left = left+'px';
-            pm.style.top='60px';
+            pm.style.top='80px';
            
             pm.style.height='240px';
             pm.style.display = 'block';
             
-             //pm.classList.add('shown');
-            var minstart  = left;
+             //pm.classList.add('shown'); 
+            var minstart  = leftmin;
             var st = starttime.split(':');
             var starthour = parseInt(st[0]);
             var startmin = parseInt(st[1]);
+            
             var hours = parseInt(minstart /60);
           
             var remain = minstart % 60;
@@ -92,15 +149,22 @@ var BusinessDisplay = React.createClass({
                
                
             }
+            rmin +=parseInt(remain);
+            if(rmin > 60)
+            {
+              rhour+= parseInt(rmin/60);
+              rmin = parseInt(rmin%60)
+            }
            if(rhour <10) 
              rhour = '0'+rhour;
-            rmin =parseInt(remain);
-            
-            if(remain < 10)
-              rmin = '0'+parseInt(remain);
+           
+            if(rmin < 10)
+              rmin = '0'+rmin;
             var stm = rhour+':'+rmin;
+          
+            var rms = parseInt(minstart)+parseInt(ssst);
             
-            this.setState({selectedTimeStart:stm, minstart:minstart,bdd:true});
+            this.setState({selectedTimeStart:stm, minstart:rms,bdd:true});
             this.forceUpdate();
             
         }
@@ -143,13 +207,13 @@ var BusinessDisplay = React.createClass({
     hideform:function(e)
     {
      //  e.preventDefault();
-     console.log( e.target.parentNode.parentNode.parentNode);
+    
      e.target.parentNode.parentNode.parentNode.style.display="none";
      
     },
     HandleGeneralClicks(e)
     {
-        console.log(this.state.bdd);
+         
          if(this.state.bdd)
          {
            this.setState({bdd:false});
@@ -161,14 +225,33 @@ var BusinessDisplay = React.createClass({
     },
     handleBook(e)
     {
+        console.log(this.state.dooropener, this.state.doorcloser);
         if(this.state.selectedService !== '') 
         {
+            var starttimearr = this.state.dooropener.split(':');
+console.log(this.state,'ppppppppp');
+           var opentimedaymin =(parseInt(starttimearr[0]) *60) +parseInt(starttimearr[1]); 
+        
+        
            var endbk = parseInt(this.state.minstart)+ parseInt(this.state.selectedDuration);
           
+           var endbkinday = endbk+ opentimedaymin;
            this.setState({minend:endbk});
+          
+           var endresvHour =parseInt(endbkinday/60);
+           var endresvmin = parseInt(endbkinday % 60);
+           
+           //var st = starttime.split(':');
+           // var starthour = parseInt(st[0]);
+           if(endresvmin < 10)
+              endresvmin ='0'+endresvmin
+          if(endresvHour < 10)
+              endresvHour ='0'+endresvHour
+          var endhr = endresvHour+':'+endresvmin;
+           this.setState({endhour:endhr});
            document.getElementById('pdbook').open();
            document.querySelector('.bdd').style.display='none';
-           
+           console.log(this.state.minstart,this.state.selectedDuration,endbk,this.state.selectedTimeStart,endhr,'ioio');
         }
         else
         {  
@@ -188,12 +271,19 @@ var BusinessDisplay = React.createClass({
     },
     handleBookin(e)
     {
+        var ati= this;
+       console.log({begintime:this.state.minstart, email:this.state.reqemail, _id:this.state._id, 
+              contactnumber:this.state.reqtel, enndtime:this.state.minend, name:this.state.reqname, endhour:this.state.endhour, starthour:this.state.selectedTimeStart,
+             date:this.state.lookupdate    
+        });
       e.preventDefault();
       $.ajax({
           method:'POST',
           dataType:'json',
           data:{begintime:this.state.minstart, email:this.state.reqemail, _id:this.state._id, 
-              contactnumber:this.state.reqtel, enndtime:this.state.minend, name:this.state.reqname, starthour:this.state.selectedTimeStart},
+              contactnumber:this.state.reqtel, enndtime:this.state.minend, name:this.state.reqname, endhour:this.state.endhour, starthour:this.state.selectedTimeStart,
+             date:this.state.lookupdate ,slottodel:this.state.clickedSlotStartHour
+        },
           url:'/user/fillSlot',
           beforeSend:function(){
               startSpinner();
@@ -203,6 +293,8 @@ var BusinessDisplay = React.createClass({
              stopSpinner();
              if(res.success)
              {
+                ati.setState({availabletimes:res.availabletimes});
+                console.log(res.availabletimes);
                showToast('Your request has been sent please await confirmation via email or telephone');
                 document.getElementById('pdbook').close();
              }
@@ -211,6 +303,12 @@ var BusinessDisplay = React.createClass({
       });
      
     },
+    preventClose:function(e){
+      e.stopPropagation();
+    },
+   handleSearchDateChange(e){
+     this.setState({lookupdate:e.target.value});  
+   },
     handleInputChange(e)
     {
       console.log(e.target.name);  
@@ -229,34 +327,50 @@ var BusinessDisplay = React.createClass({
          <div  style={{display:'inline-block', verticalAlign:'top', marginLeft:'20px'}}>{premtrusted}</div>
          </div>
            
-         <p style={{color:'rgba(0,0,0,0.45)'}}>Today's Opening hours <paper-button><time>{this.state.opentime}</time> - <time>{this.state.closetime}</time></paper-button> </p>
+         <p style={{color:'rgba(0,0,0,0.45)'}}>Today's Opening hours 
+         {this.state.opentimes.map(function(ot,k){
+             return  <paper-button><time>{ot.open}</time> - <time>{ot.close}</time></paper-button> 
+         })}
+         </p>
         </div>
        
         </div>
          <paper-material style={{padding:'40px 10px 40px 10px'}}>
-         <p className="headerText" >Available Times Today</p>
+         <p className="headerText" >Available Times: <input type="date" style={{width:'200px'}} onChange={this.handleSearchDateChange}  value={this.state.lookupdate}/>
+         <button onClick={this.findAvailableTimes} style={{marginLeft:'20px', height:'40px', marginTop:'0px', paddingTop:'0px'}}>Find for Date</button>
+         </p>
         <ul id="atime" ref={function(tl){this.timeList = tl}.bind(this)} className="timelist" style={{listStyle:'none', margin:'0px',paddingLeft:'0px', position:'relative', width:'auto', display:'table'}}>
-         {this.state.availabletimes.map(function(at,ind){
+         {  this.state.availabletimes.map(function(at,ind){
              var intervalLength = at.endtime - at.begintime;
               
-             return(<li  onClick={this.handleSlotClick} key={ind} style={{position:'relative', background: 'rgba(0,128,0,0.45)', cursor:'pointer', borderRadius:'3px', height:'60px', width:intervalLength}}>
-            
+             return(<li key={ind} style={{position:'relative'}}>
+             <div  onClick={this.handleSlotClick} style={{background: 'rgba(0,128,0,0.45)', cursor:'pointer', borderRadius:'3px', height:'80px', width:intervalLength}}>
               <input name="starthour" type="time" style={{display:'none'}} value={at.beginhour} />
+              <input name="slotend" type="number" style={{display:'none'}} value={at.endtime} />
+               <input name="slotstart" type="number" style={{display:'none'}} value={at.begintime} />
+               
+              </div>
+             <p style={{color:'rgba(0,0,0,0.45)'}} >{at.beginhour} - {at.endhour}</p>
+             
             
-             <p style={{padding:'20px', color:'rgba(0,0,0,0.45)'}} >{at.beginhour} - {at.endhour}</p>
-             <paper-material className="bkbox" class="bdd" style={{position:'absolute', width:'200px', display:'none', height:'240px', top:'60px',zIndex:'1000' }}>
-                <input name="endmin" type="text" style={{display:'none'}} value={at.endtime} />
+             </li>)
+             
+          }.bind(this))}
+          
+          <paper-material onClick={this.preventClose} className="bkbox" class="bdd" style={{position:'absolute', width:'200px', display:'none', height:'240px'  ,zIndex:'1000' }}>
+            <input name="endmin" type="text" style={{display:'none'}} value={this.state.selectedslotendtime} />
              <form style={{height:'230px', padding:'2px 2px 10px 2px', background:'#fff'}}>
               <p>Starts at</p>
               <input type="time" value={this.state.selectedTimeStart} onChange={this.handleStartTimeChange} />
               <p>Bookables</p>
                 
              <select value={this.state.seelcetedservice} onChange={this.selectedServiceChange}>
-               <option default></option>
+               <option default value=""> Select Service </option>
                {this.state.services.map(function(sv){
-                console.log(sv.jobduration ,at.endtime  , this.state.minstart,'jefe');
-                  
-                  if(this.state.minstart >0 &&(sv.jobduration < (at.endtime - this.state.minstart))){
+               
+                   console.log(this.state.selectedslotendtime,'pp');
+                  if(this.state.minstart >0 &&(parseInt(sv.jobduration) < (this.state.selectedslotendtime - this.state.minstart))){
+                      
                    return(<option ke={sv.jobid} value={sv.jobid} data-duration={sv.jobduration}>{sv.jobname}</option>);
                   }
                   
@@ -270,18 +384,15 @@ var BusinessDisplay = React.createClass({
              </form>
             
              </paper-material>
-            
-             </li>)
-             
-          }.bind(this))}
         </ul>
          </paper-material>
          <div id="businesscont" className="transo" style={{marginTop:'20px',width:'600px', display:'inline-block',opacity:'0'}}> 
           <ul style={{listStyle:'none', padding:'0px', margin:'0px'}}>
             {this.state.images.map(function(image){
+                var start = image.thumb.split(',')[0];
                 return(<li style={{marginBottom:'20px'}}>
                   <paper-material className="pmc" style={{overflow:'auto'}}>
-                   <img src= {image.thumb} width="200" alt='add or image' />
+                   <img src={start+','+image.image} width="500" alt='add or image' />
                   <div>
                   <div style={{display:'block', float:'right',padding:'5px'}}>
                   <input type="hidden" value={image.gridid} />

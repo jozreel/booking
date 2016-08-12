@@ -106,12 +106,12 @@ background-color: red;
 .photoholder{list-style: none; padding-left: 0px; background:#fafafa; margin-top: 0px;}
 .photoholder li{display: inline-block; margin: 5px; border: 3px solid #c2aa5a; position: relative; cursor: pointer; padding: 10px;}
 .labeldiv{display: inline-block; padding: 20px; width:200px;}
-.nooutline:focus{
-    outline: none;}
+.nooutline:focus{outline: none;}
     
-.timelist li:last-child{border-right: none;}
-.timelist li{border-right:1px solid rgba(0, 0, 0, 0.1);}
+.timelist li:last-child{border-right: none; margin-right: 0px;}
+.timelist li{border-right:1px solid rgba(0, 0, 0, 0.1); margin-right: 5px; display: inline-block; vertical-align: top; padding-right: 5px;}
 .timelist{border: none;}
+.timelist li p{pointer-events: none; font-size: 8pt; padding: 0;}
 .round{border-radius: 50%;}
 .headerText{font-size: 16pt; color: rgba(0,0,0,0.87);}
 .hiddencontent{opacity: 0;}
@@ -120,3 +120,4 @@ background-color: red;
 .invisible{opacity: 0;}
 .shown{display: block;}
 .notShown{display: none;}
+

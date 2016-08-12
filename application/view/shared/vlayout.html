@@ -13,14 +13,11 @@
   <script src="/bower_components/react/react-dom.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="/polymer/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
   <link rel="shortcut icon"" href="/image/favicon.ico" type="image/x-icon">
    <link rel="stylesheet" href="/style/style.css">
-   <link rel="import"  href="/style/custom.html"> 
-    <script src="/polymer/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-   <link rel="import" href="/polymer/bower_components/paper-spinner/paper-spinner-lite.html">
-      <link rel="import" href="/polymer/bower_components/neon-animation/neon-animations.html">
-      <link rel="import" href="/polymer/bower_components/paper-toast/paper-toast.html">
-     <link rel="import" href="/polymer/bower_components/paper-dialog/paper-dialog.html">
+   
+  <link rel="import" href="/static/templateimports.html"></link>
 </head>
   <body>
     
@@ -36,7 +33,7 @@
      $generateContent();
       <paper-dialog style="z-index:9999;" id="messageDialog"   entry-animation="scale-up-animation"
               exit-animation="fade-out-animation"><p></p></paper-dialog>
-     <paper-toast id="toast"></paper-toast>
+     <paper-toast class="toast" id="toast"></paper-toast>
       
        </div>
      <div class="footer">

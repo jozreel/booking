@@ -329,7 +329,7 @@ mongodriver.prototype.addtoarray = function(cat, vals,array, callback)
 {var obj1 =this;
    var res = {};
   res.success=true;
-
+ 
   this.MongoClient.connect(this.connectionString, function(err, db)
   {
     if(err)
@@ -783,11 +783,27 @@ mongodriver.prototype.streamt=function(fileid)
 
 mongodriver.prototype.getfromgrid = function(fileid, callback)
 {
-  var Grid = require('mongodb').Grid;
-   var grid = new Grid(db, 'fs');
+ var Grid = require('mongodb').GridStore;
+ var ObjectId = require('mongodb').ObjectID;
+  this.MongoClient.connect(this.connectionString, function(err, db)
+  {
+   if(err)
+   {
+       simple.global.logerror(err);
+       console.log(err);
+   }
+   else{
+   
+   var grid = new Grid(db, new ObjectId(fileid),'r');
+    grid.open(function(err,gs)
+    {
+       gs.read(function(err, data) {
+       
+     callback(data);
     
-    grid.get(fileid, function(err, data) {
-     callback(decodeURI(data));
+  });
+    });
+   }
   });
 }
 
@@ -1563,7 +1579,10 @@ mongodriver.prototype.generateNextSequence = function(lookup, callback)
          try{
            if(err)
             console.log(err);
-           callback(object.value.seq);
+            else
+             {
+              callback(object.value.seq);
+             }
          }
          catch(error)
          {
