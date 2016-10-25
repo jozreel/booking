@@ -1,7 +1,7 @@
-var simple = require('simple');
-var businesstype = new simple.simplemodel();
-businesstype.modelname = 'businesstype';
-businesstype.addnew = function(btype,callback)
+
+var businesstype ={
+modelname:'businesstype',
+addne:function(btype,callback)
 {
     var businessid = btype.replace(/\s/g, '');
     var businessid = businessid.toLowerCase();
@@ -18,8 +18,8 @@ businesstype.addnew = function(btype,callback)
        } 
        else(callback(doc));
     });
-}
-businesstype.findByRegex = function(needle, callback)
+},
+findByRegex:function(needle, callback)
 {
   needle =  this.checkanddecode(needle);
    var regexp = '^'+needle+'\\s*';
@@ -30,5 +30,6 @@ businesstype.findByRegex = function(needle, callback)
        if(doc.length == undefined)
         doc=[];
        callback(doc)}); 
+}
 }
 module.exports = businesstype;

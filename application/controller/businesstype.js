@@ -1,9 +1,9 @@
-var simple = require('simple');
-var businesstype = new simple.simplecontroler();
-businesstype.regxpfind=function(needle)
+businesstype={
+regxpfind:function(needle)
 {
     var smodel = this.loadmodel('businesstype');
     
     smodel.findByRegex(needle,(res)=>businesstype.jsonResp(res));
+}
 }
 module.exports =businesstype;

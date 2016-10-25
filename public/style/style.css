@@ -2,6 +2,19 @@ body{margin: 0; padding: 0; font-family: RobotoDraft, Roboto, sans-serif;
 font-size:14px; line-height:24px; letter-spacing: 0.1px; -webkit-font-smoothing: antialiased; background: #e1e2d1;}
 .header{height: 60px; width: 100%; background: #51755c; position: fixed; z-index: 100;}
 .headerc{width:80%; margin:0 auto;}
+.selectable{cursor: pointer;}
+.layered li:nth-child(even)
+  {
+      
+      background: rgba(0, 0, 0, 0.1)
+  }
+  
+  .layered li{height: 20px;
+      padding: 20px;
+      
+      }
+      
+   .layered{padding:0;}
 @media(max-width:1365px)
 {    .maincontent{display: table;}
     .footer{background: #e1e2d1; display: table-row; width: 100%;}
@@ -55,6 +68,8 @@ select{height: 40px; background: #fff; border-radius: 4px; border: 1px solid #FF
 
   src: url('/fonts/Roboto/Roboto-Thin.ttf');
   }
+  
+  
   .footer{padding: 10px 50px 10px 50px;}
  .pusher{float: left;}
  .pastelgreen{background: #6b8c83;}
@@ -68,7 +83,7 @@ select{height: 40px; background: #fff; border-radius: 4px; border: 1px solid #FF
  .user{border-top: none; border-bottom: none;}
  .left{display: block; float: left;}
  .fullwhite{width: 100%; height: 100%; background: #fff;margin-top: 60px;}
- button{border: 1px solid #f1efe7; border-radius: 3px; background: #75b5c9; height: 30px; min-width: 30px; cursor: pointer;}
+ button{border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 3px; background: #FF4081; color: white; height: 40px; min-width: 30px; padding-left: 20px; padding-right: 20px; cursor: pointer;}
  .transhn{-webkit-transition: height 0.3s ease-in-out;
  -moz-transition: height 0.3s ease-in-out;
  transition: height 0.3s ease-in-out;}
@@ -109,7 +124,7 @@ background-color: red;
 .nooutline:focus{outline: none;}
     
 .timelist li:last-child{border-right: none; margin-right: 0px;}
-.timelist li{border-right:1px solid rgba(0, 0, 0, 0.1); margin-right: 5px; display: inline-block; vertical-align: top; padding-right: 5px;}
+.timelist li{border-bottom: 1px solid rgba(0, 0, 0, 0.1); margin-bottom: 5px; display: block;  padding-right: 5px; width:100%;}
 .timelist{border: none;}
 .timelist li p{pointer-events: none; font-size: 8pt; padding: 0;}
 .round{border-radius: 50%;}
@@ -120,4 +135,5 @@ background-color: red;
 .invisible{opacity: 0;}
 .shown{display: block;}
 .notShown{display: none;}
+.plain{background: #FAFAFA; color: rgba(0,0,0,0.45) ;border: 1px solid #FBE9E7; margin-right: 10px;}
 

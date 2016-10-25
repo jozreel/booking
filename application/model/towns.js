@@ -1,7 +1,7 @@
-var simple = require('simple');
-var towns = new simple.simplemodel();
-towns.modelname = 'towns';
-towns.findByRegex = function(needle, callback)
+var towns = 
+{
+    modelname :'towns',
+findByRegex:function(needle, callback)
 {
   needle =  this.checkanddecode(needle);
    var regexp = '^'+needle+'\\s*';
@@ -12,8 +12,8 @@ towns.findByRegex = function(needle, callback)
        if(doc.length == undefined)
         doc=[];
        callback(doc)}); 
-}
-towns.addone = function(town,country,callback)
+},
+addone:function(town,country,callback)
 {
     var nameid = town.replace(/\s/g, '');
     var nameid = nameid.toLowerCase();
@@ -31,5 +31,5 @@ towns.addone = function(town,country,callback)
        else(callback(doc));
     });
 }
-
+}
 module.exports = towns;

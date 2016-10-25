@@ -31,9 +31,16 @@ cache.prototype.cacheFile=function(fname, isview)
 	{
 		//console.log('ended');
 	  if(this.res.compress !==undefined && this.res.compress.compress === true)
-	    this.res.writeHead(304,{"if-modified-since":mtime.toUTCString()}, {'content-encoding': 'deflate'});
+      {
+        this.res.statusCode = 304;
+	    this.res.setHeader("if-modified-since",mtime.toUTCString());
+        this.res.setHeader('content-encoding', 'deflate');
+      }
 	  else
-       this.res.writeHead(304,{"if-modified-since":mtime.toUTCString()});
+      {
+       this.res.statusCode = 304;
+       this.res.setHeader("if-modified-since",mtime.toUTCString());
+      }
       this.res.end();
 		
 		return true;

@@ -64,19 +64,35 @@ urlencode.prototype.checkandecode =function(str)
     return retstr;
 }
 
-urlencode.prototype.addspecial=function(str)
+urlencode.prototype.removespecial=function(str)
 {
   
-  // console.log('inin');
+  console.log(str);
    var st =str.replace(/&amp;/g, '&')
             .replace(/&quot;/g,'"')
+            .replace(/&#47;/g, '/')
             .replace(/&#39;/g, '\'')
             .replace(/&lt;/g, '<')
             .replace(/&gt;/g, '>')
             .replace(/lt;/g, '<')
             .replace(/gt;/g, '>');
-    // console.log(st);
+    console.log(st);
      return st;
 }
+
+urlencode.prototype.addspecial=function(str)
+{
+  
+  console.log(str);
+   var st =str.replace(/&/g,'&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/\\/g,'&#39;')
+            .replace(/\//g,'&#47;')
+            .replace(/</g,'&lt;')
+            .replace(/>/g,'&gt;');
+    console.log(st);
+     return st;
+}
+
 
 module.exports = urlencode;

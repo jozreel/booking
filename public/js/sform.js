@@ -1,30 +1,38 @@
 var ServiceSearch = React.createClass({
     getInitialState:function()
     {
-        return({services:[],servicename:''});
+        return({services:[],servicename:'', searchReturned:true});
     },
     handlServiceChange:function(e)
     {
-         var mp = this;
-       
+        var mp = this;
         this.setState({servicename:e.target.value});
+        if(this.state.searchReturned)
+        {
+       
+        
         $.ajax({
+           beforeSend(){mp.setState({searchReturned:false})},
            url: '/service/regxpfind/'+e.target.value.trim(),
            dataType:'json',
            success:function(res)
            {
-              console.log(res);
-              mp.setState({services:res}) ;
+             /// console.log(e);
+             
+              mp.setState({searchReturned:true, services:res}) ;
+              // tb.disabled=false;
            }
         });
+        }
     },
      handleSearchSubmit:function(e)
     { 
         // e.preventDefault();
+        var v ='';
         var opt = this.sinpt.querySelector('option[value="'+this.state.servicename+'"]');
         if(opt !==null)
           var v = this.sinpt.querySelector('option[value="'+this.state.servicename+'"]').dataset.value;
-         window.location = '/user/searchresults/'+this.state.servicename+'/service';
+         window.location = '/user/searchresults/'+this.state.servicename+'/service/'+v;
         
     },   
     render:function(){

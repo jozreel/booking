@@ -519,19 +519,20 @@ mongodriver.prototype.insertOrUpdate = function(obj,callback)
         
      var collection = db.collection(obj1.modelname);
       collection.save(obj,{w:1}, function(err, result)
-      
       {
+          
         if(err)
         {
            res.success=false
            res.error = err;
-           
+           console.log(err);
           
         }
         else
         {
-            
+           
             res.result=result.ops;
+          
          if (callback && typeof(callback) == "function")  
               callback(res);
         }
@@ -837,6 +838,7 @@ mongodriver.prototype.findOne = function(cond,flds,opt,callback)
           
             collection.findOne(cond,flds,opt,function(err,doc)
             {
+                
                  callback(doc);
             }
             );  
@@ -955,6 +957,7 @@ mongodriver.prototype.findAndSort = function(cond,flds,sort,coll,callback)
   
   this.MongoClient.connect(this.connectionString, function(err, db)
   {
+ 
    if(err)
    {
        simple.global.logerror(err);
@@ -971,6 +974,7 @@ mongodriver.prototype.findAndSort = function(cond,flds,sort,coll,callback)
      
         
         collection.find(cond,flds).count(function(err,count){ 
+         
           if(err)
             {
              
@@ -984,7 +988,6 @@ mongodriver.prototype.findAndSort = function(cond,flds,sort,coll,callback)
              
             
              var cursor = collection.find(cond,flds).sort(sort);  
-             
              var retcount = count;
              obj.traverseCursor(cursor,db, callback,retcount,coll);
              
@@ -1193,10 +1196,11 @@ mongodriver.prototype.aggregate = function(pipelineoperatiors,callback)
  
       
      
-       
+       console.log(pipelineoperatiors)
          
           collection.aggregate(pipelineoperatiors).toArray(function(err,res)
           {
+             console.log(err);
              callback(res);
              
              db.close();
@@ -1287,6 +1291,7 @@ mongodriver.prototype.close = function()
 
 mongodriver.prototype.traverseCursor =function(cursor,db, callback,count,coll)
  {
+    
 	 var obj=this;
    var itter = 0;
   var tmparr = new Array();
@@ -1296,15 +1301,16 @@ mongodriver.prototype.traverseCursor =function(cursor,db, callback,count,coll)
   }
   else{
     
-
+       
        if(coll === true)
        {
         
          cursor.toArray(function(err,dc){
              if(err !== null)
               {
-                  
+                 simple.global.logerror(err);
               }
+              
              callback(dc);
             });
         
@@ -1531,7 +1537,7 @@ mongodriver.prototype.findAndUpdate  =function(lookup, obj,callback)
        {new:true},
        function(err, object){
          try{
-           
+           console.log(err);
            callback(object.value, res);
          }
          catch(error)

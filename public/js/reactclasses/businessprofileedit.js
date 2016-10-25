@@ -6,7 +6,7 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
         profilethumb:'/image/lady.png', country:'US',part:'BI', street:'',dateformed:'',mainemail:'',zip:'', mediatype:'photo',
         backupemail:'',town:'',contactnumber:'', error:'',mobilelist:[], servicename:'', mapmarkers:[], latlang:'', markers:[],townlist:[],
         closed:false,specialclosinghour:'',specialopeninghour:"", specialdate:'', opendays:days, opendaysexception:[], businesstype:[],images:[],workbreak:'',
-        jobduration:'', jobname:'',services:[],jobs:[]
+        jobduration:'', jobname:'',services:[],jobs:[],workers:[], employeename:'', alias:'',opentime:'', closetime:'', day:'',off:false,currentWorker:{specialhours:[],skills:[]}
     });
     },
     
@@ -28,6 +28,12 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
    handleListClickEmail:function(e)
    {
      this.setState({part:'EP'});  
+     
+   },
+   handleListClickEmployee:function(e)
+   {
+     this.setState({part:'EMP', currentWorker:{specialhours:[],skills:[]}}); 
+     this.getWorkers();
    },
    componentDidMount:function(){
        if(this.myTextInput !== undefined)
@@ -93,6 +99,35 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
                  showToast('Changes saved');
            }
        });
+   },
+   
+   handleOpenDayChange:function(e)
+   {
+     console.log(this.state.opendays.length);
+     this.setState({day:e.target.value});
+   
+     var selected='';
+     console.log(this.state.opendays);
+     for(var i=0; i< this.state.opendays.length; i++)
+     {
+        console.log(this.state.opendays[i].day ,e.target.value);
+         if(this.state.opendays[i].day === e.target.value)
+         {
+            
+            selected = this.state.opendays[i];
+            if(selected.closed ==-'true')
+              this.setState({closed:true});
+            else
+              this.setState({closed:false});
+            
+            break;
+         }
+        
+     }
+     console.log(this.state.closed,'closed');
+     this.setState({selectedday:selected,opentime:selected.opentime,closetime:selected.closetime});
+     
+    
    },
    handleInfoSubmit:function(e)
    {
@@ -197,7 +232,17 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
     handleListClickRules:function(e)
     {
         this.setState({part:'RULES'});
+        this.getWorkers();
+     
     },    
+    getWorkers:function()
+    {
+             var ctx = this;
+           $.get('/user/getworkers/'+this.state._id, function(res){
+            console.log(res);
+            ctx.setState({workers:res});
+        });
+    },
    handlePADChange:function(e)
     {
         
@@ -391,7 +436,7 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
         if((this.state.specialdate!==''&&this.state.specialclosinghour !='' && this.state.specialopeninghour !=='')|| (this.state.specialdate !=='' && this.state.closed===true))
         {
         
-        var specialday = {specialdate:this.state.specialdate, specialopeninghour:this.state.specialopeninghour,_id:this.state._id, specialclosinghour:this.state.specialclosinghour, closed:this.state.closed}
+        var specialday = {specialdate:this.state.specialdate, _id:this.state.worker, specialopeninghour:this.state.specialopeninghour, specialclosinghour:this.state.specialclosinghour, closed:this.state.closed}
         if(this.state.closed === true)
         {
           specialday.specialclosinghour='00:00:00';
@@ -420,7 +465,7 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
                
                if(res.success === true)
                {
-                   mp.setState(res.opendaysexception);
+                   mp.setState(res);
                     document.getElementById('toast').innerHTML="Your changes are saved";
                    
                    document.getElementById('toast').open();
@@ -495,18 +540,19 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
     {
        var mp =this;
      var spid = e.target.parentNode.querySelector('input[name="spdayid"]').value;  
-     $.ajax({
+     console.log(spid);
+     $.ajax({   
          url:'/user/removeopendaysexception',
          method:'POST',
          dataType:'json',
-         data:{specialdayid:spid,_id:this.state._id},
+         data:{specialdayid:spid,_id:this.state.worker},
          beforeSend:function(){startSpinner();},
          success:function(res)
          {
              if(res.success === true)
              {
-               console.log(res);
-                mp.setState({opendaysexception: res.opendaysexception.opendaysexception, _id:res.opendaysexception._id});
+               console.log(res.workers.workers);
+                mp.setState({currentWorker: res.workers.workers[0], _id:res.workers._id});
                 showToast('SUCCESS !! Item Deleted')
                
              }
@@ -569,7 +615,7 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
             url:'/user/updateuser',
             method:'POST',
             dataType:'json',
-            data:{_id:this.state._id, workbreak:this.state.workbreak}
+            data:{_id:this.state.worker, workbreak:this.state.workbreak}
             ,beforeSend:function()
             {
                 startSpinner();
@@ -678,6 +724,281 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
            }
         });
    },
+   handleSubmitEmp:function(e)
+   {
+     var mp = this;
+     e.preventDefault();
+     $.ajax(
+         {
+           url:'/user/addemployer',
+           data:{_id:this.state._id,employeename:this.state.employeename, alias:this.state.alias},
+           method:'POST',
+           beforeSend:function()
+           {
+             startSpinner();    
+           },
+           success:function(res)
+           {    stopSpinner();
+              
+               if(res.success !== false)
+               {
+                   mp.setState({workers:res});
+                   showToast('You changes have been saved');
+                 //  alert('bang');
+               }
+            
+           }
+           
+       }
+     );  
+   },
+   showWorker:function(e)
+   {
+       var pn = e.target.parentNode;
+      
+       if(pn.tagName.toLowerCase()=== 'tr')
+       {
+           pn = pn.parentNode.parentNode.parentNode;
+       }
+       var workerId = pn.querySelector('input[name="workerid"]').value;
+      
+         for(var i=0; i < this.state.workers.length; i++)
+           {
+              
+               if(this.state.workers[i]._id === workerId)
+               {
+                  
+                   
+                   if(this.state.workers[i].specialhours === undefined)
+                   {
+                       this.state.workers[i].specialhours=[];
+                   }
+                   if(this.state.workers[i].skills === undefined)
+                   {
+                       this.state.workers[i].skills=[];
+                   }
+                   this.setState({currentWorker:this.state.workers[i]});
+                   console.log(this.state.workers[i]);
+               }
+               
+           }
+       pn.style.height='300px';
+       pn.querySelector('.transhn').style.display="block";
+       pn.querySelector('.transhn').style.opacity = '0.9';
+       pn.querySelector('.transhn').style.height ='300px';
+       
+       
+   },
+   handleSubmitWorkingHrs:function(e)
+   {
+     var mp = this;
+     e.preventDefault();
+     console.log(this.state.worker);
+     $.ajax(
+         {
+            
+           url:'/user/saveemployeehours',
+           data:{workday:this.state.workday, worker:this.state.worker, off:this.state.off, beginwork:this.state.startwork, endwork:this.state.endwork},
+           method:'POST',
+           beforeSend:function()
+           {
+             startSpinner();    
+           },
+           success:function(res)
+           {    stopSpinner();
+              
+               if(res.success !== false)
+               {
+                  // mp.setState({workers:res.workers});
+                   showToast('You changes have been saved');
+                 //  alert('bang');
+               }
+            
+           }
+           
+       }
+     );  
+   },
+   handleChangeDay:function(e)
+   {
+       this.setState({workday: e.target.value});
+       if(this.state.currentWorker.workdays)
+       {
+       for(var i=0; i< this.state.currentWorker.workdays.length; i++)
+       {
+          
+           if(this.state.currentWorker.workdays[i].workday === e.target.value)
+           {
+            console.log(this.state.currentWorker.workdays[i]);
+            this.setState(this.state.currentWorker.workdays[i]);
+            if(this.state.currentWorker.workdays[i].off=== "true")
+            {
+                this.setState({off:true})
+            }
+            else{
+                this.setState({off:false});
+            }
+            
+           }
+           
+       }
+       }
+   },
+   handleOffChange:function(e)
+   {
+       this.setState({off:e.target.value});
+       
+   },
+   handleEndWorkChange:function(e)
+   {
+       this.setState({endwork:e.target.value});
+   },
+   handleStartWorkChange:function(e)
+   {
+       this.setState({startwork:e.target.value});
+   },
+   handleWorkerChange:function(e)
+   { 
+      
+       var mp=this;
+       if(e.target.value !== "-1")
+       {
+           for(var i=0; i < this.state.workers.length; i++)
+           {
+              
+               if(this.state.workers[i]._id === e.target.value)
+               {
+                  
+                  
+                   if(this.state.workers[i].specialhours === undefined)
+                   {
+                       this.state.workers[i].specialhours=[];
+                       //console.log(this.state.workers[i].workbreak);
+                      
+                   }
+                    this.setState({workbreak:parseInt(this.state.workers[i].workbreak)});
+                   this.setState({currentWorker:this.state.workers[i]});
+               }
+           }
+          this.setState({worker:e.target.value});
+          
+       }
+   },
+   submitWorkerBreak:function(e)
+   {
+       e.preventDefault();
+       console.log(this.state.worker);
+        $.ajax(
+         {
+            
+           url:'/user/saveworkbreak',
+           data:{workbreak:this.state.workbreak, _id:this.state.worker},
+           method:'POST',
+           beforeSend:function()
+           {
+             startSpinner();    
+           },
+           success:function(res)
+           {    stopSpinner();
+              
+               if(res.success !== false)
+               {
+                  // mp.setState({workers:res.workers});
+                   showToast('You changes have been saved');
+                 //  alert('bang');
+               }
+            
+           }
+           
+       }
+        );
+       
+   },
+    handleOpenTimeChange:function(e)
+    {
+      
+      this.setState({opentime:e.target.value});
+      console.log(e.target.value);
+    },
+    handleCloseTimeChange:function(e)
+    {
+        this.setState({closetime:e.target.value});
+    }
+   
+   ,
+   
+   submitWorkerJobs:function(e)
+   {
+     e.preventDefault();
+     var seljob =this.state.selectedJob;
+     seljob._id = this.state.currentWorker._id;
+     console.log(this.state.currentWorker._id);
+    // seljob.workerid=this.state.currentWorker._id;
+     $.ajax({
+           beforeSend:function(){
+                document.getElementById('spinner').style.display='block'; 
+            },
+         url:'/user/saveSkill/',
+         method:'POST',
+         dataType:'json',
+         data:seljob
+         ,
+         success:function(res)
+            {
+                document.getElementById('spinner').active = false;
+                document.getElementById('spinner').style.display='none';  
+                showToast('your changes are saved');
+            }
+         
+     });  
+   },
+   handleSkillChange:function(e)
+   {
+       for(var i=0; i<this.state.jobs.length; i++)
+       {
+           if(this.state.jobs[i].jobid === parseInt(e.target.value))
+           {
+               
+               this.setState({selectedJob:this.state.jobs[i]});
+              
+           }
+       }
+       
+   },
+   
+   saveDayInfo:function(e)
+    {
+        e.preventDefault();
+        var dayinfo = {opentime:this.state.opentime, closetime:this.state.closetime, closed:this.state.closed, day:this.state.day,_id:document.getElementById('_id').value}
+        if(this.state.day !== 'none')
+        {
+        $.ajax({
+            url:'/user/saveopeninghours',
+            method:'POST',
+            dataType:'json',
+            data:dayinfo,
+            beforeSend:function(){
+                document.getElementById('spinner').style.display='block'; 
+            }
+            ,
+            success:function()
+            {
+                document.getElementById('spinner').active = false;
+                document.getElementById('spinner').style.display='none';  
+                showToast('your changes are saved');
+            }
+        });
+        }
+        else
+        {
+            showToast('no day selected');
+        }
+    },
+   stopPropagate(ev)
+   {
+       ev.stopPropagation();
+   }
+   ,
    render:function()
    {
       // var mapapikey = 'AIzaSyDaFDezXQf6QryH2oFfewgZM3TgZRrh_AE';
@@ -832,32 +1153,106 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
              break;
              case 'RULES':
              formtxt = <div>
+              <paper-material elevation="1" style={{overflow:'auto', margin:'2px', padding:'5px'}}>
+                <p style={{fontSize:'12pt', background: '#949a53', margin:'0px 0px 1px 0px', padding:'10px', color:'#294b77'}}>Select your normal opening hours for each day of the week</p>
+               
+               <form onSubmit={this.saveDayInfo}>
+                <select  onChange={this.handleOpenDayChange}> 
+                <option value='none' default>Select day</option>
+                 {this.state.opendays.map(function(day){
+                     if(day.closed ==="true")
+                         day.closed = true;
+                       else
+                         day.closed = false;
+                     return(<option key={day.day}>{day.day}</option>)})}
+                </select>
+                
+             <p><input style={{height:'18px', width:'18px',marginBottom:'0px'}} onChange={this.handleClosedChanged} type="checkbox" checked={this.state.closed} />Closed</p>
+            <div style={{display:'block', margin:'0px', width:'300px', float:'left'}} >
+            <label>Opened From: </label>
+             <input disabled={this.state.closed} style={{width:'200px', display:'inlineBlock'}} type="time" onChange={this.handleOpenTimeChange} value={this.state.opentime} />
+            </div>
+             <div style={{display:'block', margin:'0px', width:'300px', float:'left'}}>
+            <label> To: </label>
+             <input disabled={this.state.closed} style={{width:'200px', display:'inlineBlock'}} type="time" onChange={this.handleCloseTimeChange} value={this.state.closetime} />
+            
+            </div>
+                
+            <div> <button  style={{display:'block', clear:'both' ,float:'left', marginBottom:'20px'}}>Save</button></div>
+              </form>
+           </paper-material>
+                 
+             
              <div style={{display:'block',clear:'both' ,overflow:'auto'}}>
-             <form onSubmit={this.handleBreakSubmit}>
-             <p> <label>Time in minutes between clients</label></p>
-             <input style={{width:'100px', marginRight:'20px'}} type="number" value={this.state.workbreak} name="workbreak" onChange={this.handleInputChange} />
-             <button>Save</button>
-             </form>
+             
              <form onSubmit={this.handleDaysAhead}>
              <p> <label>Number of days for schedule</label></p>
              <input style={{width:'100px', marginRight:'20px'}} type="number" value={this.state.daysahead} name="daysahead" onChange={this.handleInputChange} />
              <button>Save</button>
              </form>
-             <paper-material elevation="1" style={{overflow:'auto', margin:'2px', padding:'5px'}}>
-                <p style={{fontSize:'12pt', background: '#949a53', margin:'0px 0px 1px 0px', padding:'10px', color:'#294b77'}}>Select your normal opening hours for each day of the week</p>
-                <ul style={{listStyle:'none', margin:'0px', padding:'0px'}}> 
-                   {this.state.opendays.map(function(day,indx){
-                       if(day.closed ==="true")
-                         day.closed = true;
-                       else
-                         day.closed = false;
-                       return(<li key={day.day}><DayBox value={day.day} data={day} /></li>)})}
-                </ul>
-                </paper-material>
-                 
+             
+             <div style={{border: '1px solid rgba(0,0,0,0.2)', padding:'20px', marginBottom:'30px'}}>
+             
+             
+              <label for="worker"><h3>Select a worker to set up</h3></label>
+              <select id="worker" name="worker" onChange={this.handleWorkerChange} value={this.state.worker}>
+              <option default value ="-1">Select Worker</option>
+               {this.state.workers.map(function(wrk){
+                   
+                   return(<option value={wrk._id} key ={wrk._id}>{wrk.name}</option>)
+                   
+               }.bind(this))}
+              </select>
+              <form onSubmit ={this.submitWorkerBreak}>
+               <p> <label>Time in minutes between clients</label></p>
+             <input style={{width:'100px', marginRight:'20px' }} type="number" value={this.state.workbreak} name="workbreak" onChange={this.handleInputChange} />
+            
+             <button>Save</button>
+             
+             </form>
+             <form  onSubmit={this.handleSubmitWorkingHrs}>
+             
+             <div style={{ borderTop:'1px solid rgba(0,0,0,0.1)', margin:'10px', padding:'20px 0px 20px 0px'}}>
+             
+             
+             <label for="workday"> Select day and set hours of work for the day</label>
+             <select name="workday" id = "workday" onChange={this.handleChangeDay}>
+             <option default value="-1">Select Day</option>
+              {this.state.opendays.map(function(day,k){return(<option key={k} value={day.day}>{day.day}</option>)})}
+             </select>
+             
+              
+            <p><input style={{height:'18px', width:'18px',marginBottom:'0px'}} onChange={this.handleOffChange} type="checkbox" checked={this.state.off} value={this.state.off} />Off</p>
+            <div style={{display:'block', margin:'0px', width:'300px', float:'left'}} >
+            <label>Starts From: </label>
+             <input disabled={this.state.off} style={{width:'200px', display:'inlineBlock'}} type="time" onChange={this.handleStartWorkChange} value={this.state.startwork} />
+            </div>
+             <div style={{display:'block', margin:'0px', width:'300px', float:'left'}}>
+            <label> To: </label>
+             <input disabled={this.state.off} style={{width:'200px', display:'inlineBlock'}} type="time" onChange={this.handleEndWorkChange} value={this.state.endwork} />
+            
+            </div>
+             </div>
+              <div> <button  style={{display:'block', clear:'both' ,float:'left', marginBottom:'20px'}}>Save</button></div>
+             
+              
+             <div style={{ borderTop:'1px solid rgba(0,0,0,0.1)', margin:'10px', padding:'20px 0px 20px 0px', display:'block', clear:'both'}}>
+            
+            
+            
+           
              
              </div>
-             <div><p style={{fontSize:'12pt', background: '#949a53', margin:'0px', padding:'10px', marginTop:'10px', color:'#294b77'}}> Special opening hours <i> Note: this will overide the normal opening hours for that day </i> </p></div>
+             
+             
+          
+         
+            
+            </form>
+            
+              <p> Special working hours</p>
+             
+             <div><p style={{fontSize:'12pt', background: '#949a53', margin:'0px', padding:'10px', marginTop:'10px', color:'#294b77'}}> Special working hours <i> Note: this will overide the normal opening hours for that day </i> </p></div>
              <form style={{width:'300px'}} onSubmit={this.saveSpecialDayInfo}>
               <label>Select a date</label>
              
@@ -871,12 +1266,14 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
               </form>
               
               <ul style={{listStyle:'none', paddingLeft:'0px'}}>
-                 {this.state.opendaysexception.map((spday, index)=>
+                 { 
+                   
+                    this.state.currentWorker.specialhours.map((spday, index)=>
                      {
                    if(spday.closed ==='true')
                     {
                       return(<li key={index}><paper-material><div className="labeldiv">Date: {spday.specialdate}</div><div className="labeldiv">Closed</div> 
-                      <input type="hidden" value={spday.specialdayid} name="spdayid" />
+                      <input type="hidden" value={spday.specialhrid} name="spdayid" />
                        <iron-icon icon="close"  onClick={this.removeSpeialDay} style={{display:'block', cursor:'pointer',marginRight:'5px', marginTop:'20px', float:'right', borderRadius:'50%', background:'#fafafa', color:'red' ,padding:'5px'}}></iron-icon></paper-material></li>);
                      }
                      else{    
@@ -886,7 +1283,7 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
                   <div className="labeldiv">Date: {spday.specialdate}</div>
                   <div className="labeldiv">Opened from: <time>{spday.specialopeninghour}</time></div>
                   <div className="labeldiv">Closing hour: <time>{spday.specialclosinghour}</time></div>
-                  <input type="hidden" value={spday.specialdayid} name="spdayid" />
+                  <input type="hidden" value={spday.specialhrid} name="spdayid" />
                   <iron-icon icon="close" onClick={this.removeSpeialDay} style={{display:'block', marginRight:'5px', cursor:'pointer', marginTop:'20px', float:'right', borderRadius:'50%', background:'#fafafa', color:'red'}}>
                   </iron-icon>
                  </paper-material>
@@ -896,6 +1293,10 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
                 })}
               </ul>
               
+             </div>
+            
+             </div>
+             
              </div>
              break;
              case'SRV':
@@ -923,6 +1324,56 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
              </ul>
              </paper-material>
              </div>
+             break;
+             case 'EMP':
+             
+             formtxt = <div>
+              <form onSubmit={this.handleSubmitEmp}  className="fluid">
+              <label >Employee Name</label>
+              <input id="empname" type="text" onChange={this.handleInputChange} name="employeename" />
+              <label for="alias">Alias</label>
+              <input id="alias" type="text" onChange={this.handleInputChange} name = "alias" />
+              <button>Save</button>
+              </form>
+              <paper-material style={{padding:"3px"}}>
+               <ul className="layered" style={{listStyle:'none'}}>
+                  {this.state.workers.map(function (wrk, indx){ return (<li className="transhn selectable" key={wrk._id}>
+                  <table style={{width:'100%'}} >
+                  <tbody>
+                  <tr onClick={this.showWorker}>
+                   <td style={{width:'30%'}}>{wrk.name}</td>
+                   <td style={{width:'30%'}}>{wrk.alias}</td>
+                  </tr>
+                  </tbody>
+                  </table>
+                  <input value={wrk._id} name="workerid" type ='hidden' />
+                  <div style={{height:'0px', display:'none'}} className="transhn wrker" >
+                  <form onSubmit={this.submitWorkerJobs}>
+                  <p><label>Services provided by this person</label></p>
+                  <select onChange={this.handleSkillChange} style={{width:'300px', display:'inline-block'}}>
+                   <option  value="none" default >Select Service</option>
+                   {this.state.jobs.map(function(jb){
+                       
+                       return(<option key={jb.jobid} value={jb.jobid}>{jb.jobname}</option>);
+                   }.bind(this))}
+                  </select>
+                  <button>+ add</button>
+                  </form>
+                   <div style={{}}>
+                   {wrk.skills.map(function(sk){
+
+                       return(<div key={sk.skilid} style={{display:'inline-block', margin:'10px', background:'#ccc', paddingLeft:'10px'}}>{sk.skillname}<input type = "hidden" name="skilid" /> <button onClick={this.removeWorkerSkill}>X</button></div>);
+                   }.bind(this))}
+                  </div>
+                  </div>
+                 
+                  
+                  </li>
+                  
+                  )}.bind(this))}
+               </ul>
+              </paper-material>
+             </div>
              
              
            
@@ -935,19 +1386,22 @@ var days=[{day:'Sunday'},{day:'Monday'},{day:'Tuesday'},{day:'Wednesday'}, {day:
            <iron-icon style={{color:'#fe464e'}} icon="communication:contacts"></iron-icon> <p>Business Contact and Info</p>
            </li>
            <li key={2} onClick={this.handleListClickBA}>
-           <iron-icon style={{color:'#d9d92b'}} icon="maps:person-pin-circle"></iron-icon><p>Address and Directions</p>
+           <iron-icon style={{color:'#d9d92b'}} icon="maps:person-pin-circle"></iron-icon> <p>Address and Directions</p>
            </li>
            <li key={3} onClick={this.handleListClickEmail}>
-           <iron-icon style={{color:'#5a7840'}} icon="communication:mail-outline"></iron-icon><p>Email and Passwords</p>
+           <iron-icon style={{color:'#5a7840'}} icon="communication:mail-outline"></iron-icon> <p>Email and Passwords</p>
            </li>
             <li key={4} onClick={this.handleListClickAds}>
-           <iron-icon style={{color:'#92c676'}} icon="icons:card-giftcard"></iron-icon><p>Ads and Photos</p>
+           <iron-icon style={{color:'#92c676'}} icon="icons:card-giftcard"></iron-icon> <p>Ads and Photos</p>
            </li>
            <li key={5} onClick={this.handleListClickRules}>
-           <iron-icon style={{color:'#423756'}} icon="icons:schedule"></iron-icon><p>Opening Hours</p>
+           <iron-icon style={{color:'#423756'}} icon="icons:schedule"></iron-icon> <p>Opening Hours</p>
            </li>
            <li key={6} onClick={this.handleListClickServices}>
-           <iron-icon style={{color:'blue'}} icon="icons:assignment"></iron-icon><p>Services Offered</p>
+           <iron-icon style={{color:'blue'}} icon="icons:assignment"></iron-icon> <p>Services Offered</p>
+           </li>
+           <li key={7} onClick = {this.handleListClickEmployee}>
+           <iron-icon icon="social:person-add" style={{color:"orange"}} ></iron-icon> <p>Employees</p>
            </li>
            </ul>
            
@@ -1456,7 +1910,7 @@ var DayBox = React.createClass({
     
     handleClosedChanged:function(e)
     {
-        console.log(e.target.checked);
+        
         if(e.target.checked)
            this.setState({closed:true});
          else
@@ -1465,7 +1919,9 @@ var DayBox = React.createClass({
     },
     handleOpenTimeChange:function(e)
     {
+      alert('ppp');
       this.setState({opentime:e.target.value});
+      console.log(e.target.value);
     },
     handleCloseTimeChange:function(e)
     {
@@ -1474,6 +1930,8 @@ var DayBox = React.createClass({
     saveDayInfo:function(e)
     {
         e.preventDefault();
+        if(this.state.day !== 'none')
+        {
         var dayinfo = {opentime:this.state.opentime, closetime:this.state.closetime, closed:this.state.closed, day:this.state.day,_id:document.getElementById('_id').value}
         $.ajax({
             url:'/user/saveopeninghours',
@@ -1488,8 +1946,14 @@ var DayBox = React.createClass({
             {
                 document.getElementById('spinner').active = false;
                 document.getElementById('spinner').style.display='none';  
+                showToast('your changes are saved');
             }
-        })
+        });
+        }
+        else
+        {
+            showToast('please select a day');
+        }
     },
     render:function() {
     return(

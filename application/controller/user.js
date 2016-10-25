@@ -1,7 +1,6 @@
-var simple = require('simple');
  var async = require('async');
-var user = new simple.simplecontroler();
-user.register = function()
+ user={
+register:function()
 {
     
     var usermod = this.loadmodel('user');
@@ -30,11 +29,11 @@ user.register = function()
       smtpTransport.sendMail(mailOptions, function(error, response){
      if(error){
         console.log(error);
-        user.jsonResp({error:'Activation email failed'});
+        this.jsonResp({error:'Activation email failed'});
 
       }else{
            console.log("Message sent: " + response.response);
-           user.jsonResp(doc);
+           this.jsonResp(doc);
 
        }
     });
@@ -44,9 +43,9 @@ user.register = function()
         
    
     
-}
+},
 
-user.registerbusiness = function()
+registerbusiness:function()
 {
     
     var usermod = this.loadmodel('user');
@@ -85,35 +84,35 @@ user.registerbusiness = function()
       smtpTransport.sendMail(mailOptions, function(error, response){
      if(error){
         console.log(error);
-        user.jsonResp({error:'Activation email failed'});
+        this.jsonResp({error:'Activation email failed'});
 
       }else{
            
            console.log("Message sent: " + response.response);
-           user.jsonResp(doc);
+           this.jsonResp(doc);
 
        }
     });
    
     }
-    else(user.jsonResp(doc));
+    else(this.jsonResp(doc));
     });
         
    
     });
    }
    else{
-      user.jsonResp({success:false, message:'Passwords do not match',error:'MISMATCH_PASSWD' }); 
+      this.jsonResp({success:false, message:'Passwords do not match',error:'MISMATCH_PASSWD' }); 
    }
  
     
-}
-user.businessregistrationpage = function()
+},
+businessregistrationpage:function()
 {
    
     this.loadview('businessregistrar');
-}
-user.activate = function(activateid,type)
+},
+activate:function(activateid,type)
 {
     var mod = this.loadmodel('user');
     uid = mod.createObjectId(activateid);
@@ -122,7 +121,7 @@ user.activate = function(activateid,type)
        {
            res.success=false;
            res.message="ERROR USER CANNOT BE ACTIVATED";
-            user.jsonResp(res); 
+            this.jsonResp(res); 
        }
        else
        {   this.viewholder.userid = activateid;
@@ -130,18 +129,18 @@ user.activate = function(activateid,type)
            this.loadview('editprofile');
          else if(type === 'srv')
            this.loadview('editbusinessprofile');
-           //user.jsonResp(res);
+           //this.jsonResp(res);
        }
        
       
     });
-}
-user.editprofile = function(uid)
+},
+editprofile:function(uid)
 {
     this.viewholder.userid = uid;
     this.loadview('editprofile');
-}
-user.findbyid = function(uid)
+},
+findbyid:function(uid)
 { 
    var usermod = this.loadmodel('user');
    var id = usermod.createObjectId(uid);
@@ -160,15 +159,22 @@ user.findbyid = function(uid)
        });}
        delete doc.password;
        delete doc.passwordr;
-       user.jsonResp(doc); 
+       this.jsonResp(doc); 
        }
        else
        {
-           user.jsonResp({})
+           this.jsonResp({})
        }
     });
-}
-user.updateuser = function()
+},
+finworkers:function(id)
+{
+    var worker =  this.loadmodel('worker');
+    var _id = worker.createObjectId(id);
+    worker.findOne({_id:_id},{},{},(doc)=>{this.jsonResp(doc);});
+    
+},
+updateuser:function()
 {  var usermod = this.loadmodel('user');
    console.log('lll');
     var _id = usermod.createObjectId(this.req.postdata._id);
@@ -206,8 +212,8 @@ user.updateuser = function()
         delete res.passwordr;   
         this.jsonResp(res)});
     }
-}
-user.saveprofileimage = function()
+},
+saveprofileimage:function()
 {
      var usermod = this.loadmodel('user');
      var _id = usermod.createObjectId(this.req.postdata._id);
@@ -220,13 +226,13 @@ user.saveprofileimage = function()
          var saveobj = {gridid:doc._id, profilethumb:this.req.postdata.profilethumb}
          if(doc._id !== undefined)
          {
-             usermod.saveUser(_id, saveobj,(res)=>user.jsonResp(res));
+             usermod.saveUser(_id, saveobj,(res)=>this.jsonResp(res));
          }
      });
     
-}
+},
 
-user.savemobile= function()
+savemobile:function()
 {
     var usermod = this.loadmodel('user');
      var _id = usermod.createObjectId(this.req.postdata._id);
@@ -242,26 +248,26 @@ user.savemobile= function()
             
              doc.mobile = docm;
             
-              user.jsonResp(doc);
+              this.jsonResp(doc);
             
         });
         
      }
      );
-}
-user.editbusinessprofile = function(id)
+},
+editbusinessprofile:function(id)
 {
     this.viewholder.userid=id;
     this.loadview('editbusinessprofile');
-}
-user.savelocationdetails =function()
+},
+savelocationdetails:function()
 {
     var mod =this.loadmodel('user');
     var id = mod.createObjectId(this.req.postdata._id);
     console.log(this.req.postdata);
-    mod.findAndUpdateByID(id,{mapMarkers:this.req.postdata.markers},(doc)=>{user.jsonResp(doc);});
-}
-user.saveadorphoto = function()
+    mod.findAndUpdateByID(id,{mapMarkers:this.req.postdata.markers},(doc)=>{this.jsonResp(doc);});
+},
+saveadorphoto:function()
 {
      var usermod = this.loadmodel('user');
      var _id = usermod.createObjectId(this.req.postdata._id);
@@ -280,15 +286,15 @@ user.saveadorphoto = function()
             {
                 usermod.findOne({_id:_id},{images:true},{},(docim)=>{
                     docus.imagedata = docim;
-                     user.jsonResp(docus);
+                     this.jsonResp(docus);
                 });
                
             }
             );
          }
      });
-}
-user.getimagefromgrid = function(gridid)
+},
+getimagefromgrid:function(gridid)
 {
     var umod = this.loadmodel('user');
     
@@ -304,19 +310,19 @@ user.getimagefromgrid = function(gridid)
         else
         {
            // console.log(bits);
-            user.jsonResp({file:bits});
+            this.jsonResp({file:bits});
         }
         
     });
-}
-user.saveopeninghours = function()
+},
+saveopeninghours:function()
 {
     var usermod = this.loadmodel('user');
     var _id = usermod.createObjectId(this.req.postdata._id);
    
     delete this.req.postdata._id;
     
-   // usermod.addtoarray({_id:_id},temp,'opendays', (doc)=>user.jsonResp(doc));
+   // usermod.addtoarray({_id:_id},temp,'opendays', (doc)=>this.jsonResp(doc));
    usermod.findOne({_id:_id, 'opendays.day':this.req.postdata.day},{_id:true},{},(docf)=>
    {
        console.log(docf);
@@ -327,91 +333,96 @@ user.saveopeninghours = function()
             temp.push(this.req.postdata);
             console.log(temp);
           
-            usermod.addtoarray({_id:_id},temp,'opendays', (doc)=>user.jsonResp(doc));
+            usermod.addtoarray({_id:_id},temp,'opendays', (doc)=>this.jsonResp(doc));
        }
        else
        {
-            usermod.updateinarray({_id:_id, 'opendays.day':this.req.postdata.day}, {'opendays.$':this.req.postdata},(doc)=>user.jsonResp(doc), false);
+          
+          
+            usermod.updateinarray({_id:_id, 'opendays.day':this.req.postdata.day}, {'opendays.$':this.req.postdata},(doc)=>this.jsonResp(doc), false);
        }
    }
    );
   
-}
-user.savespecialhours = function()
+},
+savespecialhours:function()
 {
-  
-    var usermod = this.loadmodel('user');
+  console.log(this.req.postdata._id);
+    var usermod = this.loadmodel('worker');
     var _id = usermod.createObjectId(this.req.postdata._id);
     var temp =[];
     delete this.req.postdata._id;
     
-   usermod.insertcounters('specialdayid');
-    usermod.generateNextSequence('specialdayid',(oid)=>{
+   usermod.insertcounters('specialhrid');
+    usermod.generateNextSequence('specialhrid',(oid)=>{
         
-        this.req.postdata.specialdayid =parseInt(oid);
+        this.req.postdata.specialhrid =parseInt(oid);
          temp.push(this.req.postdata);
-          usermod.findOne({$or:[{_id:_id,'opendaysexception.specialdate':this.req.postdata.specialdate, 'opendaysexception.specialopeninghour':this.req.postdata.specialopeninghour},{'opendaysexception.specialdate':this.req.postdata.specialdate, 'opendaysexception.closed':"true"}]}
-          ,{_id:true},{},(sdoc)=>
+        
+          usermod.findOne({_id:_id,$or:[{specialhours:{$elemMatch:{specialdate:this.req.postdata.specialdate, specialopeninghour:this.req.postdata.specialopeninghour}}},{specialhours:{$elemMatch:{specialdate :this.req.postdata.specialdate, closed:"true"}}}]}
+          ,{_id:true,closed:true},{},(sdoc)=>
           {
-              console.log(sdoc, 'test');
+            
              if(sdoc === null)
-                 usermod.addtoarray({_id:_id},temp,'opendaysexception', (doc)=>
+             {
+                 var workerid = this.req.postdata.workerid;
+               
+                 usermod.addtoarray({_id:_id},temp,'specialhours', (doc)=>
                  {
-                     usermod.findOne({_id:_id}, {opendaysexception:true},{},(docr)=>
+                    
+                     usermod.findall((docr)=>
                      {
-                       if(docr.opendaysexception !==null){
-                       docr.opendaysexception.sort((a,b)=>{
-                          
-                           return(new Date(a.specialdate) - new Date(b.specialdate));
-                       });}
-                       //console.log(docr);
-                       doc.opendaysexception = docr;
-                       user.jsonResp(doc)
-                     });
+                        console.log(docr,'tst');
+                       doc.workers = docr;
+                       this.jsonResp(doc)
+                     },true);
                  }); 
+             }
              else
              {
-                 user.jsonResp({success:false, message:'An exception to the rules of business alrady exist with these parameters', error:'RULE_EXIST'});
+                 this.jsonResp({success:false, message:'An exception to the rules of business alrady exist with these parameters', error:'RULE_EXIST'});
              }
           });
          
         
     });
   
-}
+},
 
-user.removeopendaysexception = function()
+removeopendaysexception:function()
 {
-    var usermod = this.loadmodel('user');
+    var usermod = this.loadmodel('worker');
     
+    console.log(this.req.postdata.specialdayid, 'spdayid');
     var _id = usermod.createObjectId(this.req.postdata._id);
    
-    usermod.removefromarray({_id:_id},{opendaysexception:{specialdayid:parseInt(this.req.postdata.specialdayid)}},false,(doc)=>
+    usermod.removefromarray({_id:_id,'specialhours.specialhrid':parseInt(this.req.postdata.specialdayid)},{'specialhours':{specialhrid:parseInt(this.req.postdata.specialdayid)}},false,(doc)=>
     {
-        usermod.findOne({_id:_id}, {opendaysexception:true},{},(docr)=>
+        usermod.findOne({_id:_id}, {workers:{$elemMatch:{workerid:parseInt(this.req.postdata.workerid)}}},{},(docr)=>
         {
+            console.log(docr);
             resdoc={};
             resdoc.success=true;
-            resdoc.opendaysexception = docr;
+            resdoc.workers = docr;
             
-            user.jsonResp(resdoc);
+            this.jsonResp(resdoc);
         });
         
         }
         );
     
-}
+},
 
-user.findwithname = function(id)
+findwithname:function(id)
 {
     console.log(id);
-    var usermod = this.loadmodel('user');
+    var usermod = this.loadmodel('worker');
      var _id = usermod.createObjectId(id);
-    usermod.aggregate([{$match:{_id:_id}},{$unwind:"$opendaysexception"},{$sort:{'opendaysexception.specialdate':-1}},{$project:{opendaysexception:true}}],(dd)=>user.jsonResp(dd));
-   // usermod.findAndSort({_id:_id},{opendaysexception:true},{'opendaysexception.specialdate':-1},false,(dd)=>user.jsonResp(dd));
-}
+    usermod.aggregate([{$match:{_id:_id}},{$unwind:"$specialhours"},{$sort:{'specialhours.specialdate':-1}},{$project:{specialhours:true}}],(dd)=>this.jsonResp(dd));
+   // usermod.findAndSort({_id:_id},{opendaysexception:true},{'opendaysexception.specialdate':-1},false,(dd)=>this.jsonResp(dd));
+},
 
-user.removemobile = function()
+removemobile:function()
 {
    
     var usermod = this.loadmodel('user');
@@ -427,32 +438,35 @@ user.removemobile = function()
             resdoc.mobiles.mobilelist = docr.mobile;
             resdoc.mobiles._id = docr._id;
             
-            user.jsonResp(resdoc);
+            this.jsonResp(resdoc);
         });
         
         }
         );
-}
+},
 
-user.searchresults = function(needle,needletype)
+searchresults:function(needle,needletype, srvid)
 {
+     console.log(needle, needletype, srvid);
     this.viewholder.searchvalue = this.req.urlencode.checkandecode(needle);
     this.viewholder.searchtype = needletype;
+    if(srvid !== undefined)
+      this.viewholder.jobid = srvid;
     this.loadview('searchresultpage');
-    console.log('sent');
+    
 }
-
-user.search = function()
+,
+search:function()
 {
     var usermod =this.loadmodel('user');
     ///console.log(this.req.postdata,'pp');
      var regex = new RegExp(this.req.postdata.searchtext,'i'); 
       if(this.req.postdata.searchtype === 'service')
-    usermod.find({'jobs.jobname':{$regex:regex}},{password:false,passwordr:false},{},true,(doc)=>{user.jsonResp(doc);});
+    usermod.find({'jobs.jobname':{$regex:regex}},{password:false,passwordr:false},{},true,(doc)=>{this.jsonResp(doc);});
    if(this.req.postdata.searchtype === 'provider')
-     usermod.find({businessname:this.req.postdata.searchtext},{password:false,passwordr:false},{},true,(doc)=>user.jsonResp(doc));
-}
-user.savejob = function()
+     usermod.find({businessname:this.req.postdata.searchtext},{password:false,passwordr:false},{},true,(doc)=>this.jsonResp(doc));
+},
+savejob:function()
 {
      var usermod = this.loadmodel('user');
     var _id = usermod.createObjectId(this.req.postdata._id);
@@ -480,20 +494,20 @@ user.savejob = function()
                          console.log(docr.jobs);
                          usermod.saveUser(_id,{smalestjob:docr.jobs[0].jobduration},(doc)=>{console.log('it save',_id)})
                          doca.jobs = docr;
-                         user.jsonResp(doca);
+                         this.jsonResp(doca);
                      }
                      );
                  });  
                }
                else{
-                   user.jsonResp({success:false, message:'Already exist'});
+                   this.jsonResp({success:false, message:'Already exist'});
                }
                    
            });
     });
-}
+},
 
-user.removetask = function()
+removetask:function()
 {
   
     var usermod = this.loadmodel('user');
@@ -509,16 +523,16 @@ user.removetask = function()
             resdoc.jobs.jobs = docr.jobs;
             resdoc.jobs._id = docr._id;
             
-            user.jsonResp(resdoc);
+            this.jsonResp(resdoc);
         });
         
         }
         );
-}
-user.fillSlot = function()
+},
+fillSlot:function()
 {
-    console.log(this.req.postdata);
-     var usermod = this.loadmodel('user');
+  
+ 
     var totaldaymins = 0;
     var weekday = new Array(7);
     weekday[0]=  "Sunday";
@@ -529,56 +543,82 @@ user.fillSlot = function()
     weekday[5] = "Friday";
     weekday[6] = "Saturday";
     var beginhour = this.req.postdata.starthour;
-    var endhour = this.req.postdata.endhour;
+   
     var begintimemin = this.req.postdata.beginTime;
     var endtimemin =  this.req.postdata.endTime;
     var schudleeName = this.req.postdata.name;
     var userid = this.req.postdata.email;
     var contactnumber = this.req.postdata.contactnumber;
     var email = this.req.postdata.email;
-    var usemod = this.loadmodel('user');
+    var usermod = this.loadmodel('worker');
     var _id = usermod.createObjectId(this.req.postdata._id);
+    
      var ad= this.req.postdata.date.split('-');
   
-    var seldate = new Date(parseInt(ad[0]),parseInt(ad[1])-1,parseInt(ad[2]));
-    
+    var seldate = new Date(parseInt(ad[0]),parseInt(ad[1])-1,parseInt(ad[2]),0,0,0,0);
+   
   
     var selectedday =  weekday[seldate.getDay()];
-     usermod.findOne({_id:_id},{password:false, passwordr:false, images:false, profilethumb:false},{},(srvdoc)=>
+    usermod.findOne({_id:_id},{roster:{$elemMatch:{date:this.req.postdata.date}},workdays:{$elemMatch:{workday:selectedday}},workbreak:true, specialhours:true, skills:true},{},(srvdoc)=>
+  //  usermod.aggregate([{$match:{_id:_id}},{$unwind:'$workers'},{$match:{'workers.workerid':parseInt(workerid)}},{$unwind:{'path':'$workers.roster',"preserveNullAndEmptyArrays": true}},
+     //{$match:{$or:[{'workers.roster.date':this.req.postdata.date}, {'workers.roster':{$exists:false}}, {$and:[{'workers.roster.date':{$ne:this.req.postdata.date}},{'workers.roster':{$exists:true}}]}]}},
+    // {$project:{ workers:1, smalestjob:1}}], (srvdoc)=>
      {
-         
-      console.log(beginhour, endhour, 'toto');
+        //console.log(srvdoc, 'the doc');
+       
+       var worker = srvdoc;
+     
+      worker.skills.sort((a,b)=>{return a.skillduration-b.skillduration});
+      var smalestjob = worker.skills[0].skillduration;
+      
       var workday;
       var specialday = false;
       var spdayobject;
       var opentime;
       var closetime;
-      var workbreak = srvdoc.workbreak;
+      var workbreak = worker.workbreak;
+      console.log(this.req.postdata);
+      worker.skills.sort((a,b)=>{return a.skilid - b.skilid}); 
+      var skill =  searchInArr(worker.skills,parseInt(this.req.postdata.service),'skilid')
+      var jobduration = parseInt(skill.skillduration);
+     
       //the datetime for both sartreserv and close reserv
       var startresarray = beginhour.split(':');
-      var closeresarray = endhour.split(':');
+     // var closeresarray = endhour.split(':');
       var startReserv = new Date(seldate.getTime());
       startReserv.setHours(parseInt(startresarray[0]));
       startReserv.setMinutes(parseInt(startresarray[1]));
-      var closeResrv = new Date(seldate.getTime());
-      closeResrv.setHours(parseInt(closeresarray[0]));
-      closeResrv.setMinutes(parseInt(closeresarray[1]));
+      var closeResrv = new Date(startReserv.getTime()+(jobduration*60000));
+      var clhr = closeResrv.getHours();
+      var clmn = closeResrv.getMinutes();
+      if(clhr < 10)
+        clhr = '0'+clhr;
+      if(clmn<10)
+         clmn = '0'+clmn;
+      var endhour = clhr+':'+clmn;
+     
+    //  closeResrv.setHours(parseInt(closeresarray[0]));
+     // closeResrv.setMinutes(parseInt(closeresarray[1]));
      // var seldate = this.req.postdata.date;
       //calculate total opentime for the day 
        var currspday =[]; 
        var untouched=[];
        var spopening;
        var spclosing;
-      if(srvdoc.opendaysexception !== undefined)
+      
+      
+      if(worker.specialhours !== undefined)
       {
      
       var spobj;
-      for(var oei=0; oei<srvdoc.opendaysexception.length; oei++) 
+      for(var oei=0; oei<worker.specialhours.length; oei++) 
       {
+          
+          //go through the array of special hours get the startig and closinh hrs and  if the date of the special hour is eq to the date passed add it to athe array to be processed
         
-          var openhrar =  srvdoc.opendaysexception[oei].specialopeninghour.split(':'); 
-          var closehar =   srvdoc.opendaysexception[oei].specialclosinghour.split(':');
-          var spdatear = srvdoc.opendaysexception[oei].specialdate.split('-');
+          var openhrar =  worker.specialhours[oei].specialopeninghour.split(':'); 
+          var closehar  = worker.specialhours[oei].specialclosinghour.split(':');
+          var spdatear = worker.specialhours[oei].specialdate.split('-');
           var month = parseInt(spdatear[1])-1;
           var year = parseInt(spdatear[0]);
           var day = parseInt(spdatear[2]);
@@ -588,75 +628,59 @@ user.fillSlot = function()
           closedate.setMinutes(parseInt(closehar[1]));
           tdate.setHours(parseInt(openhrar[0]));
           
-          
+         
           tdate.setMinutes(parseInt(openhrar[1]));
           var totalmins = (closedate.getTime()-tdate.getTime())/60000;
          if(tdate.toLocaleDateString() === seldate.toLocaleDateString())
          {
-          var cday= {opentime:srvdoc.opendaysexception[oei].specialopeninghour, closetime:srvdoc.opendaysexception[oei].specialclosinghour, endtime:totalmins, opening:tdate, closing:closedate};
+          console.log(tdate.toLocaleDateString(), seldate.toLocaleDateString(), 'testing comparing special dates');
+          // create an object with the times for opening closing and hours and add it to array to be processed
+          var cday= {startwork:worker.specialhours[oei].specialopeninghour, endwork:worker.specialhours[oei].specialclosinghour, endtime:totalmins, opening:tdate, closing:closedate};
         
            currspday.push(cday);
-          
-          if((startReserv.getTime() > tdate.getTime() && startReserv.getTime() <closedate.getTime()))
+          //if the time for the reservation is within the boundries of this special working hours then it is this one we use for adding schedule
+          console.log(startReserv.getTime() , tdate.getTime(), closedate.getTime(), 'testing comparing times within');
+          if((startReserv.getTime() >= tdate.getTime() && startReserv.getTime() <closedate.getTime()))
           {
-              /*if(currspday === undefined) 
-              {
-                currspday =tdate;
-                spobj=srvdoc.opendaysexception[oei];
-              }
-              else
-              {
-                  if(tdate.getTime() < currspday.getTime())
-                  {
-                    currspday = tdate;
-                    spobj = srvdoc.opendaysexception[oei]
-                  }
-              }*/
               
             specialday = true; 
             workday = cday;
             spopening = tdate;
             spclosing = closedate;
-            
+            console.log('we got opening and closing', spopening,spclosing);
            // spdayobject = opendaysexception[i];
           
           }
           else{
-             
-              untouched.push({beginhour:srvdoc.opendaysexception[oei].specialopeninghour, endhour:srvdoc.opendaysexception[oei].specialclosinghour, endtime:totalmins, begintime:0,closing:closedate})
+             //else we will not be using this special opening hours for that date for scheduling put it in untouched array to be used as availabletimes
+              untouched.push({beginhour:worker.specialhours[oei].specialopeninghour, endhour:worker.specialhours[oei].specialclosinghour, endtime:totalmins, begintime:0,closing:closedate})
           }
          }
       }
       if(specialday)
       {
+          
+       // if we have special opening hours on that date sort them  in ascending order and take the first ones time as opening time and the last one closing time as closing time
       currspday.sort((a,b)=>{return a.opening-b.opening});
-      opentime=currspday[0].opentime;
-      closetime =currspday[currspday.length-1].closetime;
+      opentime=currspday[0].startwork;
+      closetime =currspday[currspday.length-1].endwork;
       }
       
     
      
      
       }
-        
-        
+     
       if(specialday ===false) // if not then it is a normal opening day 
       {
       
-      for(var openday in srvdoc.opendays)
-      {  
-          if(srvdoc.opendays[openday].day ===selectedday)
-          {
-           
-            workday = srvdoc.opendays[openday];
-            opentime = srvdoc.opendays[openday].opentime;
-            closetime = srvdoc.opendays[openday].closetime;
-            break;
-          }
-      }
+     
+            workday = worker.workdays[0];
+            opentime = workday.startwork;
+            closetime = workday.endwork;
       }
       
-     
+     // get the opening time and mins for the normal hour day
       var opentimearray = opentime.split(':');
       var closingtimearray = closetime.split(':'); 
       
@@ -677,13 +701,14 @@ user.fillSlot = function()
     
      //  temp.push({begintime:beginTime, endtime:endTime, })
      closeResrv = new Date(closeResrv.getTime()+ workbreak*60000);
-    console.log(closeResrv.getTime(), opening.getTime(), opentime,closetime, beginhour, endhour, 'lplpl');
+ 
    
     //closeResrv.setMinutes(closeResrv.getMinutes()+ srvdoc.workbreak);
     var temproster = [];
     var bt = parseInt(startReserv.getTime()-opening.getTime()); 
     bt = bt/60000;
     var et = parseInt(closeResrv.getTime() - opening.getTime());
+    console.log('closerssv', beginhour, endhour);
    // if(specialday)
      // et = parseInt(closeResrv.getTime() - spopening.getTime());
     et = et/60000;
@@ -694,17 +719,21 @@ user.fillSlot = function()
     if(tempch <10) tempch ="0"+tempch;
     if(tempcm <10) tempcm ="0"+tempcm; 
     endhour = tempch+":"+tempcm;
-   console.log(endhour,'testhrend');
     var closinginmins = parseInt((closing.getTime()-opening.getTime()) /60000);
-    
-    
-    usermod.findOne({_id:_id, roster:{$elemMatch:{date:this.req.postdata.date}}},{_id:true, roster: { $elemMatch: { date: this.req.postdata.date }}},{},(rostid)=>
-    {
+    if(worker.roster !== undefined)
+        var roster = worker.roster[0];
+  
+   // usermod.findOne({_id:_id, roster:{$elemMatch:{date:this.req.postdata.date}}},{_id:true, roster: { $elemMatch: { date: this.req.postdata.date }}},{},(rostid)=>
+    //{
         
-        var mintime = parseInt(srvdoc.smalestjob) + parseInt(workbreak);
-       
-        if(rostid ===null)
+        var mintime = parseInt(smalestjob) + parseInt(workbreak);
+       //calculate available times when the roster is null or the available times array is empty 
+        if(roster === undefined || roster.length === 0)
         {
+            
+            // todo add logick for if user sets the scheduling type to restricted
+            //calculate the times for each skill the worker has and add them to an array containing objects for each skill with an array of times 
+            
             var endfreetime = '';
             var startfreetime = '';
             var atimes = [];
@@ -712,6 +741,8 @@ user.fillSlot = function()
             var clt = totaldaymins;
             if(specialday)
                clt = (spclosing - opening) /60000;
+               
+             // when the appointment starts after the amount of thime it would take to complete the smallest task
              if(bt >mintime) 
              {
                  var ndd = new Date(startReserv.getTime() - workbreak*60000);
@@ -733,24 +764,20 @@ user.fillSlot = function()
                  
                 //logic for spdayobject
                 //*** to come here
-                 atimes.push({begintime:rbt, endtime:bt-workbreak ,beginhour:workday.opentime, endhour:endfreetime});
+                 atimes.push({begintime:rbt, endtime:bt-workbreak ,beginhour:workday.startwork, endhour:endfreetime});
                 
-            /*    var sfth = startReserv.getHours();
-                 var sftm = startReserv.getMinutes();
-                 if(sfth < 10) sfth = "0"+sfth;
-                 if(sftm <10) sftm = "0"+sftm;
-                
-                startfreetime = sfth+':'+sftm;*/
-                atimes.push({begintime:nextAvailableTime, endtime:rct, beginhour:endhour, endhour:workday.closetime});
+            
+                atimes.push({begintime:nextAvailableTime, endtime:rct, beginhour:endhour, endhour:workday.endwork});
                
              }
              else
              {   
-                 atimes.push({begintime:nextAvailableTime, endtime:clt,beginhour:endhour,endhour:workday.closetime});
+                 atimes.push({begintime:nextAvailableTime, endtime:clt,beginhour:endhour,endhour:workday.endwork});
              }
              
             if(specialday)
             {
+                //if it is a special day  do this. remember the untouched array ?
                 for(var un =0; un<untouched.length; un ++)
                 {
                     var ubopar = untouched[un].beginhour.split(':');
@@ -765,40 +792,44 @@ user.fillSlot = function()
                 }
                
             }
+            // add it to the temproster to be saved
             temproster.push({date:this.req.postdata.date,schedule:[{begintime:bt,endtime:et,beginhour:beginhour,endhour:endhour}],availabletimes:atimes}); 
         
-          
+             console.log(bt, et, 'timetest');
            
-          
+             
             
-            usermod.addtoarray({_id:_id}, temproster, 'roster',(resdoc)=>{user.jsonResp(resdoc)});
+            usermod.addtoarray({_id:_id}, temproster, 'roster',(resdoc)=>{this.jsonResp(resdoc)});
         }
         else{
+            //calculate available times if it is not empty
             var freetimeArr = [];
                  var tempsched = [];
                  var spsched = [];
+                 // array holding the new appointment
                  tempsched.push({begintime:bt,endtime:et,beginhour:beginhour,endhour:endhour});
-              
+                
+            // we put the existing roster in an arrray and we append the new appt to it
+             var schedArrMem = roster.schedule; 
              
-             var schedArrMem = rostid.roster[0].schedule;
-             // i think i shoud just follow nirmal day logic
+            
              schedArrMem.push(tempsched[0]);
             
-             console.log(tempsched, 'new schedul');
+           
            var spuntouched = [];
 
            if(specialday)
            {
              
               
-             
-             
-             if(rostid.roster[0].availabletimes !== undefined)
+             // we calculate for special days when we have a roster for that day
+             // we go through the atimes and if they are not within the currentspday times we add them to an array as untouched atimes
+             if(roster.availabletimes !== undefined)
               {
-               for(var rat =0 ;rat< rostid.roster[0].availabletimes.length; rat++) 
+               for(var rat =0 ;rat< roster.availabletimes.length; rat++) 
                {
                    var objtime = new Date(seldate.getTime());
-                   var objshr = rostid.roster[0].availabletimes[rat].beginhour.split(':');
+                   var objshr = roster.availabletimes[rat].beginhour.split(':');
                    
                    objtime.setHours(parseInt(objshr[0]));
                    objtime.setMinutes(parseInt(objshr[01]));
@@ -807,20 +838,23 @@ user.fillSlot = function()
                    if(objtime >spclosing || objtime < spopening) 
                    {
                      
-                     spuntouched.push(rostid.roster[0].availabletimes[rat]);
+                     spuntouched.push(roster.availabletimes[rat]);
                    }
                    
                     
                }
               }
                
-              if(rostid.roster[0].schedule !== undefined)
+             
+             // we do not need to do this if restricted all we have to do is get the index of the  slot used and splice the array since all atimes will be created on init  
+               
+              if(roster.schedule !== undefined)
               {
-                
-               for(var bat =0 ;bat< rostid.roster[0].schedule.length; bat++) 
+                // we go through the existing schedule and we add all the schedule between the curspecialhours timeto a temp array as they will be needed to recalculate atimes for that sphr perion
+               for(var bat =0 ;bat< roster.schedule.length; bat++) 
                {
                    var objtime = new Date(seldate.getTime());
-                   var objshr = rostid.roster[0].schedule[bat].beginhour.split(':');
+                   var objshr = roster.schedule[bat].beginhour.split(':');
                    
                    objtime.setHours(parseInt(objshr[0]));
                    objtime.setMinutes(parseInt(objshr[01]));
@@ -829,41 +863,36 @@ user.fillSlot = function()
                    if(objtime < spclosing && objtime >= spopening) 
                    {
                      
-                     spsched.push(rostid.roster[0].schedule[bat]);
+                     spsched.push(roster.schedule[bat]);
                    }
                    
                     
                }
               }      
-           }
-            if(specialday)
                 schedArrMem = spsched;
+           }
+            
+           // sort the schedule array 
             schedArrMem.sort((a,b)=>{return a.begintime - b.begintime});
-          console.log(schedArrMem,'kkkspch');
+          
           
                 
             var scheduleLength = schedArrMem.length; 
             var schedule = schedArrMem;
                  
-                var atsort = rostid.roster[0].availabletimes.sort((a,b)=>{return a.begintime - b.begintime});
-                // usermod.removefromarray({_id:_id,'roster.date':this.req.postdata.date},{'roster.$.availabletimes':{beginhour:this.req.postdata.slottodel}},true,(rmdoc)=>{
+                var atsort = roster.availabletimes.sort((a,b)=>{return a.begintime - b.begintime});
+                //remove all available times
                  usermod.findAndUpdate({_id:_id, 'roster.date':this.req.postdata.date},{'roster.$.availabletimes':[]},(rmdoc)=>{
-                 usermod.addtoarray({_id:_id, 'roster.date':this.req.postdata.date}, tempsched, 'roster.$.schedule',(resdoc)=>{
+                 //save the schedule 
+                  usermod.addtoarray({_id:_id,  'roster.date':this.req.postdata.date}, tempsched, 'roster.$.schedule',(resdoc)=>{
                
-                     
+                  //after we save schedule we recalculate freetimes   
+                 //not needed in restricted 
+                  console.log(schedule, 'test for schedule');
                  for(var i=0; i<scheduleLength; i++)
                  {
                     
-                   /*  var sh= schedule[i].beginhour.split();
-                     var eh = schedule[i].endhour.split();
-                     var resvrs = new Date();
-                     resvrs.setHours(sh[0]);
-                     resvrs.setMinutes(sh[1]);
-                     var resvre =  new Date();
-                     resvre.setHours(eh[0]);
-                     resvre.setMinutes(eh[1]);*/
-                   
-                     //add a condition for when first one to calculate time before and after.
+                  
                        
                      if(i == 0)
                      {
@@ -874,11 +903,11 @@ user.fillSlot = function()
                          var fbt =  firstresv.begintime;
                          if(specialday)
                          {
-                             var begintimeday = new Date(spopening.getTime()+ firstresv.begintime * 60000);
+                             var begintimeday = new Date(currspday[0].opening.getTime()+ (firstresv.begintime * 60000));
                              fbt = (begintimeday - spopening) / 60000;
-                             console.log(fbt,'fbter');
+                             console.log(fbt,'it is a special day');
                              btime =  (spopening-currspday[0].opening)/60000;
-                             bhr = workday.opentime;
+                             bhr = workday.startwork;
                          }
                          
                         
@@ -895,36 +924,33 @@ user.fillSlot = function()
                               endmin = "0"+endmin;
                            
                              if(isWithinAvail(atsort,btime))
+                             {
+                              console.log('something done', endhour, endmin);
                               freetimeArr.push({begintime:btime, endtime:endtbefore,beginhour:bhr,endhour:endhour+':'+endmin });
+                          
+                             }
                          }
                      }
+                     
                      if(i === scheduleLength-1)
                      {  
                         
-                      /*   if(schedule[i].begintime <= srvdoc.smalestjob+workbreak)
-                         {     var ft = et - closinginmins;
-                              
-                               if(ft > srvdoc.smalestjob+workbreak)
-                                 freetimeArr.push({begintime:et,endtime:closinginmins, beginhour:endhour, endhour:closetime});
-                         }
-                         else{
-                             var endtimebefore = schedule[i].begintime;
-                                                         
-                            if(endtimebefore >srvdoc.smalestjob+workbreak && scheduleLength ===1)
-                               freetimeArr.push({begintime:0,endtime:endtimebefore, beginhour:opentime, endhour:schedule[i].beginhour});
-                               */
+                      
                              var ct= closetime;
                              var cm  = closinginmins;
+                             
+                             console.log(closinginmins, closetime,schedule[i].endtime);
                              if(specialday)
                              {
-                              ct = workday.closetime;
+                              ct = workday.endwork;
                               cm = (workday.closing.getTime() - opening.getTime())/60000;
                              }
                              if((cm-schedule[i].endtime) > mintime && isWithinAvail(atsort,schedule[i].endtime))
                              {
-                                 console.log('hihi');
+                                 
                                 freetimeArr.push({begintime:schedule[i].endtime, endtime:cm,beginhour:schedule[i].endhour, endhour:ct});
                              }
+                            
                              
                          //}
                      }
@@ -936,26 +962,32 @@ user.fillSlot = function()
                              var opt = (spopening - opening)/60000;
                              var clt = (spclosing - opening) /60000;
                              var endfree = schedule[i+1].begintime;
-                             console.log(schedule[i].begintime, opt,clt,schedule[i].endtime, 'ssssss');
+                             var shtm = new Date(opening.getTime()+((schedule[i+1].begintime-workbreak)*60000));
+                             var bghr = shtm.getHours();
+                             if(bghr < 10) bghr ='0'+bghr;
+                             var bgmn = shtm.getMinutes();
+                             if(bgmn < 10) bgmn='0'+bgmn;
+                             
                              if((!specialday || (specialday && (schedule[i].begintime >= opt && schedule[i].endtime <=clt))) && isWithinAvail(atsort,schedule[i].endtime))
-                                  freetimeArr.push({begintime:schedule[i].endtime,endtime:endfree, beginhour:schedule[i].endhour,endhour:schedule[i+1].beginhour});
+                                  freetimeArr.push({begintime:schedule[i].endtime,endtime:endfree, beginhour:schedule[i].endhour,endhour:bghr+':'+bgmn});
                            
                          }
                      }
                  }
+                  console.log(freetimeArr, 'array of freetimes');
                  
-                // console.log(before,'pp');
+                 //now we add all the untouched freetimes to the freetimearr
                  for(var un=0; un < spuntouched.length; un++)
                  {
                      freetimeArr.push(spuntouched[un]);
                  }
                    freetimeArr.sort((a,b)=>{return a.begintime-b.begintime});
-                   console.log(freetimeArr,'pp');
+                   console.log(spuntouched,'test for untouched free time');
               
-                 // usermod.findAndUpdate({_id:_id, 'roster.date':this.req.postdata.date},{'roster.$.availabletimes':freetimeArr},(resdoc)=>{user.jsonResp(resdoc)});
+                 // usermod.findAndUpdate({_id:_id, 'roster.date':this.req.postdata.date},{'roster.$.availabletimes':freetimeArr},(resdoc)=>{this.jsonResp(resdoc)});
                  usermod.addtoarray({_id:_id, 'roster.date':this.req.postdata.date}, freetimeArr, 'roster.$.availabletimes',(resdoc)=>{
                      resdoc.availabletimes = freetimeArr;
-                     user.jsonResp(resdoc)});
+                     this.jsonResp(resdoc)});
                  });
                      
                  });
@@ -963,17 +995,18 @@ user.fillSlot = function()
                  
             }
         
-    }
-    );
+    //}
+   // );
    // usermod.addtoarray({_id:_id})
+  
          
      });
     
-}
-
-user.getavailabletimes = function(servid,date)
-{
-    console.log(servid);
+},
+getavailabletimes:function(servid,date,serv)
+{ 
+    console.log(serv, 'service');
+   
     var weekday = new Array(7);
     weekday[0]=  "Sunday";
     weekday[1] = "Monday";
@@ -982,79 +1015,61 @@ user.getavailabletimes = function(servid,date)
     weekday[4] = "Thursday";
     weekday[5] = "Friday";
     weekday[6] = "Saturday";
-    var umod  =  this.loadmodel('user');
+    var umod  =  this.loadmodel('worker');
     var _id = umod.createObjectId(servid);
+    var reqServ = serv; 
       var today = new Date();
-    var dayOpenTimes=[];
+  
     var seldatearr = date.split('-');
     var selecteddate = new Date(parseInt(seldatearr[0]),parseInt(seldatearr[1])-1, parseInt(seldatearr[2]),today.getHours(), today.getMinutes(), today.getSeconds(), today.getMilliseconds());
-    
- 
+    var curropenday;
+    var worker;
+    var workersTimes = [];
    if(selecteddate < today)
    {
-       user.jsonResp({success:false, message:'The dat selected is not valid'});
+       this.jsonResp({success:false, message:'The dat selected is not valid'});
    }
    else{
-       
-  
-   umod.findOne({_id:_id},{roster: { $elemMatch: { date: date }}, opendays:true, daysahead:true, opendaysexception:true,jobs:true,profilethumb:true,  businessname:true},{},(doc)=>{
-      console.log(doc.roster);
+    
+     var quer = {employer:_id};
+     var project= {roster: {$elemMatch:{date:date}}, specialhours:true, name:true, workdays:true, skills:true};
+     if(reqServ !== undefined)
+     {
+       quer =  {employer:_id,skills:{$elemMatch:{skilid:parseInt(reqServ)}}};
+       project = {roster: {$elemMatch:{date:date}}, name:true, workdays:true, specialhours:true, skills:{$elemMatch:{'skilid':parseInt(reqServ)}}};
+     }
+     
+  // old way  umod.findOne({_id:_id},{roster: { $elemMatch: { date: date }}, opendays:true, daysahead:true, opendaysexception:true,jobs:true,profilethumb:true,  businessname:true},{},(doc)=>{
+     umod.find(quer,project,{},true,(doc)=>{
+       var userf = this.loadmodel('user');
+       userf.findOne({_id:_id}, {opendays:true, daysahead:true},{},(usr)=>{
+      var datedif = ((selecteddate-today) / 3600000)/24;
+     
+    // console.log(doc);
+             
+             //add logic in this loop to get time for workers
+     var daysahead= usr.daysahead;       
+      
      //check if it is a special day if it is look to see it is a single opened interval else get the different opened intervals
-       var dayisspecial = false;
-       var specialday = [];
-       var datedif = ((selecteddate-today) / 3600000)/24;
-      if(datedif <= parseInt(doc.daysahead))
+     
+     var daytoday = weekday[selecteddate.getDay()];
+     
+      if(datedif <= parseInt(daysahead))
       {
-      if(doc.opendaysexception !== undefined)
-       {
         
-       for(var de=0; de<doc.opendaysexception.length; de++)
-       {
-            var spdatear = doc.opendaysexception[de].specialdate.split('-');
-           var edate = new Date(parseInt(spdatear[0]), parseInt(spdatear[1])-1,parseInt(spdatear[2]));
-           console.log(edate.toLocaleDateString())
-           if(edate.toLocaleDateString() === selecteddate.toLocaleDateString())
-           {
-               var openharr = doc.opendaysexception[de].specialopeninghour.split(':');
-               var closehharr = doc.opendaysexception[de].specialclosinghour.split(':');
-               var closedate = new Date(edate.getTime());
-               edate.setHours(parseInt(openharr[0]));
-               edate.setMinutes(parseInt(openharr[1]));
-               closedate.setHours(parseInt(closehharr[0]));
-               closedate.setMinutes(parseInt(closehharr[1]));
-               var spct = (closedate-edate) / 60000;
-              dayisspecial = true;
-              doc.opendaysexception[de].endtime = spct;
-               doc.opendaysexception[de].slotopentime = edate;
-              
-              specialday.push(doc.opendaysexception[de]);
-              dayOpenTimes.push({open:doc.opendaysexception[de].specialopeninghour, close:doc.opendaysexception[de].specialclosinghour});
-              //break;
-             
-             
-           }
-  
-       }
-        console.log(dayisspecial);
-       }
-       
-       var day;
-       var closed = false;
-       var daytoday = weekday[selecteddate.getDay()];
-        var availableforday = [];
-        
-      // if(! dayisspecial)
-      // {
-       for(var d = 0; d < doc.opendays.length; d++)
-       {
-         
-            if(doc.opendays[d].day === daytoday && doc.opendays[d].closed ==="true")
+       var closed = false;  
+          
+      for(var d = 0; d < usr.opendays.length; d++)
+       {  
+           
+            if(usr.opendays[d].day === daytoday && usr.opendays[d].closed ==="true")
              closed = true;
-           if(doc.opendays[d].day === daytoday && doc.opendays[d].closed ==="false")
+           if(usr.opendays[d].day === daytoday && usr.opendays[d].closed ==="false")
            {
                
-               day = doc.opendays[d];
-               console.log(day); 
+               
+               curropenday = usr.opendays[d];
+                ;
                break;
            }
            
@@ -1062,13 +1077,87 @@ user.getavailabletimes = function(servid,date)
             
        }
        
-      
      if(!closed)
      { 
+         
+        console.log("not closed dudr"); 
+      if(doc.length !== undefined && doc.length !==0) 
+      {
+       for(var wk=0; wk < doc.length; wk++)
+       {
+             var dayOpenTimes=[];
+           var dayisspecial = false;
+           var specialday = [];
+           var workertmp={};
+            worker = doc[wk];
+            
+            
+          
+      if(worker.specialhours !== undefined)
+       {
+        var sph =doc[wk].specialhours;
+       for(var de=0; de<sph.length; de++)
+       {
+            var spdatear = sph[de].specialdate.split('-');
+           var edate = new Date(parseInt(spdatear[0]), parseInt(spdatear[1])-1,parseInt(spdatear[2]));
+           console.log(edate.toLocaleDateString())
+           if(edate.toLocaleDateString() === selecteddate.toLocaleDateString())
+           {
+            console.log('seettttttt');
+               var openharr = sph[de].specialopeninghour.split(':');
+               var closehharr =sph[de].specialclosinghour.split(':');
+               var closedate = new Date(edate.getTime());
+               edate.setHours(parseInt(openharr[0]));
+               edate.setMinutes(parseInt(openharr[1]));
+               closedate.setHours(parseInt(closehharr[0]));
+               closedate.setMinutes(parseInt(closehharr[1]));
+               var spct = (closedate-edate) / 60000;
+              dayisspecial = true;
+              sph[de].endtime = spct;
+               sph[de].slotopentime = edate;
+              
+              specialday.push(sph[de]);
+              dayOpenTimes.push({open:sph[de].specialopeninghour, close:sph[de].specialclosinghour});
+              //break;
+             
+             
+           }
+           
+  
+       }
+      
+   
+       }
+       
+      
+      
+       
+        var availableforday = [];
+        
+      // if(! dayisspecial)
+      // {
+       
+      // variable worker is for the current worker in the loop
+       var day ={startwork:'00:00', endwork:'00:00', off:'false'};
+       if(worker.workdays !== undefined)
+       {
+       for(var wd=0; wd<worker.workdays.length; wd++)
+       {
+          
+           if(worker.workdays[wd].workday === daytoday && worker.workdays[wd].off ==="false")
+           {
+              
+               day = worker.workdays[wd];
+           }
+       }
+       }
+       
+      
+    
       if(!dayisspecial)
-       dayOpenTimes.push({open:day.opentime, close:day.closetime});
-      var opentimearray = day.opentime.split(':');
-      closetimearray = day.closetime.split(':');
+       dayOpenTimes.push({open:day.startwork, close:day.endwork});
+      var opentimearray = day.startwork.split(':');
+      closetimearray = day.endwork.split(':');
       var opentime = new Date();
       var closetime = new Date();
       opentime.setHours(opentimearray[0]);
@@ -1087,89 +1176,116 @@ user.getavailabletimes = function(servid,date)
       smallestot.setSeconds(0);
       smallestot.setMilliseconds(0);
       var minnsforday = (closetime.getTime()-opentime.getTime()) / 60000;
-      var jobarr =[];
      
       
-      if(doc.roster === undefined || (doc.roster !== undefined && (doc.roster[0] === undefined ||doc.roster[0].availabletimes === undefined || doc.roster[0].availabletimes.length ===0)))
+      if(worker.roster === undefined || worker.roster[0] === undefined || worker.roster[0].length === 0 ||(worker.roster[0] !== undefined && worker.roster[0].availabletimes=== undefined) || (worker.roster[0] !== undefined && worker.roster[0].availabletimes !== undefined && worker.roster[0].availabletimes.length===0))
       {
-        
+           console.log('ROSTEERRRR!', dayisspecial);
+      
          if(dayisspecial)
          {
+            
              for(var sd=0; sd < specialday.length; sd++)
              {
                  var spbt = (specialday[sd].slotopentime-smallestot)/60000;
-                 console.log(spbt,  specialday[sd].endtime);
+                 console.log(spbt,  specialday[sd].endtime,'yes');
                  availableforday.push({beginhour:specialday[sd].specialopeninghour, endhour:specialday[sd].specialclosinghour, begintime:spbt, endtime:specialday[sd].endtime+spbt});
                  
              }
              availableforday.sort((a,b)=>{return a.beginhour-b.beginhour})
-             console.log(availableforday, 'jojojo');
+             
          }
          else{
-         availableforday=[{begintime:0, endtime:minnsforday, beginhour:day.opentime,endhour:day.closetime}];
+         availableforday=[{begintime:0, endtime:minnsforday, beginhour:day.startwork,endhour:day.endwork}];
          }
       }
       else
       {
-          
-          for(var ad =0;ad<doc.roster.length;ad++)
+         
+          for(var ad =0;ad<worker.roster.length;ad++)
           {
                 
-              if(doc.roster[ad].date === date)
+              if(worker.roster[ad].date === date)
               {
                 
-                  availableforday = doc.roster[ad].availabletimes;
+                  availableforday = worker.roster[ad].availabletimes;
+                  console.log(availableforday, 'jojojo');
                   break;
               }
              
           }
           console.log(availableforday, 'please');
           if(availableforday.length ===0 && day !== undefined)
-              availableforday=[{begintime:0, endtime:minnsforday, beginhour:day.opentime,endhour:day.closetime}];
+              availableforday=[{begintime:0, endtime:minnsforday, beginhour:day.startwork,endhour:day.endwork}];
               
+        }
+        workertmp.availabletimes = availableforday;
+        workertmp._id = worker._id;
+        workertmp.name = worker.name;
+        workertmp.dayisspecial = dayisspecial;
+        workertmp.worktimes =dayOpenTimes;
+        workertmp.skills = worker.skills;
+         var doorCloser = dayOpenTimes.length >1 ? dayOpenTimes[dayOpenTimes.length -1] : dayOpenTimes[0];
+         workertmp.doorcloser=doorCloser;
+         workertmp.dooropener=doorOpener;
+         workersTimes.push(workertmp);
+       }
+       //close cond for workers array check
       }
-      if(doc.jobs !== undefined)
+       
+        var jobarr =[];
+     
+      if(usr.jobs !== undefined)
       {
           for(var job=0; job<doc.jobs.length; job++)
           {
-              if(doc.jobs[job].jobduration <= minnsforday)
+             
+            //  if(doc.jobs[job].jobduration <= minnsforday)
+             // {
                 jobarr.push(doc.jobs[job]);
+              //}
            }
       }
       
-      var doorCloser = dayOpenTimes.length >1 ? dayOpenTimes[dayOpenTimes.length -1] : dayOpenTimes[0];
+      
+      
      
-       user.jsonResp({availabletimes:availableforday, profilethumb:doc.profilethumb,
-           services:jobarr,opentimes:dayOpenTimes,dayisspecial:dayisspecial,
-       businessname:doc.businessname, dooropener:doorOpener.open, doorcloser:doorCloser.close
+  
+       this.jsonResp({workers:workersTimes, profilethumb:doc.profilethumb,
+           dooropener:curropenday.opentime, doorcloser:curropenday.closetime
     }); 
       
-    /*  }
-      else{
-          //special day logic;
-        console.log(specialday);
-         user.jsonResp({availabletimes:availableforday, profilethumb:doc.profilethumb,
-           services:jobarr,opentime:day.opentime, closetime:day.closetime,dayisspecial:false,
-       businessname:doc.businessname } );    
-      } */
-       //end of normal day logic
+   
      }
      else
      {
-          user.jsonResp({success:false, message:'closed for the day'});
+          this.jsonResp({success:false, message:'closed for the day'});
      }
+    
      }
      else
      {
-         user.jsonResp({success:false, message:'You have selected a date past the available days'});
+         this.jsonResp({success:false, message:'You have selected a date past the available days'});
      }
      
+     });
     
    });
    
    }
-}
-user.getimageandads = function(id)
+},
+saveSkill:function()
+{
+    var usermod = this.loadmodel('worker');
+        console.log(this.req.postdata);
+    var _id = usermod.createObjectId(this.req.postdata._id);
+    var skills = [];
+    skills.push({skillname:this.req.postdata.jobname, skilid:parseInt(this.req.postdata.jobid), skillduration:this.req.postdata.jobduration});
+
+    usermod.addtoarray({_id:_id}, skills,'skills',(resdoc)=>{console.log(resdoc);
+        this.jsonResp(resdoc);});
+},
+getimageandads:function(id)
 {
     console.log('requested');
     var umod = this.loadmodel('user');
@@ -1206,12 +1322,82 @@ user.getimageandads = function(id)
         
        
     });
-}
-user.businesspage = function(id)
+},
+businesspage:function(id,jobid)
 {
+    console.log(this.method);
+    if(this.method === 'GET')
+    {
     this.viewholder.businessid = id;
+    this.viewholder.jobid = jobid;
+   
     this.loadview('businesspage');
+     console.log('hh');
+    }
     
+},
+//get 
+find:function(id)
+{
+    
+    var usermod = this.loadmodel('user');
+    var uid = usermod.createObjectId(id);
+    usermod.findOne({_id:uid},{},{},(doc)=>{this.jsonResp(doc)});
+}
+,
+addemployer:function()
+{
+    console.log('this is all');
+    var usermod = this.loadmodel('worker');
+    var _id = usermod.createObjectId(this.req.postdata._id);
+  
+   //usermod.insertcounters('workerid');
+   // usermod.generateNextSequence('workerid',(oid)=>{ console.log(oid);
+         var wrk = {employer:_id,name:this.req.postdata.employeename, roster:[], skills:[], alias:this.req.postdata.alias};
+     usermod.insertOrUpdate(wrk,(resdoc)=>{
+         usermod.findall((doc)=>{this.jsonResp(resdoc);},true);
+         
+        });
+   
+},
+
+saveemployeehours:function()
+{
+    
+    var daysarr =[{workday:this.req.postdata.workday,startwork:this.req.postdata.beginwork,endwork:this.req.postdata.endwork, off:this.req.postdata.off}]
+    var umod = this.loadmodel('worker');
+  
+    var _id = umod.createObjectId(this.req.postdata.worker);
+    umod.addtoarray({_id:_id}, daysarr,'workdays',(resdoc)=>{
+      
+        this.jsonResp(resdoc); 
+       
+    } );
+    
+}
+,
+saveworkbreak:function()
+{
+    console.log(this.req.postdata);
+    var umod = this.loadmodel('worker');
+    var _id = umod.createObjectId(this.req.postdata._id);
+    umod.updateOne({_id:_id},{workbreak:this.req.postdata.workbreak},(doc)=>{this.jsonResp(doc),  false});
+},
+getworkers:function(employer) 
+{
+    var wmod = this.loadmodel('worker');
+    var empid= wmod.createObjectId(employer);
+    wmod.find({employer:empid}, {},{},true,(doc)=>this.jsonResp(doc))
+},
+getbasicuserinfo:function(id)
+{
+    var umod = this.loadmodel('user');
+    var _id = umod.createObjectId(id);
+    umod.findOne({_id:_id},{businessname:true, opendays:true, profilethumb:true, jobs:true},{},(doc)=>{
+        this.jsonResp(doc);
+        
+    })
+}
 }
 
 function isWithinAvail(arr, startt)
@@ -1244,5 +1430,54 @@ function isWithinAvail(arr, startt)
     console.log('oh no you did not');
     return false;
 }
+
+
+function searchInArr(array, val, key)
+{
+    console.log(array);
+    
+    var start =0;
+    var end = array.length;
+   
+    while(start < end)
+    {
+        var mid = Math.floor((start+end)/ 2);
+        if(typeof array[mid] === 'object')
+        {
+          
+            var curr = array[mid];
+              console.log('it is an obj', curr[key],  val);
+            if(curr[key] == val)
+            {
+                return curr;
+            }
+            else if(curr[key] > val)
+            {
+                end = mid-1;
+            }
+            else
+            {
+                start = mid+1;
+            }
+        }
+        else
+        {
+            if(array[mid] == val)
+              return array[mid];
+             else if(array[mid] > val)
+             {
+                 end= mid-1;
+             }
+             else
+             {
+                 start = mid+1
+             }
+        }
+    }
+}
+
+
+
+
 
 module.exports = user;

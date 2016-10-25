@@ -1,8 +1,7 @@
-var simple = require('simple');
-var user = new simple.simplemodel();
-user.modelname = 'user';
+var user = {
+modelname:'user',
 
-user.addUser = function(obj, callback)
+addUser: function(obj, callback)
 {
     this.findOne({_id:obj._id},{},{},(doc)=>{
         if(doc == null)
@@ -19,10 +18,11 @@ user.addUser = function(obj, callback)
         }
     });
    
-}
-user.saveUser = function(id,obj,callback)
+},
+saveUser:function(id,obj,callback)
 {
-    this.findAndUpdateByID(id,obj,callback);
+    this.insertOrUpdate(id,obj,callback);
+}
 }
 
 

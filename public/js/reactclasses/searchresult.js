@@ -13,7 +13,9 @@ var SearchResult=React.createClass({
            dataType:'json',
            method:'POST',
            data:{searchtext:st, searchtype:type},
-           beforeSend:function(){startSpinner();},
+           beforeSend:function(){startSpinner();
+               
+            },
            success:function(res)
            {
                if(res.length)
@@ -30,8 +32,11 @@ var SearchResult=React.createClass({
    },
    handleBUsinessNameClick:function(e)
    {
+       var jobid ='';
        var businessid = e.target.querySelector('input').value;
-       window.location = '/user/businesspage/'+businessid;
+        jobid = "/"+document.querySelector('#jobid').value;
+       
+       window.location = '/user/businesspage/'+businessid+jobid;
    },
    render:function()
    {

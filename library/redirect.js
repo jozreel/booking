@@ -8,7 +8,8 @@ var redirect = function(req, res)
 redirect.prototype.redirect =function(locate)
 {
 	console.log(locate);
-	this.res.writeHead(302, {'Location': locate});
+    this.res.statusCode = 302;
+	this.res.setHeader('Location', locate);
     this.res.end();
 }
 redirect.prototype.get = function(host)

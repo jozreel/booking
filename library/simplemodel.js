@@ -137,18 +137,6 @@ simplemodel.prototype.checkanddecode =function(str)
 {
  
   var retstr="";
-  try {
-    var res = decodeURIComponent(str);
-    retstr = res;
-    
-  }
-  catch(ex)
-  {
-    console.log('not escaped');
-     retstr =str
-  }
- 
-  /*
   try{
   var regx = new RegExp(/%\d[\dA-F]/g);
   var test =regx.test(str);
@@ -169,7 +157,7 @@ simplemodel.prototype.checkanddecode =function(str)
   catch(err)
   {
     console.log(err);
-  }*/
+  }
     return retstr;
 }
 

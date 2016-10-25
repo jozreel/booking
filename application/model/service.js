@@ -1,7 +1,6 @@
-var simple = require('simple');
-var service = new simple.simplemodel();
-service.modelname = 'service';
-service.addnew = function(serv,callback)
+var service ={
+modelname:'service',
+addnew:function(serv,callback)
 {
     var nameid = serv.replace(/\s/g, '');
     var nameid = nameid.toLowerCase();
@@ -18,8 +17,8 @@ service.addnew = function(serv,callback)
        } 
        else(callback(doc));
     });
-}
-service.findByRegex = function(needle, callback)
+},
+findByRegex:function(needle, callback)
 {
   needle =  this.checkanddecode(needle);
    var regexp = '^'+needle+'\\s*';
@@ -29,6 +28,8 @@ service.findByRegex = function(needle, callback)
    this.find({servicename:{$regex:regex}}, {}, {},true,(doc)=>{
        if(doc.length == undefined)
         doc=[];
+       
        callback(doc)}); 
+}
 }
 module.exports = service;
